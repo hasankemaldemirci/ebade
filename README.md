@@ -219,7 +219,7 @@ pages:
 | 2000s | jQuery | "How do I manipulate DOM?" |
 | 2013 | React | "What if UI = f(state)?" |
 | 2024 | AI Coding | "AI writes code, but for humans" |
-| **2025** | **ebade** | **"What if Code = f(intent)?"** |
+| **2026** | **ebade** | **"What if Code = f(intent)?"** |
 
 ---
 
