@@ -1,0 +1,32 @@
+{
+  "name": "@ebade/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP Server for ebade - Enable AI agents to build with the essence of code",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "ebade-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "ebade",
+    "ai",
+    "agent",
+    "framework"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.1",
+    "yaml": "^2.3.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  }
+}

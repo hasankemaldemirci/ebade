@@ -1,0 +1,195 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nextai.js/schema/project.intent.json",
+  "title": "NextAI Project Intent",
+  "description": "Schema for AI Agent-readable project intent files",
+  "type": "object",
+  "required": ["name", "type", "features"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Project name (kebab-case)",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "type": {
+      "type": "string",
+      "description": "Project type - determines base scaffolding",
+      "enum": [
+        "landing-page",
+        "e-commerce",
+        "saas-dashboard",
+        "blog",
+        "portfolio",
+        "api-only"
+      ]
+    },
+    "features": {
+      "type": "array",
+      "description": "List of features to include",
+      "items": {
+        "type": "string",
+        "enum": [
+          "product-catalog",
+          "shopping-cart",
+          "checkout",
+          "user-auth",
+          "admin-panel",
+          "blog-posts",
+          "comments",
+          "reviews",
+          "search",
+          "notifications",
+          "analytics",
+          "dark-mode",
+          "i18n",
+          "seo"
+        ]
+      },
+      "minItems": 1
+    },
+    "pages": {
+      "type": "array",
+      "description": "Custom page definitions",
+      "items": {
+        "type": "object",
+        "required": ["path", "intent"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "URL path"
+          },
+          "intent": {
+            "type": "string",
+            "description": "Page purpose/intent"
+          },
+          "auth": {
+            "type": "string",
+            "enum": ["public", "required", "optional"],
+            "default": "public"
+          },
+          "components": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "design": {
+      "type": "object",
+      "description": "Design system configuration",
+      "properties": {
+        "style": {
+          "type": "string",
+          "enum": [
+            "minimal-modern",
+            "bold-vibrant",
+            "corporate-clean",
+            "playful-rounded",
+            "dark-premium",
+            "glassmorphism"
+          ]
+        },
+        "colors": {
+          "type": "object",
+          "properties": {
+            "primary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "secondary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "accent": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        },
+        "font": {
+          "type": "string",
+          "description": "Primary font family (Google Fonts)"
+        },
+        "borderRadius": {
+          "type": "string",
+          "enum": ["none", "sm", "md", "lg", "full"]
+        }
+      }
+    },
+    "integrations": {
+      "type": "object",
+      "description": "Third-party integrations",
+      "properties": {
+        "database": {
+          "type": "string",
+          "enum": ["supabase", "firebase", "planetscale", "mongodb", "none"]
+        },
+        "auth": {
+          "type": "string",
+          "enum": [
+            "clerk",
+            "nextauth",
+            "supabase-auth",
+            "firebase-auth",
+            "none"
+          ]
+        },
+        "payments": {
+          "type": "string",
+          "enum": ["stripe", "lemonsqueezy", "paddle", "none"]
+        },
+        "analytics": {
+          "type": "string",
+          "enum": ["vercel", "plausible", "google", "none"]
+        },
+        "email": {
+          "type": "string",
+          "enum": ["resend", "sendgrid", "mailgun", "none"]
+        }
+      }
+    },
+    "api": {
+      "type": "array",
+      "description": "API endpoint definitions",
+      "items": {
+        "type": "object",
+        "required": ["path", "methods"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "API endpoint path"
+          },
+          "methods": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+            }
+          },
+          "auth": {
+            "type": "string",
+            "enum": ["none", "required", "optional"]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "description": "Data models/entities",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "fields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string" },
+                "required": { "type": "boolean" },
+                "unique": { "type": "boolean" }
+              }
+            }
+          },
+          "relations": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

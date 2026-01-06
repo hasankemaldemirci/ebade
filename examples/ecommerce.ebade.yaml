@@ -1,0 +1,192 @@
+# ebade Project Definition File
+# Bu dosya AI Agent tarafından okunur ve projeyi scaffold eder.
+# -----------------------------------------------------------
+
+name: "modern-store"
+type: "e-commerce"
+description: "Minimal ve modern bir e-ticaret sitesi"
+
+# Aktif özellikler
+features:
+  - product-catalog
+  - shopping-cart
+  - checkout
+  - user-auth
+  - reviews
+  - search
+  - dark-mode
+  - seo
+
+# Sayfa tanımları
+pages:
+  - path: "/"
+    intent: "landing-page"
+    components:
+      - hero-section
+      - featured-products
+      - testimonials
+      - newsletter-signup
+
+  - path: "/products"
+    intent: "product-listing"
+    components:
+      - search-bar
+      - filter-sidebar
+      - product-grid
+      - pagination
+
+  - path: "/products/[slug]"
+    intent: "product-detail"
+    components:
+      - product-gallery
+      - product-info
+      - add-to-cart
+      - reviews-section
+      - related-products
+
+  - path: "/cart"
+    intent: "shopping-cart"
+    auth: optional
+    components:
+      - cart-items
+      - cart-summary
+      - checkout-cta
+
+  - path: "/checkout"
+    intent: "checkout-flow"
+    auth: required
+    components:
+      - checkout-form
+      - order-summary
+      - payment-section
+
+  - path: "/account"
+    intent: "user-dashboard"
+    auth: required
+    components:
+      - profile-card
+      - order-history
+      - saved-addresses
+
+# Tasarım sistemi
+design:
+  style: "minimal-modern"
+  colors:
+    primary: "#6366f1" # Indigo
+    secondary: "#f59e0b" # Amber
+    accent: "#10b981" # Emerald
+  font: "Inter"
+  borderRadius: "lg"
+
+# Entegrasyonlar
+integrations:
+  database: "supabase"
+  auth: "clerk"
+  payments: "stripe"
+  analytics: "vercel"
+  email: "resend"
+
+# API Endpoints
+api:
+  - path: "/api/products"
+    methods: ["GET"]
+    auth: none
+    description: "Ürün listesi getir"
+
+  - path: "/api/products/[id]"
+    methods: ["GET"]
+    auth: none
+    description: "Tekil ürün detayı"
+
+  - path: "/api/cart"
+    methods: ["GET", "POST", "PUT", "DELETE"]
+    auth: optional
+    description: "Sepet işlemleri"
+
+  - path: "/api/checkout"
+    methods: ["POST"]
+    auth: required
+    description: "Ödeme işlemi başlat"
+
+  - path: "/api/orders"
+    methods: ["GET", "POST"]
+    auth: required
+    description: "Sipariş geçmişi ve yeni sipariş"
+
+  - path: "/api/reviews"
+    methods: ["GET", "POST"]
+    auth: optional
+    description: "Ürün yorumları"
+
+# Veri modelleri
+data:
+  Product:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      name: { type: "string", required: true }
+      slug: { type: "string", required: true, unique: true }
+      description: { type: "text", required: false }
+      price: { type: "decimal", required: true }
+      images: { type: "array", required: false }
+      category: { type: "string", required: true }
+      stock: { type: "integer", required: true }
+      createdAt: { type: "timestamp", required: true }
+    relations:
+      - "has_many: Review"
+      - "has_many: CartItem"
+
+  User:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      email: { type: "string", required: true, unique: true }
+      name: { type: "string", required: true }
+      avatar: { type: "string", required: false }
+      createdAt: { type: "timestamp", required: true }
+    relations:
+      - "has_many: Order"
+      - "has_many: Review"
+      - "has_one: Cart"
+
+  Cart:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      userId: { type: "uuid", required: false }
+      sessionId: { type: "string", required: false }
+      updatedAt: { type: "timestamp", required: true }
+    relations:
+      - "belongs_to: User"
+      - "has_many: CartItem"
+
+  CartItem:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      cartId: { type: "uuid", required: true }
+      productId: { type: "uuid", required: true }
+      quantity: { type: "integer", required: true }
+    relations:
+      - "belongs_to: Cart"
+      - "belongs_to: Product"
+
+  Order:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      userId: { type: "uuid", required: true }
+      status: { type: "enum", required: true } # pending, paid, shipped, delivered
+      total: { type: "decimal", required: true }
+      shippingAddress: { type: "json", required: true }
+      createdAt: { type: "timestamp", required: true }
+    relations:
+      - "belongs_to: User"
+      - "has_many: OrderItem"
+
+  Review:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      productId: { type: "uuid", required: true }
+      userId: { type: "uuid", required: true }
+      rating: { type: "integer", required: true } # 1-5
+      comment: { type: "text", required: false }
+      createdAt: { type: "timestamp", required: true }
+    relations:
+      - "belongs_to: Product"
+      - "belongs_to: User"

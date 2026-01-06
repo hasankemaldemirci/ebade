@@ -1,0 +1,27 @@
+{
+  "name": "ebade",
+  "version": "0.1.0",
+  "description": "ebade - The Essence of Code. Agent-First Framework POC",
+  "type": "module",
+  "main": "cli/scaffold.js",
+  "bin": {
+    "ebade": "./cli/scaffold.js"
+  },
+  "scripts": {
+    "scaffold": "node cli/scaffold.js",
+    "demo": "node cli/scaffold.js examples/ecommerce.ebade.yaml ./output"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "framework",
+    "nextjs",
+    "scaffold",
+    "generator"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "yaml": "^2.3.4"
+  }
+}
