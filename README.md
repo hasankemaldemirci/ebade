@@ -261,34 +261,3 @@ MIT © ebade Contributors — Made with ❤️ in Türkiye 🇹🇷
   <i>TypeScript made JavaScript better for humans.<br/>
   ebade makes frameworks better for AI.</i>
 </p>
-
-
----
-
-## 🤝 Contributing
-
-ebade is open source and welcomes contributions!
-
-1. **Star this repo** ⭐
-2. **Try the MCP server** with your AI agent
-3. **Open issues** with ideas and feedback
-4. **Submit PRs** for new features
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
----
-
-## 📄 License
-
-MIT © ebade Contributors
-
----
-
-<p align="center">
-  <strong>Built for AI. Readable by humans. Revolutionary by design.</strong>
-</p>
-
-<p align="center">
-  <i>TypeScript made JavaScript better for humans.<br/>
-  ebade makes frameworks better for AI.</i>
-</p>
