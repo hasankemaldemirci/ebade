@@ -29,7 +29,7 @@ import { generateComponent } from "./tools/generate.js";
 const server = new Server(
   {
     name: "ebade",
-    version: "0.1.0",
+    version: "0.3.0",
   },
   {
     capabilities: {
@@ -50,8 +50,8 @@ This creates a complete Next.js project structure based on the ebade specificati
 
 Use this when the user wants to:
 - Start a new web project
-- Create an e-commerce site, SaaS dashboard, blog, etc.
-- Generate a full application structure
+- Create an "SaaS Dashboard", "E-commerce", or "Landing Page"
+- Generate a full application structure with agent-first rules (.cursorrules, etc.)
 
 The ebade file uses YAML format with pages, components, data models, and API definitions.`,
         inputSchema: {
@@ -59,25 +59,21 @@ The ebade file uses YAML format with pages, components, data models, and API def
           properties: {
             projectName: {
               type: "string",
-              description: "Name of the project (kebab-case, e.g., 'my-store')",
+              description: "Name of the project (kebab-case, e.g., 'my-app')",
             },
             projectType: {
               type: "string",
               enum: [
-                "e-commerce",
-                "saas-dashboard",
-                "blog",
-                "landing-page",
-                "portfolio",
-                "api-only",
+                "SaaS Dashboard",
+                "E-commerce",
+                "Landing Page",
+                "Empty Project",
               ],
-              description: "Type of project to scaffold",
+              description: "Type of project template to use",
             },
-            features: {
-              type: "array",
-              items: { type: "string" },
-              description:
-                "Features to include (e.g., 'user-auth', 'shopping-cart', 'dark-mode')",
+            primaryColor: {
+              type: "string",
+              description: "Hex primary color (e.g., '#4f46e5')",
             },
             outputDir: {
               type: "string",

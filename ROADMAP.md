@@ -14,12 +14,12 @@ It's more efficient, deterministic, and KIND TO EARTH. 🌱
 
 ## Phase 1: Foundation (Week 1-2) ✅ COMPLETE
 
-### 1.1 MCP Server ✅
+### 1.1 MCP Server ✅ (v0.3.0 Synced)
 
-Make ebade usable by AI agents RIGHT NOW.
+Make ebade usable by AI agents RIGHT NOW. Direct integration with Claude Desktop & Cursor.
 
 - [x] Create MCP server package
-- [x] `ebade_scaffold` tool - generate project from ebade
+- [x] `ebade_scaffold` tool - Updated to v0.3.0 templates (SaaS, E-commerce, Landing)
 - [x] `ebade_validate` tool - validate ebade file
 - [x] `ebade_compile` tool - compile single ebade to code
 - [x] `ebade_generate` tool - infer ebade from natural language

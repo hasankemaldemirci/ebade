@@ -1,7 +1,7 @@
 {
   "name": "@ebade/mcp-server",
-  "version": "0.1.0",
-  "description": "MCP Server for ebade - Enable AI agents to build with the essence of code",
+  "version": "0.3.0",
+  "description": "MCP Server for ebade v0.3.0 - The Agent-First Framework",
   "type": "module",
   "main": "dist/index.js",
   "bin": {

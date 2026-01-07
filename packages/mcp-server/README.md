@@ -56,9 +56,9 @@ Create a complete project from an ebade definition.
 ```typescript
 // Example usage by an AI agent:
 ebade_scaffold({
-  projectName: "my-store",
-  projectType: "e-commerce",
-  features: ["product-catalog", "shopping-cart", "checkout"],
+  projectName: "my-app",
+  projectType: "SaaS Dashboard", // "E-commerce" or "Landing Page"
+  primaryColor: "#4f46e5",
   outputDir: "/path/to/projects"
 })
 ```
