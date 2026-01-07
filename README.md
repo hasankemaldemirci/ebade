@@ -1,8 +1,6 @@
-<p align="center">
-  <img src="https://ebade.dev/og-readme.png" alt="ebade - The First Agent-First Framework" width="800" />
-</p>
-
 # ebade 🧠
+
+![ebade - The First Agent-First Framework](https://ebade.dev/og-readme.png)
 
 [![npm version](https://img.shields.io/npm/v/ebade.svg)](https://www.npmjs.com/package/ebade)
 [![Website](https://img.shields.io/badge/Website-ebade.dev-4F46E5)](https://ebade.dev)
@@ -10,6 +8,7 @@
 [![MCP Server](https://img.shields.io/badge/MCP-Ready-green.svg)](./packages/mcp-server)
 [![Status](https://img.shields.io/badge/Status-Alpha-orange.svg)](./ROADMAP.md)
 [![Green AI](https://img.shields.io/badge/🌱_Green_AI-66%25_Less_Tokens-brightgreen)](./docs/GREEN-AI.md)
+[![Sponsor](https://img.shields.io/badge/Sponsor-ebade-pink.svg?logo=github-sponsors)](https://github.com/sponsors/hasankemaldemirci)
 
 > **The first framework designed for AI agents, readable by humans.**
 >
@@ -83,7 +82,7 @@ npx ebade dev
 We measured token usage across common development tasks:
 
 | Task | Next.js | ebade | Savings | Efficiency |
-|------|---------|-------|---------|------------|
+| :--- | :--- | :--- | :--- | :--- |
 | Checkout Page | 258 tokens | 66 tokens | **74.4%** | 3.9x |
 | Product Listing | 133 tokens | 63 tokens | **52.6%** | 2.1x |
 | User Auth | 148 tokens | 56 tokens | **62.2%** | 2.6x |
@@ -96,7 +95,7 @@ We measured token usage across common development tasks:
 At scale (1M AI coding sessions):
 
 | Framework | Token Cost | Savings |
-|-----------|------------|---------|
+| :--- | :--- | :--- |
 | Next.js | $5,390 | - |
 | **ebade** | **$1,850** | **$3,540** |
 
@@ -110,7 +109,7 @@ At scale (1M AI coding sessions):
 
 AI agents (Cursor, Copilot, Claude) write code for **human-designed frameworks**:
 
-```
+```text
 AI: "Is this a server or client component?"
 AI: "App router or pages router?"
 AI: "useState or useReducer?"
@@ -123,7 +122,7 @@ Every decision is **ambiguous**. AI guesses. Sometimes wrong.
 
 **ebade** - A framework where AI expresses **intent**, not implementation.
 
-```
+```text
 Human describes → AI writes intent → ebade compiles → Working code
                         ↑
                  No ambiguity here
@@ -134,7 +133,7 @@ Human describes → AI writes intent → ebade compiles → Working code
 ## 📦 Packages
 
 | Package | Description | Status |
-|---------|-------------|--------|
+| :--- | :--- | :--- |
 | **`ebade`** | Core Framework & CLI | ✅ Alpha |
 | [@ebade/mcp-server](./packages/mcp-server) | MCP Server for AI agents | ✅ Alpha |
 | `@ebade/compiler` | Advanced Intent Compiler | 🚧 Planning |
@@ -221,7 +220,7 @@ pages:
 ## 🎭 The Paradigm Shift
 
 | Era | Paradigm | Core Question |
-|-----|----------|---------------|
+| :--- | :--- | :--- |
 | 2000s | jQuery | "How do I manipulate DOM?" |
 | 2013 | React | "What if UI = f(state)?" |
 | 2024 | AI Coding | "AI writes code, but for humans" |
@@ -253,17 +252,23 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
+## 💎 Support the Movement
+
+**ebade** is an ambitious project aiming to redefine how we build software in the age of AI. Your support helps us move faster, maintain high-quality documentation, and build a more sustainable "Green AI" future.
+
+- **[Become a GitHub Sponsor](https://github.com/sponsors/hasankemaldemirci)** 💖
+- **Star the repo** to show your support ⭐
+- **Share the project** with other AI enthusiasts 🚀
+
+---
+
 ## 📄 License
 
 MIT © ebade Contributors — Made with ❤️ in Türkiye 🇹🇷
 
 ---
 
-<p align="center">
-  <strong>Built for AI. Readable by humans. Revolutionary by design.</strong>
-</p>
+**Built for AI. Readable by humans. Revolutionary by design.**
 
-<p align="center">
-  <i>TypeScript made JavaScript better for humans.<br/>
-  ebade makes frameworks better for AI.</i>
-</p>
+*TypeScript made JavaScript better for humans.*
+*ebade makes frameworks better for AI.*
