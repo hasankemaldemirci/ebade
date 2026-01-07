@@ -122,7 +122,7 @@ Replace string templates with actual AST-based compilation.
 
 ## Current Status
 
-**Phase 1 - Foundation** ← NEARLY COMPLETE
+### Phase 1 - Foundation (Nearly Complete)
 
 The MCP server is live. CLI has premium UX. Two comprehensive examples (E-commerce + SaaS Dashboard) are ready. AI agents can now use ebade to scaffold full Next.js apps with **~70% fewer tokens**.
 
