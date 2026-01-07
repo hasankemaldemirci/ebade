@@ -25,7 +25,7 @@ Every token an AI generates requires:
 | Vue.js    | 420,000,000      | ~78%             | ~21.0 kg      |
 | **ebade** | **185,000,000**  | **34%**          | **~9.2 kg**   |
 
-**ebade uses 66% less compute for the same output.** 🌱
+**ebade uses 70% less compute for the same output.** 🌱
 
 ---
 
@@ -70,7 +70,7 @@ Add this to your repository to show your commitment to sustainable AI developmen
 [![Green AI](https://img.shields.io/badge/Green_AI-ebade-brightgreen)](https://github.com/ebade)
 ```
 
-> 🌱 **Built with ebade — saving 66% of AI compute.**
+> 🌱 **Built with ebade — saving 70% of AI compute.**
 
 ---
 
