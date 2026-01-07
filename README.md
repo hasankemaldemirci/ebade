@@ -135,10 +135,10 @@ Human describes → AI writes intent → ebade compiles → Working code
 
 | Package | Description | Status |
 |---------|-------------|--------|
+| **`ebade`** | Core Framework & CLI | ✅ Alpha |
 | [@ebade/mcp-server](./packages/mcp-server) | MCP Server for AI agents | ✅ Alpha |
-| @ebade/cli | Command-line interface | 🚧 Coming |
-| @ebade/compiler | Intent → Code compiler | 🚧 Coming |
-| @ebade/vscode | VS Code extension | 📋 Planned |
+| `@ebade/compiler` | Advanced Intent Compiler | 🚧 Planning |
+| `@ebade/vscode` | VS Code extension | 📋 Planned |
 
 ---
 
