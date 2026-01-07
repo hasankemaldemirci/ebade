@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://ebade.dev/og-image.png" alt="ebade - The First Agent-First Framework" width="800" />
+  <img src="https://ebade.dev/og-image.png" alt="ebade - The First Agent-First Framework" width="600" />
 </p>
 
 # ebade 🧠
