@@ -730,32 +730,63 @@ ${colors.yellow}💡 Tip:${colors.reset} AI Agents can read ${
 // CLI Entry Point
 // ============================================
 const args = process.argv.slice(2);
+const command = args[0];
 
-if (args.length === 0) {
+function showHelp() {
   console.log(`
-${colors.bright}ebade Scaffold CLI${colors.reset}
+${colors.bright}ebade CLI${colors.reset} - The Agent-First Framework
 
-Usage:
-  npx ebade scaffold <ebade-file> [output-dir]
+${colors.dim}Usage:${colors.reset}
+  npx ebade <command> [options]
 
-Example:
+${colors.dim}Commands:${colors.reset}
+  scaffold <file> [output]   Scaffold a project from ebade file
+  
+${colors.dim}Examples:${colors.reset}
   npx ebade scaffold examples/ecommerce.ebade.yaml ./output
+  npx ebade scaffold my-project.ebade.yaml
 
-Options:
-  ebade-file   Path to .ebade.yaml file
-  output-dir    Output directory (default: ./output)
+${colors.dim}Learn more:${colors.reset}
+  https://ebade.dev
 `);
-  process.exit(1);
 }
 
-const ebadeFile = args[0];
-const outputDir = args[1] || "./output";
+if (
+  args.length === 0 ||
+  command === "help" ||
+  command === "--help" ||
+  command === "-h"
+) {
+  showHelp();
+  process.exit(0);
+}
 
-if (!fs.existsSync(ebadeFile)) {
+if (command === "scaffold") {
+  const ebadeFile = args[1];
+  const outputDir = args[2] || "./output";
+
+  if (!ebadeFile) {
+    console.error(
+      `${colors.red}Error:${colors.reset} Please provide an ebade file path.`
+    );
+    console.log(
+      `\n${colors.dim}Usage:${colors.reset} npx ebade scaffold <file.ebade.yaml> [output-dir]\n`
+    );
+    process.exit(1);
+  }
+
+  if (!fs.existsSync(ebadeFile)) {
+    console.error(
+      `${colors.red}Error:${colors.reset} ebade file not found: ${ebadeFile}`
+    );
+    process.exit(1);
+  }
+
+  scaffold(ebadeFile, outputDir);
+} else {
   console.error(
-    `${colors.red}Error:${colors.reset} ebade file not found: ${ebadeFile}`
+    `${colors.red}Error:${colors.reset} Unknown command: ${command}`
   );
+  showHelp();
   process.exit(1);
 }
-
-scaffold(ebadeFile, outputDir);
