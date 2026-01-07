@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ebade | The First Agent-First Framework</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=JetBrains+Mono&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+  <div id="canvas-container"></div>
+  <div class="bg-glow"></div>
+
+  <nav class="full-nav">
+    <div class="logo">ebade<span>.dev</span></div>
+    <div class="nav-links">
+      <a href="#technology">Technology</a>
+      <a href="#benchmarks">Benchmarks</a>
+      <a href="https://github.com/hasankemaldemirci/ebade" target="_blank" class="nav-github">
+        <i data-lucide="github"></i>
+        <span>GitHub</span>
+      </a>
+      <a href="#" class="nav-cta">Get Started</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero-full">
+      <div class="hero-content">
+        <div class="badge-modern">
+          <i data-lucide="cpu" class="icon-small"></i> Protocol 0.1.0 // Alpha
+        </div>
+        <h1 class="glitch-text">The Essence of <span>Code</span></h1>
+        <p class="hero-description">
+          <span class="ebade-brand">ebade</span> is an evolution in abstract
+          engineering. We don't build components; we model intent. Designed
+          for the era where <strong>Agents</strong> are the primary
+          developers.
+        </p>
+        <div class="hero-actions">
+          <a href="#technology" class="btn-glow">Explore Protocol</a>
+          <a href="https://www.npmjs.com/package/ebade" class="btn-minimal">npm install ebade</a>
+        </div>
+      </div>
+
+      <div class="scroll-indicator">
+        <div class="line"></div>
+        <span>INTENT_STREAM</span>
+      </div>
+    </section>
+
+    <section id="technology" class="section-dark">
+      <div class="section-container">
+        <header class="section-header">
+          <div class="badge-accent">Philosophy</div>
+          <h2>Agentic <span>Intent</span></h2>
+          <p>
+            Why write 100 lines of boilerplate when an agent can infer
+            implementation from 8 lines of pure intent?
+          </p>
+        </header>
+
+        <div class="comparison-modern">
+          <div class="code-card legacy">
+            <div class="card-header">
+              <div class="window-controls">
+                <span class="control close"></span>
+                <span class="control minimize"></span>
+                <span class="control maximize"></span>
+              </div>
+              <div class="card-tag">React + Next.js</div>
+            </div>
+            <pre><code>export default function ProductList() {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      const res = await fetch('/api/products');
+      const json = await res.json();
+      setItems(json);
+      setLoading(false);
+    }
+    load();
+  }, []);
+
+  if (loading) return &lt;Spinner /&gt;;
+
+  return (
+    &lt;section className="grid"&gt;
+      {items.map(p =&gt; &lt;Card key={p.id} {...p} /&gt;)}
+    &lt;/section&gt;
+  );
+}</code></pre>
+          </div>
+
+          <div class="transform-arrow">
+            <i data-lucide="zap"></i>
+          </div>
+
+          <div class="code-card ebade">
+            <div class="card-header">
+              <div class="window-controls">
+                <span class="control close"></span>
+                <span class="control minimize"></span>
+                <span class="control maximize"></span>
+              </div>
+              <div class="card-tag">ebade Protocol</div>
+            </div>
+            <pre><code><span class="keyword">@page</span>(<span class="string">'/products'</span>)
+<span class="keyword">@intent</span>(<span class="string">'product-catalog'</span>)
+<span class="keyword">@requires</span>([<span class="string">'products'</span>])
+<span class="keyword">@compose</span>([<span class="string">'grid'</span>, <span class="string">'loader'</span>])
+<span class="keyword">export function</span> <span class="function">Catalog</span>() {}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="benchmarks" class="benchmark-minimal">
+      <div class="section-container">
+        <header class="section-header" style="margin-bottom: 4rem">
+          <div class="badge-accent">Efficiency</div>
+          <h2>Proven <span>Performance</span></h2>
+          <p style="margin: 0 auto; color: var(--text-dim); max-width: 600px">
+            Real-world benchmarks demonstrating how ebade slashes operational
+            costs and cognitive load for AI agents.
+          </p>
+        </header>
+        <div class="stats-box">
+          <div class="stat">
+            <div class="stat-icon"><i data-lucide="zap"></i></div>
+            <span class="val">66%</span>
+            <span class="label">Token Reduction</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <div class="stat-icon"><i data-lucide="brain"></i></div>
+            <span class="val">2.9x</span>
+            <span class="label">Agent Context Efficiency</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <div class="stat-icon" style="color: var(--accent-emerald)">
+              <i data-lucide="leaf"></i>
+            </div>
+            <span class="val">Zero</span>
+            <span class="label">Sustainable AI Core</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-grid-section">
+      <div class="section-container">
+        <header class="section-header">
+          <div class="badge-accent">Standard</div>
+          <h2 style="color: var(--text)">The ebade <span>Ecosystem</span></h2>
+          <p style="margin: 0 auto; color: var(--text-dim)">
+            Engineered for high-autonomy agents and complex product
+            lifecycles.
+          </p>
+        </header>
+        <div class="grid-3">
+          <div class="feature-item">
+            <i data-lucide="code-2"></i>
+            <h3>Agent-Native</h3>
+            <p>
+              Designed as a first-class citizen for LLMs. Structured intent
+              that models understand instantly.
+            </p>
+          </div>
+          <div class="feature-item">
+            <i data-lucide="layers"></i>
+            <h3>Meta-Abstraction</h3>
+            <p>
+              Works as an invisible layer above React/Next.js. Use it for
+              speed, bypass for fine-tuning.
+            </p>
+          </div>
+          <div class="feature-item">
+            <i data-lucide="terminal"></i>
+            <h3>Binary Scaffold</h3>
+            <p>
+              Generate full, production-ready project structures from a single
+              schema definition.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="minimal-footer">
+    <div class="footer-line"></div>
+    <div class="footer-content">
+      <span>EBADE_AGENT_FIRST_V0.1</span>
+      <div class="socials">
+        <a href="#">X / Twitter</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="main.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>
