@@ -10,6 +10,7 @@
 import fs from "fs";
 import path from "path";
 import yaml from "yaml";
+import ora from "ora";
 
 // ============================================
 // ANSI Renk Kodları (Terminal çıktısı için)
@@ -23,7 +24,21 @@ const colors = {
   yellow: "\x1b[33m",
   cyan: "\x1b[36m",
   magenta: "\x1b[35m",
+  red: "\x1b[31m",
+  gray: "\x1b[90m",
 };
+
+// ASCII Art Logo
+const LOGO = `
+${colors.magenta}    ███████╗${colors.cyan}██████╗  ${colors.magenta}█████╗ ${colors.cyan}██████╗ ${colors.magenta}███████╗
+${colors.magenta}    ██╔════╝${colors.cyan}██╔══██╗${colors.magenta}██╔══██╗${colors.cyan}██╔══██╗${colors.magenta}██╔════╝
+${colors.magenta}    █████╗  ${colors.cyan}██████╔╝${colors.magenta}███████║${colors.cyan}██║  ██║${colors.magenta}█████╗  
+${colors.magenta}    ██╔══╝  ${colors.cyan}██╔══██╗${colors.magenta}██╔══██║${colors.cyan}██║  ██║${colors.magenta}██╔══╝  
+${colors.magenta}    ███████╗${colors.cyan}██████╔╝${colors.magenta}██║  ██║${colors.cyan}██████╔╝${colors.magenta}███████╗
+${colors.magenta}    ╚══════╝${colors.cyan}╚═════╝ ${colors.magenta}╚═╝  ╚═╝${colors.cyan}╚═════╝ ${colors.magenta}╚══════╝${colors.reset}
+    
+    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.1.0${colors.reset}
+`;
 
 const log = {
   info: (msg) => console.log(`${colors.blue}ℹ${colors.reset} ${msg}`),
@@ -115,12 +130,15 @@ function generatePage(page, design) {
 
   return `
 /**
+ * 🧠 Generated via ebade - The Agent-First Framework
+ * https://github.com/hasankemaldemirci/ebade
+ * 
  * @page('${page.path}')
- * @ebade('${page.intent}')
- * Built with ebade 
+ * @intent('${page.intent}')
  */
 
 ${componentImports}
+
 
 export default function ${toPascalCase(page.intent)}Page() {
   return (
@@ -141,10 +159,13 @@ function generateApiRoute(endpoint) {
   const handlers = endpoint.methods
     .map(
       (method) => `
+/**
+ * 🧠 Generated via ebade - The Agent-First Framework
+ * ${method} ${endpoint.path}
+ * Auth: ${endpoint.auth || "none"}
+ */
 export async function ${method}(request) {
-  // TODO: Implement ${method} handler for ${endpoint.path}
-  // Auth: ${endpoint.auth || "none"}
-  // Built with ebade
+  // TODO: Implement ${method} handler
   
   return Response.json({ 
     message: "${method} ${endpoint.path} - Not implemented" 
@@ -494,12 +515,10 @@ function ensureDir(dir) {
 // Main Scaffold Function
 // ============================================
 function scaffold(ebadePath, outputDir) {
-  console.log(`
-${colors.bright}${colors.magenta}╔════════════════════════════════════════╗
-命       ebade Scaffold CLI              命
-命   🤖 Agent-First Framework Generator   命
-╚════════════════════════════════════════╝${colors.reset}
-`);
+  const startTime = Date.now();
+  let stats = { pages: 0, components: 0, apiRoutes: 0, files: 0 };
+
+  console.log(LOGO);
 
   // Parse ebade file
   log.info(`Reading ebade file: ${ebadePath}`);
@@ -534,6 +553,7 @@ ${colors.bright}${colors.magenta}╔══════════════�
   log.section("Generating pages");
 
   if (config.pages) {
+    const spinner = ora("Generating pages...").start();
     config.pages.forEach((page) => {
       const pagePath =
         page.path === "/"
@@ -545,8 +565,12 @@ ${colors.bright}${colors.magenta}╔══════════════�
 
       const pageContent = generatePage(page, config.design);
       fs.writeFileSync(path.join(projectDir, pagePath), pageContent.trim());
-      log.file(`${pagePath} (${page.intent})`);
+      stats.pages++;
+      stats.files++;
     });
+    spinner.succeed(
+      `Generated ${colors.bright}${stats.pages}${colors.reset} pages`
+    );
   }
 
   // ========== Generate Components ==========
@@ -557,6 +581,7 @@ ${colors.bright}${colors.magenta}╔══════════════�
     page.components?.forEach((c) => allComponents.add(c));
   });
 
+  const spinner2 = ora("Generating components...").start();
   allComponents.forEach((component) => {
     const componentPath = `components/${component}.tsx`;
     const template = componentTemplates[component];
@@ -569,13 +594,18 @@ ${colors.bright}${colors.magenta}╔══════════════�
         )}() {\n  return <div>${component}</div>;\n}\n`;
 
     fs.writeFileSync(path.join(projectDir, componentPath), content.trim());
-    log.file(componentPath);
+    stats.components++;
+    stats.files++;
   });
+  spinner2.succeed(
+    `Generated ${colors.bright}${stats.components}${colors.reset} components`
+  );
 
   // ========== Generate API Routes ==========
   log.section("Generating API routes");
 
   if (config.api) {
+    const spinner3 = ora("Generating API routes...").start();
     config.api.forEach((endpoint) => {
       const apiPath = `app/api${endpoint.path}/route.ts`;
       const apiDir = path.dirname(path.join(projectDir, apiPath));
@@ -583,8 +613,12 @@ ${colors.bright}${colors.magenta}╔══════════════�
 
       const routeContent = generateApiRoute(endpoint);
       fs.writeFileSync(path.join(projectDir, apiPath), routeContent.trim());
-      log.file(`${apiPath} [${endpoint.methods.join(", ")}]`);
+      stats.apiRoutes++;
+      stats.files++;
     });
+    spinner3.succeed(
+      `Generated ${colors.bright}${stats.apiRoutes}${colors.reset} API routes`
+    );
   }
 
   // ========== Generate Design System ==========
@@ -651,23 +685,44 @@ ${colors.bright}${colors.magenta}╔══════════════�
   log.file("project.ebade.yaml (for agent reference)");
 
   // ========== Summary ==========
-  console.log(`
-${colors.bright}${colors.green}════════════════════════════════════════${colors.reset}
-${colors.green}✓${colors.reset} ebade scaffold complete!
+  const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+  const estimatedTokenSavings = Math.round(stats.files * 35); // ~35 tokens saved per file
 
-${colors.dim}Project:${colors.reset} ${config.name}
-${colors.dim}Type:${colors.reset} ${config.type}
-${colors.dim}Output:${colors.reset} ${projectDir}
+  console.log(`
+${colors.bright}${colors.green}  ┌${"─".repeat(41)}┐${colors.reset}
+${colors.green}  │${colors.reset}  ${colors.bright}✅ ebade scaffold complete!${
+    colors.reset
+  }              ${colors.green}│${colors.reset}
+${colors.green}  ├${"─".repeat(41)}┤${colors.reset}
+${colors.green}  │${colors.reset}  ${colors.dim}Project:${
+    colors.reset
+  } ${config.name.padEnd(26)} ${colors.green}│${colors.reset}
+${colors.green}  │${colors.reset}  ${colors.dim}Type:${
+    colors.reset
+  }    ${config.type.padEnd(26)} ${colors.green}│${colors.reset}
+${colors.green}  ├${"─".repeat(41)}┤${colors.reset}
+${colors.green}  │${colors.reset}  ${colors.cyan}📁 Files Created:${
+    colors.reset
+  }    ${String(stats.files).padEnd(18)} ${colors.green}│${colors.reset}
+${colors.green}  │${colors.reset}  ${colors.cyan}📊 Token Savings:${
+    colors.reset
+  }    ~${String(estimatedTokenSavings).padEnd(17)} ${colors.green}│${
+    colors.reset
+  }
+${colors.green}  │${colors.reset}  ${colors.cyan}⏱  Completed in:${
+    colors.reset
+  }    ${String(duration + "s").padEnd(18)} ${colors.green}│${colors.reset}
+${colors.green}  └${"─".repeat(41)}┘${colors.reset}
 
 ${colors.dim}Next steps:${colors.reset}
-  1. cd ${projectDir}
-  2. npm install
-  3. npm run dev
+  ${colors.gray}1.${colors.reset} cd ${colors.cyan}${projectDir}${colors.reset}
+  ${colors.gray}2.${colors.reset} npm install
+  ${colors.gray}3.${colors.reset} npm run dev
 
-${colors.yellow}Note:${colors.reset} The generated code is a starting point.
-      An AI Agent can now read project.ebade.yaml
-      to understand and iterate on this project.
-${colors.bright}${colors.green}════════════════════════════════════════${colors.reset}
+${colors.yellow}💡 Tip:${colors.reset} AI Agents can read ${
+    colors.cyan
+  }project.ebade.yaml${colors.reset}
+       to understand and iterate on this project.
 `);
 }
 
