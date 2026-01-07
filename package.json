@@ -35,6 +35,7 @@
     "url": "https://github.com/hasankemaldemirci/ebade/issues"
   },
   "dependencies": {
+    "ora": "^9.0.0",
     "yaml": "^2.3.4"
   },
   "engines": {
