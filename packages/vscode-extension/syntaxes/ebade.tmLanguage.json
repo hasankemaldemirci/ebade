@@ -1,0 +1,54 @@
+{
+  "name": "ebade",
+  "scopeName": "source.ebade",
+  "fileTypes": ["ebade.yaml"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#decorators" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#booleans" },
+    { "include": "#keys" }
+  ],
+  "repository": {
+    "comments": {
+      "match": "#.*$",
+      "name": "comment.line.number-sign.ebade"
+    },
+    "keywords": {
+      "match": "\\b(project|pages|api|data|design|auth|components|intent|path|methods|outcomes|requires|style|colors|font|borderRadius|type|version|name)\\b",
+      "name": "keyword.control.ebade"
+    },
+    "decorators": {
+      "match": "@(page|intent|requires|outcomes|data|validate|style|compose|on|expects)\\b",
+      "name": "entity.name.function.decorator.ebade"
+    },
+    "strings": {
+      "patterns": [
+        {
+          "match": "'[^']*'",
+          "name": "string.quoted.single.ebade"
+        },
+        {
+          "match": "\"[^\"]*\"",
+          "name": "string.quoted.double.ebade"
+        }
+      ]
+    },
+    "numbers": {
+      "match": "\\b[0-9]+\\.?[0-9]*\\b",
+      "name": "constant.numeric.ebade"
+    },
+    "booleans": {
+      "match": "\\b(true|false|required|optional|public|private)\\b",
+      "name": "constant.language.ebade"
+    },
+    "keys": {
+      "match": "^\\s*-?\\s*([a-zA-Z_][a-zA-Z0-9_-]*)\\s*:",
+      "captures": {
+        "1": { "name": "variable.other.key.ebade" }
+      }
+    }
+  }
+}
