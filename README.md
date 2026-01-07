@@ -16,7 +16,12 @@
 >
 > *Capture the essence of code. Less tokens. Less carbon. Same result.* 🌱
 
+## 🎬 See it in action
+
+![ebade demo](./demo.gif)
+
 ```typescript
+
 // ❌ Before: 100+ lines of boilerplate
 export default function CheckoutPage() {
   const [cart, setCart] = useState([]);
