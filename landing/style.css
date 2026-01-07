@@ -152,6 +152,7 @@ body {
   text-align: center;
   padding: 0 2rem;
   position: relative;
+  overflow-x: hidden;
 }
 
 .hero-content {
@@ -186,18 +187,15 @@ body {
 }
 
 h1 {
-  font-size: 8rem;
+  font-size: clamp(3rem, 10vw, 8rem);
   font-weight: 950;
   line-height: 0.9;
-  letter-spacing: -6px;
+  letter-spacing: -0.05em;
   margin-bottom: 2rem;
 }
 
 h1 span {
-  background: linear-gradient(to right, var(--primary), var(--accent-blue));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary);
 }
 
 .hero-description {
@@ -247,7 +245,8 @@ h1 span {
 }
 
 .btn-minimal {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   color: var(--text);
   text-decoration: none;
@@ -256,6 +255,11 @@ h1 span {
   font-family: var(--font-mono);
   font-size: 0.9rem;
   transition: all 0.3s;
+}
+
+.btn-minimal:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: var(--primary);
 }
 
 .btn-glow:hover {
@@ -500,8 +504,8 @@ h1 span {
 }
 
 .stat-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
 }
 
 .stat .val {
