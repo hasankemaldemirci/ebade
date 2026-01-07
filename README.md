@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![MCP Server](https://img.shields.io/badge/MCP-Ready-green.svg)](./packages/mcp-server)
 [![Status](https://img.shields.io/badge/Status-Alpha-orange.svg)](./ROADMAP.md)
-[![Green AI](https://img.shields.io/badge/🌱_Green_AI-82%25_Less_Tokens-brightgreen)](./docs/GREEN-AI.md)
+[![Green AI](https://img.shields.io/badge/🌱_Green_AI-66%25_Less_Tokens-brightgreen)](./docs/GREEN-AI.md)
 
 > **The first framework designed FOR AI agents, readable by humans.**
 >
@@ -72,27 +72,27 @@ npx ebade dev
 
 ---
 
-## 📊 Benchmark: 82% Fewer Tokens
+## 📊 Benchmark: ~66% Fewer Tokens (Tested)
 
 We measured token usage across common development tasks:
 
-| Task | Next.js | ebade | Savings |
-|------|---------|----------|---------|
-| Checkout Page | 1,198 tokens | 156 tokens | **87%** |
-| Product Listing | 1,216 tokens | 140 tokens | **88%** |
-| User Auth | 774 tokens | 147 tokens | **81%** |
+| Task | Next.js | ebade | Savings | Efficiency |
+|------|---------|-------|---------|------------|
+| Checkout Page | 258 tokens | 66 tokens | **74.4%** | 3.9x |
+| Product Listing | 133 tokens | 63 tokens | **52.6%** | 2.1x |
+| User Auth | 148 tokens | 56 tokens | **62.2%** | 2.6x |
+| **Average** | | | **65.7%** | **2.9x** |
 
-**Result: ebade is 5.6x more efficient for AI agents.**
+> *For full project scaffolding, savings can reach 75-92%.*
 
 ### 💰 Cost Impact
 
-At scale (100K AI coding sessions):
+At scale (1M AI coding sessions):
 
-| Framework | Token Cost | Carbon Equivalent |
-|-----------|------------|-------------------|
-| Next.js | $956 | ~860 kg CO2 |
-| **ebade** | **$133** | **~120 kg CO2** |
-| **Savings** | **$823** | **🌳 ~740 kg CO2** |
+| Framework | Token Cost | Savings |
+|-----------|------------|---------|
+| Next.js | $5,390 | - |
+| **ebade** | **$1,850** | **$3,540** |
 
 > *The greenest code is the code you don't generate.*
 
