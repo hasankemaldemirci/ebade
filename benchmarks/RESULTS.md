@@ -1,6 +1,6 @@
 # ebade Benchmark Results 📊
 
-> **The first framework designed FOR AI agents, readable by humans.**
+> **The first framework designed for AI agents, readable by humans.**
 
 ---
 

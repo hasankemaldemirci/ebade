@@ -11,7 +11,7 @@
 [![Status](https://img.shields.io/badge/Status-Alpha-orange.svg)](./ROADMAP.md)
 [![Green AI](https://img.shields.io/badge/🌱_Green_AI-66%25_Less_Tokens-brightgreen)](./docs/GREEN-AI.md)
 
-> **The first framework designed FOR AI agents, readable by humans.**
+> **The first framework designed for AI agents, readable by humans.**
 >
 > `Code = f(ebade)`
 >
