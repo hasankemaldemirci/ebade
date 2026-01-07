@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://ebade.dev/og-image.png" alt="ebade - The First Agent-First Framework" width="800" />
+</p>
+
 # ebade 🧠
 
 [![npm version](https://img.shields.io/npm/v/ebade.svg)](https://www.npmjs.com/package/ebade)
