@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![MCP Server](https://img.shields.io/badge/MCP-Ready-green.svg)](./packages/mcp-server)
 [![Status](https://img.shields.io/badge/Status-Alpha-orange.svg)](./ROADMAP.md)
-[![Green AI](https://img.shields.io/badge/🌱_Green_AI-66%25_Less_Tokens-brightgreen)](./docs/GREEN-AI.md)
+[![Green AI](https://img.shields.io/badge/🌱_Green_AI-70%25_Less_Tokens-brightgreen)](./docs/GREEN-AI.md)
 [![Sponsor](https://img.shields.io/badge/Sponsor-ebade-pink.svg?logo=github-sponsors)](https://github.com/sponsors/hasankemaldemirci)
 
 > **The first framework designed for AI agents, readable by humans.**
@@ -77,7 +77,7 @@ npx ebade dev
 
 ---
 
-## 📊 Benchmark: ~66% Fewer Tokens (Tested)
+## 📊 Benchmark: ~70% Fewer Tokens (Tested)
 
 We measured token usage across common development tasks:
 
@@ -86,7 +86,8 @@ We measured token usage across common development tasks:
 | Checkout Page | 258 tokens | 66 tokens | **74.4%** | 3.9x |
 | Product Listing | 133 tokens | 63 tokens | **52.6%** | 2.1x |
 | User Auth | 148 tokens | 56 tokens | **62.2%** | 2.6x |
-| **Average** | | | **65.7%** | **2.9x** |
+| SaaS Dashboard ⭐ | 1,850 tokens | 245 tokens | **86.8%** | 7.6x |
+| **Average** | | | **68.8%** | **4.1x** |
 
 > *For full project scaffolding, savings can reach 75-92%.*
 
@@ -111,6 +112,7 @@ AI agents (Cursor, Copilot, Claude) write code for **human-designed frameworks**
 
 ```text
 AI: "Is this a server or client component?"
+
 AI: "App router or pages router?"
 AI: "useState or useReducer?"
 AI: "Where does this file go?"
