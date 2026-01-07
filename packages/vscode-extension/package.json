@@ -1,0 +1,53 @@
+{
+  "name": "ebade",
+  "displayName": "ebade - Agent-First Framework",
+  "description": "Syntax highlighting and snippets for ebade (.ebade.yaml) files",
+  "version": "0.1.0",
+  "publisher": "hasankemaldemirci",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "ebade",
+    "agent-first",
+    "ai",
+    "yaml",
+    "framework"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasankemaldemirci/ebade"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "ebade",
+        "aliases": [
+          "ebade",
+          "ebade-yaml"
+        ],
+        "extensions": [
+          ".ebade.yaml"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ebade",
+        "scopeName": "source.ebade",
+        "path": "./syntaxes/ebade.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "ebade",
+        "path": "./snippets/ebade.json"
+      }
+    ]
+  }
+}
