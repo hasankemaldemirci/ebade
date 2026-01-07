@@ -44,10 +44,10 @@ Replace string templates with actual AST-based compilation.
 - [ ] Code generator (AST → React/Next.js)
 - [ ] Support for multiple framework targets
 
-### 1.5 CLI Improvements
+### 1.5 CLI Improvements ✅
 
-- [ ] `ebade init` - interactive project setup
-- [ ] `ebade dev` - watch mode with local agent sync
+- [x] `ebade init` - interactive project setup
+- [x] `ebade dev` - watch mode with local agent sync
 
 ---
 
