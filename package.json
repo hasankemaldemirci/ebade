@@ -1,7 +1,7 @@
 {
   "name": "ebade",
   "version": "0.1.0",
-  "description": "ebade - The Essence of Code. Agent-First Framework POC",
+  "description": "ebade - Agent-First Framework. The first framework designed FOR AI agents, readable by humans.",
   "type": "module",
   "main": "cli/scaffold.js",
   "bin": {
@@ -9,19 +9,35 @@
   },
   "scripts": {
     "scaffold": "node cli/scaffold.js",
-    "demo": "node cli/scaffold.js examples/ecommerce.ebade.yaml ./output"
+    "demo": "node cli/scaffold.js examples/ecommerce.ebade.yaml ./output",
+    "benchmark": "node benchmarks/token-benchmark.js"
   },
   "keywords": [
     "ai",
     "agent",
+    "agent-first",
     "framework",
     "nextjs",
     "scaffold",
-    "generator"
+    "generator",
+    "intent",
+    "mcp",
+    "llm"
   ],
-  "author": "",
+  "author": "Hasan Kemal Demirci",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hasankemaldemirci/ebade.git"
+  },
+  "homepage": "https://github.com/hasankemaldemirci/ebade#readme",
+  "bugs": {
+    "url": "https://github.com/hasankemaldemirci/ebade/issues"
+  },
   "dependencies": {
     "yaml": "^2.3.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
