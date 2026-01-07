@@ -46,17 +46,18 @@ Replace string templates with actual AST-based compilation.
 
 ### 1.5 CLI Improvements ✅
 
-- [x] `ebade init` - interactive project setup
-- [x] `ebade dev` - watch mode with local agent sync
+- [x] `ebade init` - interactive project setup (v0.3.0)
+- [x] `ebade dev` - watch mode with local agent sync (v0.3.0)
+- [x] Agent Synergy - Auto-gen rules for Cursor/Claude/Copilot
 
 ---
 
-## Phase 2: Developer Experience (Week 3-4)
+## Phase 2: Developer Experience ✅ (v0.3.0 Initial Tools)
 
-### 2.1 VS Code Extension
+### 2.1 VS Code Extension ✅
 
-- [ ] Syntax highlighting for ebade decorators
-- [ ] Autocomplete for inferred patterns
+- [x] Syntax highlighting for ebade decorators
+- [x] Snippets for project/page/api/data
 - [ ] Inline token usage counter (Carbon counter! 🌱)
 
 ### 2.2 Playground Website
