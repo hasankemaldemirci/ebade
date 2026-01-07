@@ -8,6 +8,7 @@
 [![MCP Server](https://img.shields.io/badge/MCP-Ready-green.svg)](./packages/mcp-server)
 [![Status](https://img.shields.io/badge/Status-Alpha-orange.svg)](./ROADMAP.md)
 [![Green AI](https://img.shields.io/badge/🌱_Green_AI-70%25_Less_Tokens-brightgreen)](./docs/GREEN-AI.md)
+[![Agent-Native](https://img.shields.io/badge/Agent--Native-Universal_AI_Support-black)](./SYNTAX.md)
 [![Sponsor](https://img.shields.io/badge/Sponsor-ebade-pink.svg?logo=github-sponsors)](https://github.com/sponsors/hasankemaldemirci)
 
 > **The first framework designed for AI agents, readable by humans.**
@@ -70,15 +71,24 @@ Then AI agents can use:
 ### For Humans (CLI)
 
 ```bash
-# Scaffold a new project
-npx ebade scaffold --type e-commerce --name my-store
+# Scaffold a new project from an ebade file
+npx ebade scaffold examples/saas-dashboard.ebade.yaml ./my-app
 
-# Compile intents to code
-npx ebade build
-
-# Watch mode
-npx ebade dev
+# See all commands
+npx ebade --help
 ```
+
+---
+
+## 🤖 Integrated AI Synergy
+
+**ebade** projects automatically configure themselves for AI collaboration. When you scaffold a project, it generates specialized instruction files for major AI agents:
+
+- **Cursor**: `.cursorrules`
+- **Claude / Windsurf**: `.clauderules`
+- **GitHub Copilot**: `.github/copilot-instructions.md`
+
+These files teach the AI agents exactly how to work with ebade intents, ensuring they never "hallucinate" boilerplate and always stay token-efficient.
 
 ---
 
@@ -211,8 +221,9 @@ pages:
       - search-bar
       - product-grid
       - pagination
-      
+
   - path: /checkout
+
     intent: checkout-flow
     auth: required
     components:
