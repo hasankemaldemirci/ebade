@@ -111,22 +111,13 @@ body {
 .nav-github {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-}
-
-.nav-github:hover {
-  background: rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.05);
+  gap: 0.4rem;
 }
 
 .nav-github i,
 .nav-github svg {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 .star-icon-nav {
@@ -577,40 +568,318 @@ h1 span {
 }
 
 /* Footer */
-.minimal-footer {
-  padding: 4rem 3rem;
-  border-top: 1px solid var(--border);
+.site-footer {
+  background: #000;
+  color: #fff;
+  padding: 6rem 3rem 2rem;
+  position: relative;
+  z-index: 10;
 }
 
-.footer-content {
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-dim);
+  gap: 4rem;
+  flex-wrap: wrap;
 }
 
-.socials a {
-  margin-left: 2rem;
+.footer-brand {
+  max-width: 300px;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.footer-slogan {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.footer-links {
+  display: flex;
+  gap: 5rem;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-column h4 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 0.5rem;
+}
+
+.footer-column a {
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  color: var(--text);
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.footer-column a:hover {
+  color: var(--primary);
+}
+
+.footer-bottom {
+  max-width: 1400px;
+  margin: 4rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.footer-tagline {
+  font-family: var(--font-mono);
+  color: var(--accent-emerald);
 }
 
 @media (max-width: 1024px) {
   h1 {
     font-size: 4rem;
   }
+
   .grid-3 {
     grid-template-columns: 1fr;
   }
+
   .comparison-modern {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
+
+  .transform-arrow {
+    padding: 1rem 0;
+  }
+
   .stats-box {
     flex-direction: column;
-    gap: 4rem;
+    gap: 3rem;
+    padding: 3rem 2rem;
   }
+
   .stat-divider {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Nav - Simplified for mobile */
+  .full-nav {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .logo {
+    font-size: 1.3rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .nav-github span {
+    display: none; /* Hide "GitHub" text, show only icon */
+  }
+
+  .nav-cta {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  /* Hero */
+  .hero-full {
+    padding: 0 1.5rem;
+    padding-top: 120px; /* Account for stacked nav */
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn-glow,
+  .btn-minimal {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem 2rem;
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+
+  /* Sections */
+  .section-dark {
+    border-radius: 30px 30px 0 0;
+  }
+
+  .section-container {
+    padding: 4rem 1.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+  }
+
+  .section-header p {
+    font-size: 1rem;
+  }
+
+  /* Transform Arrow - Vertical connecting both cards */
+  .transform-arrow {
+    padding: 1.5rem 0;
+    height: auto;
+    margin: 0;
+    z-index: 0;
+  }
+
+  .transform-arrow::after {
+    /* Reset horizontal positioning */
+    top: -100px;
+    bottom: -100px;
+    left: 50%;
+    right: auto;
+    /* Make it vertical */
+    width: 2px;
+    height: 300px;
+    /* Center and position behind cards */
+    transform: translateX(-50%);
+    z-index: -1;
+    /* Vertical gradient */
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(79, 70, 229, 0.5),
+      transparent
+    );
+    background-size: 100% 100%;
+    animation: none;
+  }
+
+  .transform-arrow i,
+  .transform-arrow svg {
+    width: 32px;
+    height: 32px;
+    transform: rotate(90deg);
+    animation: none;
+    z-index: 5;
+    position: relative;
+    background: #0d1117;
+    border-radius: 50%;
+    padding: 6px;
+  }
+
+  /* Code Cards - ensure they're above the line */
+  .code-card {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Code Cards */
+  .code-card pre {
+    padding: 1rem;
+    font-size: 0.75rem;
+    overflow-x: auto;
+  }
+
+  /* Stats */
+  .stat .val {
+    font-size: 3rem;
+  }
+
+  /* Features */
+  .feature-item {
+    padding: 2rem;
+  }
+
+  .feature-item h3 {
+    font-size: 1.4rem;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: 4rem 1.5rem 2rem;
+  }
+
+  .footer-container {
+    flex-direction: column;
+  }
+
+  .footer-brand {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+  }
+
+  .footer-column {
+    text-align: center;
+    min-width: 120px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .badge-modern {
+    font-size: 0.65rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+
+  .stat .val {
+    font-size: 2.5rem;
   }
 }
