@@ -10,10 +10,10 @@ const nextConfig: NextConfig = {
   experimental: {
     // @ts-ignore
     reactCompiler: true,
-    // Fix monorepo workspace root warning
-    // @ts-ignore
-    outputFileTracingRoot: path.join(__dirname, "../"),
   },
+  // Fix monorepo workspace root warning
+  // @ts-ignore
+  outputFileTracingRoot: path.join(__dirname, "../"),
 };
 
 export default nextConfig;
