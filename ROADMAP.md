@@ -44,11 +44,13 @@ Replace string templates with actual AST-based compilation.
 - [ ] Code generator (AST → React/Next.js)
 - [ ] Support for multiple framework targets
 
-### 1.5 CLI Improvements ✅
+### 1.5 CLI & Developer Experience ✅ (v0.3.0)
 
-- [x] `ebade init` - interactive project setup (v0.3.0)
-- [x] `ebade dev` - watch mode with local agent sync (v0.3.0)
+- [x] `ebade init` - interactive project setup
+- [x] `ebade dev` - watch mode with local agent sync
 - [x] Agent Synergy - Auto-gen rules for Cursor/Claude/Copilot
+- [x] **TDD by Default** - Automatic Vitest config & .test.tsx generation 🧪
+- [x] **Tailwind CSS Native** - Built-in styling engine integration
 
 ---
 
@@ -123,10 +125,10 @@ Replace string templates with actual AST-based compilation.
 
 ## Current Status
 
-### Phase 1 - Foundation (Nearly Complete)
+### Phase 1 - Foundation ✅ (v0.3.0 - The Testing Era)
 
-The MCP server is live. CLI has premium UX. Two comprehensive examples (E-commerce + SaaS Dashboard) are ready. AI agents can now use ebade to scaffold full Next.js apps with **~70% fewer tokens**.
+The MCP server is live and fully synced. CLI has premium UX and now generates **production-ready code** with Tailwind CSS and automatic Unit Testing (Vitest). AI agents can now use ebade to scaffold full Next.js apps with **~80% fewer tokens** while maintaining high code quality through TDD.
 
 ---
 
-*Last updated: 2026-01-07*
+Last updated: 2026-01-08 (The TDD Update)

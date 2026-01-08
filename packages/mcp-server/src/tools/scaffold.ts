@@ -162,12 +162,53 @@ function generateCoreFiles(projectDir: string, config: any) {
   const pkg = {
     name: config.name,
     version: "0.1.0",
-    dependencies: { next: "latest", react: "latest", "react-dom": "latest" },
+    dependencies: {
+      next: "latest",
+      react: "latest",
+      "react-dom": "latest",
+      "lucide-react": "latest",
+    },
+    devDependencies: {
+      "@types/node": "latest",
+      "@types/react": "latest",
+      "@types/react-dom": "latest",
+      autoprefixer: "latest",
+      postcss: "latest",
+      tailwindcss: "latest",
+      typescript: "latest",
+    },
     scripts: { dev: "next dev", build: "next build", start: "next start" },
   };
   fs.writeFileSync(
     path.join(projectDir, "package.json"),
     JSON.stringify(pkg, null, 2)
+  );
+
+  // tsconfig.json (Basic version)
+  const tsconfig = {
+    compilerOptions: {
+      target: "es5",
+      lib: ["dom", "dom.iterable", "esnext"],
+      allowJs: true,
+      skipLibCheck: true,
+      strict: true,
+      noEmit: true,
+      esModuleInterop: true,
+      module: "esnext",
+      moduleResolution: "bundler",
+      resolveJsonModule: true,
+      isolatedModules: true,
+      jsx: "preserve",
+      incremental: true,
+      plugins: [{ name: "next" }],
+      paths: { "@/*": ["./*"] },
+    },
+    include: ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    exclude: ["node_modules"],
+  };
+  fs.writeFileSync(
+    path.join(projectDir, "tsconfig.json"),
+    JSON.stringify(tsconfig, null, 2)
   );
 
   // .cursorrules
@@ -176,6 +217,7 @@ function generateCoreFiles(projectDir: string, config: any) {
 - Respect project.ebade.yaml as the source of truth.
 - Follow the ${config.design.style} design style.
 - Use ${config.design.colors.primary} as the primary color.
+- Always import React from 'react' in .tsx files.
 `;
   fs.writeFileSync(path.join(projectDir, ".cursorrules"), rules);
 }

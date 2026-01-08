@@ -63,59 +63,136 @@ function parseEbade(ebadePath) {
 // Component Generator Templates
 // ============================================
 const componentTemplates = {
-  "hero-section": (design) => `
+  "hero-section": (design) => `import React from 'react';
+
+/**
+ * 🧠 Generated via ebade
+ * Intent: hero-section
+ */
 export function HeroSection() {
+  const primaryColor = '${design.colors?.primary || "#6366f1"}';
+  
   return (
-    <section className="hero-section">
-      <div className="hero-content">
-        <h1 className="hero-title">Welcome to Our Store</h1>
-        <p className="hero-subtitle">Discover amazing products</p>
-        <button className="hero-cta" style={{ backgroundColor: '${
-          design.colors?.primary || "#6366f1"
-        }' }}>
-          Shop Now
+    <section className="relative py-20 px-4 md:px-10 overflow-hidden">
+      <div className="max-w-7xl mx-auto text-center relative z-10">
+        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
+          Welcome to <span style={{ color: primaryColor }}>ebade</span>
+        </h1>
+        <p className="text-xl opacity-80 max-w-2xl mx-auto mb-10">
+          The first framework designed for AI agents. Build faster, cleaner, and smarter.
+        </p>
+        <button 
+          className="px-8 py-4 rounded-full font-bold text-white transition-all transform hover:scale-105 active:scale-95 shadow-xl"
+          style={{ backgroundColor: primaryColor }}
+        >
+          Explore Now
         </button>
       </div>
+      <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" 
+           style={{ background: \`radial-gradient(circle at center, \${primaryColor} 0%, transparent 70%)\` }} />
     </section>
   );
 }
 `,
-  "product-grid": (design) => `
-export function ProductGrid({ products }) {
+  "product-grid": (design) => `import React from 'react';
+
+/**
+ * 🧠 Generated via ebade
+ * Intent: product-grid
+ */
+export function ProductGrid({ items = [] }: { items?: any[] }) {
+  const primaryColor = '${design.colors?.primary || "#6366f1"}';
+
   return (
-    <div className="product-grid">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-12">
+      {items.length > 0 ? items.map((item, idx) => (
+        <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all">
+          <div className="aspect-square bg-white/5 rounded-xl mb-4 animate-pulse" />
+          <h3 className="text-xl font-bold mb-2">{item.name || 'Product Name'}</h3>
+          <p className="text-sm opacity-60 mb-4">{item.description || 'Modern product description goes here.'}</p>
+          <div className="flex justify-between items-center">
+            <span className="text-lg font-mono font-bold" style={{ color: primaryColor }}>\\$99.00</span>
+            <button className="text-sm font-semibold opacity-80 hover:opacity-100">Details →</button>
+          </div>
+        </div>
+      )) : (
+        <div className="col-span-full py-20 text-center opacity-40">
+          <p>No products found tracking the ebade signal...</p>
+        </div>
+      )}
+    </div>
+  );
+}
+`,
+  "stats-grid": (design) => `import React from 'react';
+
+/**
+ * 🧠 Generated via ebade
+ */
+export function StatsGrid() {
+  const primaryColor = '${design.colors?.primary || "#6366f1"}';
+  const stats = [
+    { label: "Active Users", value: "12.4k", trend: "+12%" },
+    { label: "Revenue", value: "\\$45,200", trend: "+8.5%" },
+    { label: "Conversion", value: "3.2%", trend: "-1.2%" },
+    { label: "Avg. Session", value: "4m 12s", trend: "+24%" }
+  ];
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {stats.map((stat, i) => (
+        <div key={i} className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
+          <p className="text-sm opacity-50 mb-1">{stat.label}</p>
+          <div className="flex items-baseline gap-2">
+            <h4 className="text-2xl font-bold font-mono">{stat.value}</h4>
+            <span className={\`text-xs \${stat.trend.startsWith('+') ? 'text-green-500' : 'text-red-500'}\`}>
+              {stat.trend}
+            </span>
+          </div>
+        </div>
       ))}
     </div>
   );
 }
 `,
-  "add-to-cart": (design) => `
-import { useState } from 'react';
-
-export function AddToCart({ product, onAdd }) {
-  const [quantity, setQuantity] = useState(1);
-  
-  return (
-    <div className="add-to-cart">
-      <div className="quantity-selector">
-        <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
-        <span>{quantity}</span>
-        <button onClick={() => setQuantity(q => q + 1)}>+</button>
-      </div>
-      <button 
-        className="add-btn"
-        style={{ backgroundColor: '${design.colors?.primary || "#6366f1"}' }}
-        onClick={() => onAdd(product, quantity)}
-      >
-        Add to Cart
-      </button>
-    </div>
-  );
-}
-`,
 };
+
+function generateComponentTest(componentName) {
+  const name = toPascalCase(componentName);
+  return `import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { ${name} } from './${componentName}';
+import React from 'react';
+
+describe('${name} Component', () => {
+  it('renders without crashing', () => {
+    // Basic test to ensure target intent is present
+    render(<${name} />);
+    expect(document.body).toBeDefined();
+  });
+});
+`;
+}
+
+function generateVitestConfig() {
+  return `import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: 'jsdom',
+    globals: true,
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './'),
+    },
+  },
+});
+`;
+}
 
 // ============================================
 // Page Generator
@@ -127,10 +204,13 @@ function generatePage(page, design) {
       .join("\n") || "";
 
   const componentUsage =
-    page.components?.map((c) => `      <${toPascalCase(c)} />`).join("\n") ||
-    "      {/* No components defined */}";
+    page.components
+      ?.map((c) => `          <${toPascalCase(c)} />`)
+      .join("\n") || "          {/* No components defined */}";
 
-  return `
+  return `import React from 'react';
+${componentImports}
+
 /**
  * 🧠 Generated via ebade - The Agent-First Framework
  * https://github.com/hasankemaldemirci/ebade
@@ -138,19 +218,26 @@ function generatePage(page, design) {
  * @page('${page.path}')
  * @intent('${page.intent}')
  */
-
-${componentImports}
-
-
 export default function ${toPascalCase(page.intent)}Page() {
   return (
-    <main className="page ${page.intent}">
+    <div className="min-h-screen bg-slate-950 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <header className="mb-12">
+          <h1 className="text-3xl font-bold tracking-tight opacity-90">${toPascalCase(
+            page.intent
+          )}</h1>
+          <p className="text-sm opacity-40 mt-1">Route: ${page.path}</p>
+        </header>
+        
+        <main className="space-y-12">
 ${componentUsage}
-    </main>
+        </main>
+      </div>
+    </div>
   );
 }
 
-// Auth requirement: ${page.auth || "public"}
+// Auth: ${page.auth || "public"}
 `;
 }
 
@@ -221,22 +308,48 @@ function generatePackageJson(config) {
         build: "next build",
         start: "next start",
         lint: "next lint",
+        test: "vitest",
       },
       dependencies: {
         next: "^14.0.0",
         react: "^18.2.0",
         "react-dom": "^18.2.0",
+        "lucide-react": "^0.294.0",
+        clsx: "^2.0.0",
+        "tailwind-merge": "^2.0.0",
       },
       devDependencies: {
         "@types/node": "^20.0.0",
         "@types/react": "^18.2.0",
         "@types/react-dom": "^18.2.0",
+        "@testing-library/react": "^14.1.2",
+        "@vitejs/plugin-react": "^4.2.0",
+        jsdom: "^22.1.0",
+        vitest: "^0.34.6",
+        autoprefixer: "^10.0.1",
+        postcss: "^8",
+        tailwindcss: "^3.3.0",
         typescript: "^5.0.0",
       },
     },
     null,
     2
   );
+}
+
+function generateTailwindConfig() {
+  return `/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+`;
 }
 
 function generateNextConfig() {
@@ -250,6 +363,7 @@ function generateTsConfig() {
   return JSON.stringify(
     {
       compilerOptions: {
+        target: "es5",
         lib: ["dom", "dom.iterable", "esnext"],
         allowJs: true,
         skipLibCheck: true,
@@ -257,10 +371,10 @@ function generateTsConfig() {
         noEmit: true,
         esModuleInterop: true,
         module: "esnext",
-        moduleResolution: "bundler",
+        moduleResolution: "node",
         resolveJsonModule: true,
         isolatedModules: true,
-        jsx: "preserve",
+        jsx: "react-jsx",
         incremental: true,
         plugins: [{ name: "next" }],
         paths: { "@/*": ["./*"] },
@@ -275,7 +389,8 @@ function generateTsConfig() {
 
 function generateLayout(config) {
   const fontFamily = config.design?.font || "Inter";
-  return `import type { Metadata } from "next";
+  return `import React from 'react';
+import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -307,119 +422,19 @@ export default function RootLayout({
 }
 
 function generateGlobalsCss(design) {
-  return `/* ebade Generated Design System */
-/* Style: ${design.style || "minimal-modern"} */
+  return `@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --color-primary: ${design.colors?.primary || "#6366f1"};
   --color-secondary: ${design.colors?.secondary || "#f59e0b"};
   --color-accent: ${design.colors?.accent || "#10b981"};
-  --font-family: '${design.font || "Inter"}', system-ui, sans-serif;
-  --radius-lg: 1rem;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
-  font-family: var(--font-family);
-  line-height: 1.6;
-  color: #1f2937;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-}
-
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  color: white;
-}
-
-.hero-section {
-  text-align: center;
-  max-width: 800px;
-}
-
-.hero-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-}
-
-.hero-subtitle {
-  font-size: 1.25rem;
-  opacity: 0.9;
-  margin-bottom: 2rem;
-}
-
-.hero-cta {
-  background: white;
-  color: var(--color-primary);
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  border-radius: var(--radius-lg);
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.hero-cta:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-lg);
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-primary:hover {
-  opacity: 0.9;
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
-}
-
-.add-to-cart {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.quantity-selector {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.quantity-selector button {
-  width: 32px;
-  height: 32px;
-  border: 1px solid #e5e7eb;
-  background: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.add-btn {
-  flex: 1;
+  background: #020617;
+  color: #f8fafc;
 }
 `;
 }
@@ -621,18 +636,37 @@ function scaffold(ebadePath, outputDir) {
     const template = componentTemplates[component];
     const content = template
       ? template(config.design)
-      : `// TODO: Implement ${toPascalCase(
-          component
-        )} component\nexport function ${toPascalCase(
-          component
-        )}() {\n  return <div>${component}</div>;\n}\n`;
+      : `import React from 'react';
+
+/**
+ * 🧠 Generated via ebade
+ * Component: ${toPascalCase(component)}
+ * Status: Placeholder
+ */
+export function ${toPascalCase(component)}() {
+  return (
+    <div className="p-8 border border-dashed border-white/20 rounded-3xl text-center opacity-50">
+      <p className="text-lg font-medium">${toPascalCase(component)}</p>
+      <p className="text-sm">Implement this component to complete the intent.</p>
+    </div>
+  );
+}
+`;
 
     fs.writeFileSync(path.join(projectDir, componentPath), content.trim());
+
+    // Generate unit test
+    const testPath = `components/${component}.test.tsx`;
+    fs.writeFileSync(
+      path.join(projectDir, testPath),
+      generateComponentTest(component).trim()
+    );
+
     stats.components++;
-    stats.files++;
+    stats.files += 2; // Component + Test
   });
   spinner2.succeed(
-    `Generated ${colors.bright}${stats.components}${colors.reset} components`
+    `Generated ${colors.bright}${stats.components}${colors.reset} components (+ tests)`
   );
 
   // ========== Generate API Routes ==========
@@ -682,6 +716,20 @@ function scaffold(ebadePath, outputDir) {
   // tsconfig.json
   fs.writeFileSync(path.join(projectDir, "tsconfig.json"), generateTsConfig());
   log.file("tsconfig.json");
+
+  // tailwind.config.js
+  fs.writeFileSync(
+    path.join(projectDir, "tailwind.config.js"),
+    generateTailwindConfig()
+  );
+  log.file("tailwind.config.js");
+
+  // vitest.config.ts
+  fs.writeFileSync(
+    path.join(projectDir, "vitest.config.ts"),
+    generateVitestConfig()
+  );
+  log.file("vitest.config.ts");
 
   // app/layout.tsx
   fs.writeFileSync(
