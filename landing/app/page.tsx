@@ -89,7 +89,7 @@ export default function HomePage() {
                 <Cpu className="icon-small" size={14} />
                 Protocol 0.1.0 // Alpha
               </div>
-              <h1 className="glitch-text">
+              <h1 className="glitch-text" data-version="1.0.1">
                 Code = f(<span>Intent</span>)
               </h1>
               <p className="hero-description">
