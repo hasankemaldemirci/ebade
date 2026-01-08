@@ -1,4 +1,4 @@
-# ebade ![ebade logo](landing/logo.png)
+# ebade
 
 ![ebade - The First Agent-First Framework](https://ebade.dev/og-readme.png)
 
