@@ -1,7 +1,7 @@
 /**
  * Scaffold Tool
  *
- * v0.3.0 - Integrated with standard ebade templates
+ * v0.3.1 - Integrated with standard ebade templates
  */
 
 import fs from "fs";
@@ -139,7 +139,7 @@ export async function scaffoldProject(args: ScaffoldArgs): Promise<string> {
     // 3. Generate Next.js files (Basic mocks to match CLI)
     generateCoreFiles(projectDir, ebadeConfig);
 
-    return `✅ ebade v0.3.0 Scaffold Complete!
+    return `✅ ebade v0.3.1 Scaffold Complete!
     
 Project: ${projectName}
 Type: ${projectType}

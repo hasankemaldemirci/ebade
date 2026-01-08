@@ -2,8 +2,9 @@
   "name": "ebade",
   "displayName": "ebade - Agent-First Framework",
   "description": "Syntax highlighting and snippets for ebade (.ebade.yaml) files",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "publisher": "hasankemaldemirci",
+  "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.85.0"
   },

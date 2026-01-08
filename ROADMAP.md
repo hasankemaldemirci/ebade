@@ -14,12 +14,12 @@ It's more efficient, deterministic, and KIND TO EARTH. 🌱
 
 ## Phase 1: Foundation (Week 1-2) ✅ COMPLETE
 
-### 1.1 MCP Server ✅ (v0.3.0 Synced)
+### 1.1 MCP Server ✅ (v0.3.1 Synced)
 
 Make ebade usable by AI agents RIGHT NOW. Direct integration with Claude Desktop & Cursor.
 
 - [x] Create MCP server package
-- [x] `ebade_scaffold` tool - Updated to v0.3.0 templates (SaaS, E-commerce, Landing)
+- [x] `ebade_scaffold` tool - Updated to v0.3.1 templates (SaaS, E-commerce, Landing)
 - [x] `ebade_validate` tool - validate ebade file
 - [x] `ebade_compile` tool - compile single ebade to code
 - [x] `ebade_generate` tool - infer ebade from natural language
@@ -44,7 +44,7 @@ Replace string templates with actual AST-based compilation.
 - [ ] Code generator (AST → React/Next.js)
 - [ ] Support for multiple framework targets
 
-### 1.5 CLI & Developer Experience ✅ (v0.3.0)
+### 1.5 CLI & Developer Experience ✅ (v0.3.1)
 
 - [x] `ebade init` - interactive project setup
 - [x] `ebade dev` - watch mode with local agent sync
@@ -54,7 +54,7 @@ Replace string templates with actual AST-based compilation.
 
 ---
 
-## Phase 2: Developer Experience ✅ (v0.3.0 Initial Tools)
+## Phase 2: Developer Experience ✅ (v0.3.1 Core / v0.3.2 Extension)
 
 ### 2.1 VS Code Extension ✅
 
@@ -125,7 +125,7 @@ Replace string templates with actual AST-based compilation.
 
 ## Current Status
 
-### Phase 1 - Foundation ✅ (v0.3.0 - The Testing Era)
+### Phase 1 - Foundation ✅ (v0.3.1 - The Testing Era)
 
 The MCP server is live and fully synced. CLI has premium UX and now generates **production-ready code** with Tailwind CSS and automatic Unit Testing (Vitest). AI agents can now use ebade to scaffold full Next.js apps with **~80% fewer tokens** while maintaining high code quality through TDD.
 

@@ -11,7 +11,7 @@ Syntax highlighting, snippets, and language support for `.ebade.yaml` files.
 - Strings, numbers, booleans
 - Comments
 
-### ✨ Snippets (v0.3.0 Updates)
+### ✨ Snippets (v0.3.2 Updates)
 
 | Prefix | Description |
 | :--- | :--- |

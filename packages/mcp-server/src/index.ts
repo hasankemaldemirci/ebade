@@ -29,7 +29,7 @@ import { generateComponent } from "./tools/generate.js";
 const server = new Server(
   {
     name: "ebade",
-    version: "0.3.0",
+    version: "0.3.1",
   },
   {
     capabilities: {
