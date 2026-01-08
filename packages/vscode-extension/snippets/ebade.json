@@ -1,0 +1,86 @@
+{
+  "Ebade SaaS Dashboard": {
+    "prefix": "eb-saas",
+    "body": [
+      "name: ${1:my-saas-app}",
+      "type: saas-dashboard",
+      "description: ${2:Modern SaaS Dashboard}",
+      "features:",
+      "  - user-auth",
+      "  - billing",
+      "  - analytics",
+      "  - team-management",
+      "pages:",
+      "  - path: /",
+      "    intent: landing-page",
+      "    components:",
+      "      - hero",
+      "      - features",
+      "      - pricing",
+      "  - path: /dashboard",
+      "    intent: main-dashboard",
+      "    auth: required",
+      "    components:",
+      "      - stats-grid",
+      "      - activity-chart",
+      "  - path: /settings",
+      "    intent: user-settings",
+      "    auth: required",
+      "    components:",
+      "      - profile-form",
+      "      - security",
+      "design:",
+      "  style: modern-glassmorphism",
+      "  borderRadius: xl",
+      "  colors:",
+      "    primary: \"${3:#6366f1}\""
+    ],
+    "description": "Create a new ebade SaaS Dashboard"
+  },
+  "Ebade E-commerce": {
+    "prefix": "eb-shop",
+    "body": [
+      "name: ${1:my-ebade-shop}",
+      "type: ecommerce",
+      "description: ${2:Clean minimal e-commerce store}",
+      "features:",
+      "  - product-catalog",
+      "  - shopping-cart",
+      "  - checkout",
+      "  - search",
+      "pages:",
+      "  - path: /",
+      "    intent: home-page",
+      "    components:",
+      "      - hero-section",
+      "      - product-grid",
+      "  - path: /cart",
+      "    intent: shopping-cart",
+      "    components:",
+      "      - cart-list",
+      "      - checkout-cta",
+      "design:",
+      "  style: clean-minimal",
+      "  borderRadius: md",
+      "  colors:",
+      "    primary: \"${3:#10b981}\""
+    ],
+    "description": "Create a new ebade E-commerce project"
+  },
+  "Ebade Page": {
+    "prefix": "eb-page",
+    "body": [
+      "- path: ${1:/new-route}",
+      "  intent: ${2:new-intent}",
+      "  auth: ${3|public,required,optional|}",
+      "  components:",
+      "    - ${4:hero}"
+    ],
+    "description": "Add a new page to ebade definition"
+  },
+  "Ebade Component": {
+    "prefix": "eb-comp",
+    "body": ["- ${1:component-name}"],
+    "description": "Add a component to a page"
+  }
+}
