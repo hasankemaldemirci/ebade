@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { Zap, Leaf, Clock, ArrowLeft, Play } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import pkg from "../../package.json";
+const version = pkg.version;
 
 export default function PlaygroundPage() {
   const [isRunning, setIsRunning] = useState(false);
@@ -62,37 +65,18 @@ export default function PlaygroundPage() {
   };
 
   return (
-    <div
-      className="page-wrapper"
-      style={{ background: "#000", minHeight: "100vh" }}
-    >
-      <nav className="full-nav" style={{ background: "rgba(0,0,0,0.8)" }}>
-        <Link href="/" className="logo" style={{ color: "#fff" }}>
-          ebade<span>.dev</span>
-        </Link>
-        <Link
-          href="/"
-          style={{
-            color: "var(--text-dim)",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            textDecoration: "none",
-          }}
-        >
-          <ArrowLeft size={16} /> Back to Home
-        </Link>
-      </nav>
+    <div className="page-wrapper" style={{ minHeight: "100vh" }}>
+      <Navbar />
 
-      <main style={{ paddingTop: "8rem" }}>
+      <main style={{ paddingTop: "6rem" }}>
         <section
           className="section-container"
           style={{ textAlign: "center", paddingBottom: "4rem" }}
         >
-          <div className="badge-accent">Agentic Simulation</div>
+          <div className="badge-accent">Simulation Engine v{version}</div>
           <h2
             style={{
-              color: "#fff",
+              color: "var(--text)",
               fontSize: "3rem",
               fontWeight: 900,
               letterSpacing: "-2px",
@@ -104,7 +88,7 @@ export default function PlaygroundPage() {
           </h2>
           <p
             style={{
-              color: "rgba(255,255,255,0.5)",
+              color: "var(--text-dim)",
               maxWidth: "600px",
               margin: "0 auto 2rem",
             }}
@@ -121,8 +105,9 @@ export default function PlaygroundPage() {
           <div
             style={{
               background:
-                "linear-gradient(135deg, rgba(79,70,229,0.15), rgba(16,185,129,0.15))",
-              border: "1px solid rgba(255,255,255,0.2)",
+                "linear-gradient(135deg, rgba(99,102,241,0.1), rgba(16,185,129,0.1))",
+              backdropFilter: "blur(10px)",
+              border: "1px solid var(--border)",
               borderRadius: "16px",
               padding: "1.5rem 2rem",
               maxWidth: "600px",
@@ -143,7 +128,7 @@ export default function PlaygroundPage() {
             </div>
             <div
               style={{
-                color: "#fff",
+                color: "var(--text)",
                 fontSize: "1.3rem",
                 fontWeight: 600,
                 fontStyle: "italic",
@@ -554,8 +539,6 @@ export function PricingTable() {
             <div
               className="stats-box"
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.1)",
                 marginTop: "3rem",
               }}
             >

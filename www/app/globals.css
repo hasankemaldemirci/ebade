@@ -1,13 +1,13 @@
 :root {
-  --bg: #ffffff;
-  --text: #111827;
-  --text-dim: #6b7280;
-  --primary: #4f46e5;
-  --primary-glow: rgba(79, 70, 229, 0.15);
+  --bg: #050505;
+  --text: #ffffff;
+  --text-dim: #9ca3af;
+  --primary: #6366f1;
+  --primary-glow: rgba(99, 102, 241, 0.2);
   --accent-emerald: #10b981;
   --accent-blue: #3b82f6;
-  --border: rgba(0, 0, 0, 0.05);
-  --glass: rgba(255, 255, 255, 0.7);
+  --border: rgba(255, 255, 255, 0.1);
+  --glass: rgba(10, 10, 10, 0.85);
   --font-mono: "JetBrains Mono", monospace;
   --font-sans: "Outfit", sans-serif;
 }
@@ -41,6 +41,16 @@ body {
 
 body {
   background-color: var(--bg);
+  background-image: radial-gradient(
+      circle at 50% -20%,
+      rgba(99, 102, 241, 0.15),
+      transparent 80%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(16, 185, 129, 0.05),
+      transparent 50%
+    );
   color: var(--text);
   font-family: var(--font-sans);
   margin: 0;
@@ -99,6 +109,8 @@ body {
   font-size: 1.5rem;
   font-weight: 900;
   letter-spacing: -1.5px;
+  color: var(--text);
+  text-decoration: none;
 }
 
 .logo span {
@@ -141,9 +153,15 @@ body {
 
 .nav-cta {
   background: var(--text);
-  color: #fff !important;
+  color: #000 !important;
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
+  font-weight: 600;
+}
+
+.nav-cta:hover {
+  background: var(--primary);
+  color: #fff !important;
 }
 
 .nav-github {
@@ -205,7 +223,9 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--primary-glow);
+  background: rgba(99, 102, 241, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(99, 102, 241, 0.2);
   padding: 0.5rem 1rem;
   border-radius: 100px;
 }
@@ -250,7 +270,7 @@ h1 span {
   left: 0;
   width: 100%;
   height: 4px;
-  background: var(--primary-glow);
+  background: rgba(99, 102, 241, 0.4);
   z-index: -1;
 }
 
@@ -277,10 +297,10 @@ h1 span {
 }
 
 .btn-minimal {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border);
-  color: var(--text);
+  color: #fff;
   text-decoration: none;
   padding: 1.25rem 2.5rem;
   border-radius: 100px;
@@ -290,8 +310,9 @@ h1 span {
 }
 
 .btn-minimal:hover {
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.1);
   border-color: var(--primary);
+  transform: translateY(-2px);
 }
 
 .btn-glow:hover {
@@ -321,7 +342,7 @@ h1 span {
 .section-dark {
   background: #000;
   color: #fff;
-  border-radius: 60px 60px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
   z-index: 10;
   overflow-x: hidden;
@@ -330,7 +351,7 @@ h1 span {
 .section-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 8rem 2rem;
+  padding: 6rem 2rem;
 }
 
 .section-header {
@@ -375,7 +396,8 @@ h1 span {
 
 .code-card {
   flex: 1;
-  background: #0d1117;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(20px);
   padding: 0;
   border-radius: 16px;
   position: relative;
@@ -385,8 +407,8 @@ h1 span {
 }
 
 .code-card.ebade {
-  border-color: rgba(79, 70, 229, 0.3);
-  box-shadow: 0 30px 60px rgba(79, 70, 229, 0.1);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 30px 60px rgba(99, 102, 241, 0.15);
 }
 
 .card-header {
@@ -519,11 +541,11 @@ h1 span {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   padding: 4rem;
   border-radius: 32px;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
 }
 
 .stat {
@@ -564,7 +586,7 @@ h1 span {
 }
 
 .features-grid-section {
-  padding: 8rem 0;
+  padding: 6rem 0;
   overflow-x: hidden;
 }
 
@@ -576,7 +598,7 @@ h1 span {
 
 .feature-item {
   padding: 3rem;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   border-radius: 32px;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -586,8 +608,9 @@ h1 span {
 
 .feature-item:hover {
   transform: translateY(-12px);
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
   border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .feature-item svg {
@@ -614,7 +637,8 @@ h1 span {
 .site-footer {
   background: #000;
   color: #fff;
-  padding: 6rem 3rem 2rem;
+  padding: 2rem 3rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
   z-index: 10;
 }

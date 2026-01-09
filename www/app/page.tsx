@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import Navbar from "@/components/Navbar";
 import {
   Cpu,
   Github,
@@ -13,6 +14,8 @@ import {
   Layers,
   Terminal,
 } from "lucide-react";
+import pkg from "../package.json";
+const version = pkg.version;
 
 // Dynamically import Three.js canvas to avoid SSR issues
 const ThreeCanvas = dynamic(() => import("@/components/ThreeCanvas"), {
@@ -20,69 +23,12 @@ const ThreeCanvas = dynamic(() => import("@/components/ThreeCanvas"), {
 });
 
 export default function HomePage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
-
   return (
     <>
       <div className="page-wrapper">
         <ThreeCanvas />
         <div className="bg-glow"></div>
-        <div
-          className={`nav-overlay ${menuOpen ? "active" : ""}`}
-          onClick={closeMenu}
-        ></div>
-
-        <nav className="full-nav">
-          <div className="logo">
-            ebade<span>.dev</span>
-          </div>
-          <button
-            className={`hamburger ${menuOpen ? "active" : ""}`}
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-          >
-            <span className="hamburger-line"></span>
-            <span className="hamburger-line"></span>
-            <span className="hamburger-line"></span>
-          </button>
-          <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-            <a href="#technology" onClick={closeMenu}>
-              Technology
-            </a>
-            <a href="#benchmarks" onClick={closeMenu}>
-              Benchmarks
-            </a>
-            <Link href="/playground" onClick={closeMenu}>
-              Playground
-            </Link>
-            <a
-              href="https://github.com/hasankemaldemirci/ebade"
-              target="_blank"
-              className="nav-github"
-              onClick={closeMenu}
-            >
-              <Github size={18} />
-              <span>GitHub</span>
-            </a>
-            <a
-              href="https://github.com/hasankemaldemirci/ebade#-quick-start"
-              target="_blank"
-              className="nav-cta"
-              onClick={closeMenu}
-            >
-              Get Started
-            </a>
-          </div>
-        </nav>
+        <Navbar />
 
         <main>
           {/* Hero Section */}
@@ -90,7 +36,7 @@ export default function HomePage() {
             <div className="hero-content">
               <div className="badge-modern">
                 <Cpu className="icon-small" size={14} />
-                Protocol 0.1.0 // Alpha
+                Protocol {version} // Alpha
               </div>
               <h1 className="glitch-text" data-version="1.0.1">
                 Code = f(<span>Intent</span>)
