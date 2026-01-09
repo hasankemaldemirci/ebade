@@ -5,6 +5,18 @@ All notable changes to **ebade** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.5] - 2025-01-10
+
+### Added
+- UI/UX Overhaul: Premium dark-mode aesthetic with ambient glow and glassmorphism by default.
+- Dynamic Color Support: Real-time Hex-to-HSL conversion to apply user's primary color choice to CSS variables.
+- Component "Intents": Placeholders are now high-quality "Glass Cards" that look like part of a finished UI.
+- Test Organization: All unit tests are now generated in a centralized `tests/` directory instead of being cluttered with components.
+
+### Fixed
+- API Pathing: Fixed a bug that caused double-nesting (e.g., `/api/api/...`) in generated routes.
+- Removed debug information (headers, route labels) from generated pages for a "turnkey" production feel.
+
 ## [0.4.4] - 2025-01-10
 
 ### Fixed

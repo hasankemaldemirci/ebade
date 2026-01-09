@@ -44,7 +44,7 @@ ${colors.magenta}    ██╔══╝  ${colors.cyan}██╔══██╗$
 ${colors.magenta}    ███████╗${colors.cyan}██████╔╝${colors.magenta}██║  ██║${colors.cyan}██████╔╝${colors.magenta}███████╗
 ${colors.magenta}    ╚══════╝${colors.cyan}╚═════╝ ${colors.magenta}╚═╝  ╚═╝${colors.cyan}╚═════╝ ${colors.magenta}╚══════╝${colors.reset}
     
-    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.4${colors.reset}
+    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.5${colors.reset}
 `;
 
 const log = {
@@ -96,17 +96,19 @@ import { cn } from "@/lib/utils";
 /**
  * 🧠 Generated via ebade
  * Component: ${toPascalCase(componentName)}
- * Status: Placeholder (No template found in cli/templates)
+ * Status: Intent needs implementation
  */
 export function ${toPascalCase(componentName)}() {
   return (
-    <div className="p-12 border-2 border-dashed border-border rounded-3xl text-center bg-muted/30">
-      <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-        <span className="text-2xl">🧩</span>
+    <div className="p-12 glass-card rounded-[2.5rem] text-center min-h-[300px] flex flex-col items-center justify-center group hover:border-primary/50 transition-all">
+      <div className="w-20 h-20 bg-primary/10 rounded-[2rem] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+        <span className="text-3xl">✨</span>
       </div>
-      <h3 className="text-xl font-bold mb-2">${toPascalCase(componentName)}</h3>
-      <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-        No template found for this intent. Create a file at <code>cli/templates/${componentName}.tsx</code> to customize.
+      <h3 className="text-2xl font-bold mb-3 text-white">${toPascalCase(
+        componentName
+      )}</h3>
+      <p className="text-slate-400 max-w-sm mx-auto leading-relaxed">
+        This intent is defined for your AI agent. To customize, edit <code>components/${componentName}.tsx</code> or use the ebade compiler.
       </p>
     </div>
   );
@@ -176,19 +178,15 @@ ${componentImports}
  */
 export default function ${toPascalCase(page.intent)}Page() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <header className="mb-12">
-          <h1 className="text-3xl font-bold tracking-tight opacity-90">${toPascalCase(
-            page.intent
-          )}</h1>
-          <p className="text-sm opacity-40 mt-1">Route: ${page.path}</p>
-        </header>
+    <div className="min-h-screen bg-slate-950 text-white selection:bg-indigo-500/30 selection:text-indigo-200">
+      <main className="relative overflow-hidden">
+        {/* Ambient background glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none" />
         
-        <main className="space-y-12">
+        <div className="relative z-10">
 ${componentUsage}
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }
@@ -469,65 +467,35 @@ function generateGlobalsCss(design) {
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 222 47% 4%;
+    --foreground: 213 31% 91%;
  
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 222 47% 4%;
+    --card-foreground: 213 31% 91%;
  
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 222 47% 4%;
+    --popover-foreground: 213 31% 91%;
  
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
+    --primary: ${hexToHsl(primary)};
+    --primary-foreground: 0 0% 100%;
  
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 222 47% 11%;
+    --secondary-foreground: 213 31% 91%;
  
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
  
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
- 
-    --radius: 0.5rem;
-  }
- 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
- 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
- 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
- 
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
- 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
- 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
- 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 216 34% 17%;
     --accent-foreground: 210 40% 98%;
  
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
  
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: ${hexToHsl(primary)};
+ 
+    --radius: 1rem;
   }
 }
  
@@ -536,8 +504,24 @@ function generateGlobalsCss(design) {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
   }
+}
+
+/* Premium Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.glass-card {
+  @apply bg-white/[0.03] border border-white/10 backdrop-blur-xl;
 }
 `;
 }
@@ -646,9 +630,52 @@ function toPascalCase(str) {
 
 function toSnakeCase(str) {
   return str
-    .replace(/([A-Z])/g, "_$1")
+    .replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`)
     .toLowerCase()
     .replace(/^_/, "");
+}
+
+function hexToHsl(hex) {
+  let r = 0,
+    g = 0,
+    b = 0;
+  if (hex.length === 4) {
+    r = parseInt(hex[1] + hex[1], 16);
+    g = parseInt(hex[2] + hex[2], 16);
+    b = parseInt(hex[3] + hex[3], 16);
+  } else if (hex.length === 7) {
+    r = parseInt(hex.slice(1, 3), 16);
+    g = parseInt(hex.slice(3, 5), 16);
+    b = parseInt(hex.slice(5, 7), 16);
+  }
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  let max = Math.max(r, g, b),
+    min = Math.min(r, g, b);
+  let h,
+    s,
+    l = (max + min) / 2;
+  if (max === min) h = s = 0;
+  else {
+    let d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h /= 6;
+  }
+  return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(
+    l * 100
+  )}%`;
 }
 
 function mapToSqlType(type) {
@@ -764,8 +791,11 @@ async function scaffold(ebadePath, outputDir) {
 
     fs.writeFileSync(path.join(projectDir, componentPath), content.trim());
 
-    // Generate unit test
-    const testPath = `components/${component}.test.tsx`;
+    // Generate unit test in tests/ directory
+    const testPath = `tests/components/${component}.test.tsx`;
+    const testDir = path.dirname(path.join(projectDir, testPath));
+    ensureDir(testDir);
+
     fs.writeFileSync(
       path.join(projectDir, testPath),
       generateComponentTest(component).trim()
@@ -784,7 +814,12 @@ async function scaffold(ebadePath, outputDir) {
   if (config.api) {
     const spinner3 = ora("Generating API routes...").start();
     config.api.forEach((endpoint) => {
-      const apiPath = `app/api${endpoint.path}/route.ts`;
+      // Fix potential /api/api double nesting
+      const cleanPath = endpoint.path.startsWith("/api")
+        ? endpoint.path.slice(4)
+        : endpoint.path;
+
+      const apiPath = `app/api${cleanPath}/route.ts`;
       const apiDir = path.dirname(path.join(projectDir, apiPath));
       ensureDir(apiDir);
 
