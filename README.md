@@ -15,11 +15,11 @@
 >
 > `Code = f(ebade)`
 >
-> *Capture the essence of code. Less tokens. Less carbon. Same result.* 🌱
+> _Capture the essence of code. Less tokens. Less carbon. Same result._ 🌱
 
 ## 🎬 See it in action
 
-![ebade demo](./demo.gif)
+![ebade demo](./assets/demo.gif)
 
 ```typescript
 
@@ -96,26 +96,26 @@ These files teach the AI agents exactly how to work with ebade intents, ensuring
 
 We measured token usage across common development tasks:
 
-| Task | Next.js | ebade | Savings | Efficiency |
-| :--- | :--- | :--- | :--- | :--- |
-| Checkout Page | 258 tokens | 66 tokens | **74.4%** | 3.9x |
-| Product Listing | 133 tokens | 63 tokens | **52.6%** | 2.1x |
-| User Auth | 148 tokens | 56 tokens | **62.2%** | 2.6x |
-| SaaS Dashboard ⭐ | 1,850 tokens | 245 tokens | **86.8%** | 7.6x |
-| **Average** | | | **68.8%** | **4.1x** |
+| Task              | Next.js      | ebade      | Savings   | Efficiency |
+| :---------------- | :----------- | :--------- | :-------- | :--------- |
+| Checkout Page     | 258 tokens   | 66 tokens  | **74.4%** | 3.9x       |
+| Product Listing   | 133 tokens   | 63 tokens  | **52.6%** | 2.1x       |
+| User Auth         | 148 tokens   | 56 tokens  | **62.2%** | 2.6x       |
+| SaaS Dashboard ⭐ | 1,850 tokens | 245 tokens | **86.8%** | 7.6x       |
+| **Average**       |              |            | **68.8%** | **4.1x**   |
 
-> *For full project scaffolding, savings can reach 75-92%.*
+> _For full project scaffolding, savings can reach 75-92%._
 
 ### 💰 Cost Impact
 
 At scale (1M AI coding sessions):
 
-| Framework | Token Cost | Savings |
-| :--- | :--- | :--- |
-| Next.js | $5,390 | - |
+| Framework | Token Cost | Savings    |
+| :-------- | :--------- | :--------- |
+| Next.js   | $5,390     | -          |
 | **ebade** | **$1,850** | **$3,540** |
 
-> *The greenest code is the code you don't generate.*
+> _The greenest code is the code you don't generate._
 
 📄 [Full Benchmark Results](./benchmarks/RESULTS.md) | 🌱 [Green AI Manifesto](./docs/GREEN-AI.md)
 
@@ -149,12 +149,12 @@ Human describes → AI writes intent → ebade compiles → Working code
 
 ## 📦 Packages
 
-| Package | Description | Status |
-| :--- | :--- | :--- |
-| **`ebade`** | Core Framework & CLI | ✅ Alpha |
-| [@ebade/mcp-server](./packages/mcp-server) | MCP Server for AI agents | ✅ Alpha |
-| `@ebade/compiler` | Advanced Intent Compiler | 🚧 Planning |
-| `@ebade/vscode` | VS Code extension | 📋 Planned |
+| Package                                    | Description              | Status      |
+| :----------------------------------------- | :----------------------- | :---------- |
+| **`ebade`**                                | Core Framework & CLI     | ✅ Alpha    |
+| [@ebade/mcp-server](./packages/mcp-server) | MCP Server for AI agents | ✅ Alpha    |
+| `@ebade/compiler`                          | Advanced Intent Compiler | 🚧 Planning |
+| `@ebade/vscode`                            | VS Code extension        | 📋 Planned  |
 
 ---
 
@@ -214,7 +214,7 @@ pages:
       - hero-section
       - featured-products
       - testimonials
-      
+
   - path: /products
     intent: product-listing
     components:
@@ -237,12 +237,12 @@ pages:
 
 ## 🎭 The Paradigm Shift
 
-| Era | Paradigm | Core Question |
-| :--- | :--- | :--- |
-| 2000s | jQuery | "How do I manipulate DOM?" |
-| 2013 | React | "What if UI = f(state)?" |
-| 2024 | AI Coding | "AI writes code, but for humans" |
-| **2026** | **ebade** | **"What if Code = f(intent)?"** |
+| Era      | Paradigm  | Core Question                    |
+| :------- | :-------- | :------------------------------- |
+| 2000s    | jQuery    | "How do I manipulate DOM?"       |
+| 2013     | React     | "What if UI = f(state)?"         |
+| 2024     | AI Coding | "AI writes code, but for humans" |
+| **2026** | **ebade** | **"What if Code = f(intent)?"**  |
 
 ---
 
@@ -288,5 +288,5 @@ MIT © ebade Contributors — Made with ❤️ in Türkiye 🇹🇷
 
 **Built for AI. Readable by humans. Revolutionary by design.**
 
-*TypeScript made JavaScript better for humans.*
-*ebade makes frameworks better for AI.*
+_TypeScript made JavaScript better for humans._
+_ebade makes frameworks better for AI._

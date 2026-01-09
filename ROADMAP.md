@@ -64,8 +64,10 @@ Replace string templates with actual AST-based compilation.
 
 ### 2.2 Playground Website
 
+- [x] **Battle Mode Simulation** - Legacy AI vs ebade comparison
+- [x] Real-time token counter and speed metrics
+- [x] Output comparison (code quality)
 - [ ] Live editor (Monaco)
-- [ ] Real-time compilation preview
 - [ ] Share ebade via URL
 
 ### 2.3 Documentation Site
@@ -131,4 +133,4 @@ The MCP server is live and fully synced. CLI has premium UX and now generates **
 
 ---
 
-Last updated: 2026-01-08 (The TDD Update)
+Last updated: 2026-01-09 (Playground & Shadcn Update)

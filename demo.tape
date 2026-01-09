@@ -3,8 +3,8 @@
 # Outputs: demo.gif + demo.mp4
 
 # Outputs - both formats
-Output demo.gif
-Output demo.mp4
+Output assets/demo.gif
+Output assets/demo.mp4
 
 # Configuration
 Set FontSize 20

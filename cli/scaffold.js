@@ -62,111 +62,60 @@ function parseEbade(ebadePath) {
 // ============================================
 // Component Generator Templates
 // ============================================
-const componentTemplates = {
-  "hero-section": (design) => `import React from 'react';
+// ============================================
+// Template Resolver
+// ============================================
+function getComponentTemplate(componentName, design) {
+  const templatePath = path.join(
+    process.cwd(),
+    "cli/templates",
+    `${componentName}.tsx`
+  );
+
+  if (fs.existsSync(templatePath)) {
+    let content = fs.readFileSync(templatePath, "utf-8");
+
+    // Config-based replacement (e.g., {{primary}})
+    const primaryColor = design?.colors?.primary || "#6366f1";
+    content = content.replace(/\{\{primary\}\}/g, primaryColor);
+
+    return content;
+  }
+
+  // Fallback to placeholder if template file doesn't exist
+  return `import React from 'react';
+import { cn } from "@/lib/utils";
 
 /**
  * 🧠 Generated via ebade
- * Intent: hero-section
+ * Component: ${toPascalCase(componentName)}
+ * Status: Placeholder (No template found in cli/templates)
  */
-export function HeroSection() {
-  const primaryColor = '${design.colors?.primary || "#6366f1"}';
-  
+export function ${toPascalCase(componentName)}() {
   return (
-    <section className="relative py-20 px-4 md:px-10 overflow-hidden">
-      <div className="max-w-7xl mx-auto text-center relative z-10">
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-          Welcome to <span style={{ color: primaryColor }}>ebade</span>
-        </h1>
-        <p className="text-xl opacity-80 max-w-2xl mx-auto mb-10">
-          The first framework designed for AI agents. Build faster, cleaner, and smarter.
-        </p>
-        <button 
-          className="px-8 py-4 rounded-full font-bold text-white transition-all transform hover:scale-105 active:scale-95 shadow-xl"
-          style={{ backgroundColor: primaryColor }}
-        >
-          Explore Now
-        </button>
+    <div className="p-12 border-2 border-dashed border-border rounded-3xl text-center bg-muted/30">
+      <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <span className="text-2xl">🧩</span>
       </div>
-      <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" 
-           style={{ background: \`radial-gradient(circle at center, \${primaryColor} 0%, transparent 70%)\` }} />
-    </section>
-  );
-}
-`,
-  "product-grid": (design) => `import React from 'react';
-
-/**
- * 🧠 Generated via ebade
- * Intent: product-grid
- */
-export function ProductGrid({ items = [] }: { items?: any[] }) {
-  const primaryColor = '${design.colors?.primary || "#6366f1"}';
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-12">
-      {items.length > 0 ? items.map((item, idx) => (
-        <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all">
-          <div className="aspect-square bg-white/5 rounded-xl mb-4 animate-pulse" />
-          <h3 className="text-xl font-bold mb-2">{item.name || 'Product Name'}</h3>
-          <p className="text-sm opacity-60 mb-4">{item.description || 'Modern product description goes here.'}</p>
-          <div className="flex justify-between items-center">
-            <span className="text-lg font-mono font-bold" style={{ color: primaryColor }}>\\$99.00</span>
-            <button className="text-sm font-semibold opacity-80 hover:opacity-100">Details →</button>
-          </div>
-        </div>
-      )) : (
-        <div className="col-span-full py-20 text-center opacity-40">
-          <p>No products found tracking the ebade signal...</p>
-        </div>
-      )}
+      <h3 className="text-xl font-bold mb-2">${toPascalCase(componentName)}</h3>
+      <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+        No template found for this intent. Create a file at <code>cli/templates/${componentName}.tsx</code> to customize.
+      </p>
     </div>
   );
 }
-`,
-  "stats-grid": (design) => `import React from 'react';
-
-/**
- * 🧠 Generated via ebade
- */
-export function StatsGrid() {
-  const primaryColor = '${design.colors?.primary || "#6366f1"}';
-  const stats = [
-    { label: "Active Users", value: "12.4k", trend: "+12%" },
-    { label: "Revenue", value: "\\$45,200", trend: "+8.5%" },
-    { label: "Conversion", value: "3.2%", trend: "-1.2%" },
-    { label: "Avg. Session", value: "4m 12s", trend: "+24%" }
-  ];
-
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {stats.map((stat, i) => (
-        <div key={i} className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
-          <p className="text-sm opacity-50 mb-1">{stat.label}</p>
-          <div className="flex items-baseline gap-2">
-            <h4 className="text-2xl font-bold font-mono">{stat.value}</h4>
-            <span className={\`text-xs \${stat.trend.startsWith('+') ? 'text-green-500' : 'text-red-500'}\`}>
-              {stat.trend}
-            </span>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+`;
 }
-`,
-};
 
 function generateComponentTest(componentName) {
   const name = toPascalCase(componentName);
   return `import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { ${name} } from './${componentName}';
 import React from 'react';
 
 describe('${name} Component', () => {
   it('renders without crashing', () => {
-    // Basic test to ensure target intent is present
     render(<${name} />);
     expect(document.body).toBeDefined();
   });
@@ -314,9 +263,11 @@ function generatePackageJson(config) {
         next: "^14.0.0",
         react: "^18.2.0",
         "react-dom": "^18.2.0",
-        "lucide-react": "^0.294.0",
-        clsx: "^2.0.0",
-        "tailwind-merge": "^2.0.0",
+        "lucide-react": "^0.300.0",
+        clsx: "^2.1.0",
+        "tailwind-merge": "^2.2.0",
+        "class-variance-authority": "^0.7.0",
+        "framer-motion": "^11.0.0",
       },
       devDependencies: {
         "@types/node": "^20.0.0",
@@ -327,8 +278,9 @@ function generatePackageJson(config) {
         jsdom: "^22.1.0",
         vitest: "^0.34.6",
         autoprefixer: "^10.0.1",
-        postcss: "^8",
-        tailwindcss: "^3.3.0",
+        postcss: "^8.4.0",
+        tailwindcss: "^3.4.0",
+        "tailwindcss-animate": "^1.0.7",
         typescript: "^5.0.0",
       },
     },
@@ -340,14 +292,80 @@ function generatePackageJson(config) {
 function generateTailwindConfig() {
   return `/** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class"],
   content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
+  prefix: "",
   theme: {
-    extend: {},
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 }
 `;
 }
@@ -422,19 +440,95 @@ export default function RootLayout({
 }
 
 function generateGlobalsCss(design) {
+  const primary = design.colors?.primary || "#6366f1";
+
+  // Helper to convert hex to HSL for CSS vars if needed
+  // For now we'll use standard shadcn slate
   return `@tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --color-primary: ${design.colors?.primary || "#6366f1"};
-  --color-secondary: ${design.colors?.secondary || "#f59e0b"};
-  --color-accent: ${design.colors?.accent || "#10b981"};
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+`;
 }
 
-body {
-  background: #020617;
-  color: #f8fafc;
+function generateUtils() {
+  return `import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
 }
 `;
 }
@@ -565,7 +659,13 @@ function ensureDir(dir) {
 // ============================================
 function scaffold(ebadePath, outputDir) {
   const startTime = Date.now();
-  let stats = { pages: 0, components: 0, apiRoutes: 0, files: 0 };
+  const stats = {
+    pages: 0,
+    components: 0,
+    apiRoutes: 0,
+    files: 0,
+    tokenSavings: 0,
+  };
 
   console.log(LOGO);
 
@@ -597,6 +697,10 @@ function scaffold(ebadePath, outputDir) {
     ensureDir(path.join(projectDir, dir));
     log.file(`${dir}/`);
   });
+
+  // lib/utils.ts
+  fs.writeFileSync(path.join(projectDir, "lib/utils.ts"), generateUtils());
+  log.file("lib/utils.ts");
 
   // ========== Generate Pages ==========
   log.section("Generating pages");
@@ -633,25 +737,8 @@ function scaffold(ebadePath, outputDir) {
   const spinner2 = ora("Generating components...").start();
   allComponents.forEach((component) => {
     const componentPath = `components/${component}.tsx`;
-    const template = componentTemplates[component];
-    const content = template
-      ? template(config.design)
-      : `import React from 'react';
-
-/**
- * 🧠 Generated via ebade
- * Component: ${toPascalCase(component)}
- * Status: Placeholder
- */
-export function ${toPascalCase(component)}() {
-  return (
-    <div className="p-8 border border-dashed border-white/20 rounded-3xl text-center opacity-50">
-      <p className="text-lg font-medium">${toPascalCase(component)}</p>
-      <p className="text-sm">Implement this component to complete the intent.</p>
-    </div>
-  );
-}
-`;
+    const content = getComponentTemplate(component, config.design);
+    stats.tokenSavings += Math.floor(content.length / 4);
 
     fs.writeFileSync(path.join(projectDir, componentPath), content.trim());
 
@@ -787,7 +874,6 @@ export function ${toPascalCase(component)}() {
 
   // ========== Summary ==========
   const duration = ((Date.now() - startTime) / 1000).toFixed(1);
-  const estimatedTokenSavings = Math.round(stats.files * 35); // ~35 tokens saved per file
 
   console.log(`
 ${colors.bright}${colors.green}  ┌${"─".repeat(41)}┐${colors.reset}
@@ -807,9 +893,7 @@ ${colors.green}  │${colors.reset}  ${colors.cyan}📁 Files Created:${
   }    ${String(stats.files).padEnd(18)} ${colors.green}│${colors.reset}
 ${colors.green}  │${colors.reset}  ${colors.cyan}📊 Token Savings:${
     colors.reset
-  }    ~${String(estimatedTokenSavings).padEnd(17)} ${colors.green}│${
-    colors.reset
-  }
+  }    ~${String(stats.tokenSavings).padEnd(17)} ${colors.green}│${colors.reset}
 ${colors.green}  │${colors.reset}  ${colors.cyan}⏱  Completed in:${
     colors.reset
   }    ${String(duration + "s").padEnd(18)} ${colors.green}│${colors.reset}

@@ -61,6 +61,9 @@ export default function HomePage() {
             <a href="#benchmarks" onClick={closeMenu}>
               Benchmarks
             </a>
+            <Link href="/playground" onClick={closeMenu}>
+              Playground
+            </Link>
             <a
               href="https://github.com/hasankemaldemirci/ebade"
               target="_blank"

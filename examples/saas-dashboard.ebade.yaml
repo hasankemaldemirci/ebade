@@ -24,12 +24,14 @@ pages:
     intent: "landing-page"
     auth: none
     components:
+      - navbar
       - hero-section
       - feature-grid
       - pricing-table
       - testimonials
       - faq-accordion
       - cta-banner
+      - footer
 
   - path: "/login"
     intent: "auth-login"

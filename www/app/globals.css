@@ -268,7 +268,10 @@ h1 span {
   text-decoration: none;
   padding: 1.25rem 2.5rem;
   border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
   font-weight: 600;
+  letter-spacing: 1px;
   box-shadow: 0 10px 40px var(--primary-glow);
   transition: all 0.3s;
 }

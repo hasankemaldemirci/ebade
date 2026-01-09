@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Playground UI** - Interactive "Battle Mode" simulation comparing Legacy AI vs ebade-powered Agent.
+- **Shadcn/UI Integration** - All component templates now use Shadcn design patterns.
+- **20+ Component Templates** - navbar, footer, pricing-table, login-form, signup-form, and more.
+- **File-based Template System** - Dynamic template loading from `cli/templates/`.
+- **Real-time Token Savings** - CLI now displays actual token savings during scaffold.
 - MCP Server branding update to **ebade**.
 - Green AI Metrics and Carbon Impact calculations.
 - Turkish identity integration (Badik mascot 🐣 and "The Essence of Code" vision).
