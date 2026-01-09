@@ -1,0 +1,301 @@
+# ebade Project Definition File
+# SaaS Dashboard - Subscription-based analytics platform
+# -----------------------------------------------------------
+
+name: my-ebade-app
+type: "saas-dashboard"
+description: "Modern SaaS dashboard with subscriptions, team management, and analytics"
+
+# Core features of this SaaS
+features:
+  - user-auth
+  - team-management
+  - subscription-billing
+  - analytics-dashboard
+  - notifications
+  - api-keys
+  - audit-logs
+  - dark-mode
+  - multi-tenant
+
+# Page structure
+pages:
+  - path: "/"
+    intent: "landing-page"
+    auth: none
+    components:
+      - navbar
+      - hero-section
+      - feature-grid
+      - pricing-table
+      - testimonials
+      - faq-accordion
+      - cta-banner
+      - footer
+
+  - path: "/login"
+    intent: "auth-login"
+    components:
+      - login-form
+      - social-auth-buttons
+      - forgot-password-link
+
+  - path: "/signup"
+    intent: "auth-register"
+    components:
+      - signup-form
+      - plan-selector
+      - social-auth-buttons
+
+  - path: "/dashboard"
+    intent: "main-dashboard"
+    auth: required
+    layout: "dashboard-shell"
+    components:
+      - stats-grid
+      - activity-chart
+      - recent-events
+      - quick-actions
+
+  - path: "/dashboard/analytics"
+    intent: "analytics-view"
+    auth: required
+    layout: "dashboard-shell"
+    components:
+      - date-range-picker
+      - metrics-cards
+      - line-chart
+      - bar-chart
+      - data-table
+
+  - path: "/dashboard/team"
+    intent: "team-management"
+    auth: required
+    roles: ["admin", "owner"]
+    layout: "dashboard-shell"
+    components:
+      - team-members-list
+      - invite-member-modal
+      - role-selector
+      - pending-invites
+
+  - path: "/dashboard/settings"
+    intent: "user-settings"
+    auth: required
+    layout: "dashboard-shell"
+    components:
+      - profile-form
+      - password-change
+      - notification-preferences
+      - connected-accounts
+
+  - path: "/dashboard/billing"
+    intent: "billing-management"
+    auth: required
+    roles: ["owner"]
+    layout: "dashboard-shell"
+    components:
+      - current-plan-card
+      - usage-meter
+      - upgrade-modal
+      - invoice-history
+
+  - path: "/dashboard/api-keys"
+    intent: "api-key-management"
+    auth: required
+    roles: ["admin", "owner"]
+    layout: "dashboard-shell"
+    components:
+      - api-keys-table
+      - create-key-modal
+      - key-permissions
+
+# Layouts
+layouts:
+  dashboard-shell:
+    components:
+      - sidebar-navigation
+      - topbar
+      - user-menu
+      - notification-bell
+
+# Design system
+design:
+  style: "modern-glassmorphism"
+  colors:
+    primary: "#6366f1" # Indigo
+    secondary: "#8b5cf6" # Violet
+    accent: "#06b6d4" # Cyan
+    success: "#10b981" # Emerald
+    warning: "#f59e0b" # Amber
+    error: "#ef4444" # Red
+    background: "#0f172a" # Slate 900
+    surface: "#1e293b" # Slate 800
+  font: "Inter"
+  borderRadius: "xl"
+  shadows: true
+  glassmorphism: true
+
+# Integrations
+integrations:
+  database: "supabase"
+  auth: "clerk"
+  payments: "stripe"
+  analytics: "posthog"
+  email: "resend"
+  notifications: "knock"
+
+# Subscription plans
+plans:
+  - name: "Starter"
+    price: 0
+    limits:
+      events: 1000
+      team_members: 1
+      retention_days: 7
+    features:
+      - basic-analytics
+      - email-support
+
+  - name: "Pro"
+    price: 29
+    limits:
+      events: 50000
+      team_members: 5
+      retention_days: 90
+    features:
+      - advanced-analytics
+      - api-access
+      - priority-support
+      - custom-dashboards
+
+  - name: "Enterprise"
+    price: 99
+    limits:
+      events: unlimited
+      team_members: unlimited
+      retention_days: 365
+    features:
+      - all-pro-features
+      - sso
+      - audit-logs
+      - dedicated-support
+      - sla
+
+# API Endpoints
+api:
+  - path: "/api/events"
+    methods: ["GET", "POST"]
+    auth: api-key
+    description: "Track and query analytics events"
+
+  - path: "/api/team"
+    methods: ["GET", "POST", "DELETE"]
+    auth: required
+    roles: ["admin", "owner"]
+    description: "Team member management"
+
+  - path: "/api/team/invite"
+    methods: ["POST"]
+    auth: required
+    roles: ["admin", "owner"]
+    description: "Send team invitation"
+
+  - path: "/api/billing/subscription"
+    methods: ["GET", "POST", "PUT"]
+    auth: required
+    roles: ["owner"]
+    description: "Subscription management"
+
+  - path: "/api/billing/portal"
+    methods: ["POST"]
+    auth: required
+    description: "Generate Stripe billing portal URL"
+
+  - path: "/api/api-keys"
+    methods: ["GET", "POST", "DELETE"]
+    auth: required
+    roles: ["admin", "owner"]
+    description: "API key CRUD operations"
+
+  - path: "/api/webhooks/stripe"
+    methods: ["POST"]
+    auth: webhook
+    description: "Handle Stripe webhook events"
+
+# Data models
+data:
+  Organization:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      name: { type: "string", required: true }
+      slug: { type: "string", required: true, unique: true }
+      plan: { type: "enum", required: true } # starter, pro, enterprise
+      stripeCustomerId: { type: "string", required: false }
+      stripeSubscriptionId: { type: "string", required: false }
+      createdAt: { type: "timestamp", required: true }
+    relations:
+      - "has_many: User"
+      - "has_many: Event"
+      - "has_many: ApiKey"
+
+  User:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      email: { type: "string", required: true, unique: true }
+      name: { type: "string", required: true }
+      avatar: { type: "string", required: false }
+      role: { type: "enum", required: true } # owner, admin, member
+      organizationId: { type: "uuid", required: true }
+      createdAt: { type: "timestamp", required: true }
+    relations:
+      - "belongs_to: Organization"
+
+  Event:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      organizationId: { type: "uuid", required: true }
+      name: { type: "string", required: true }
+      properties: { type: "json", required: false }
+      timestamp: { type: "timestamp", required: true }
+    relations:
+      - "belongs_to: Organization"
+
+  ApiKey:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      organizationId: { type: "uuid", required: true }
+      name: { type: "string", required: true }
+      keyHash: { type: "string", required: true }
+      permissions: { type: "array", required: true }
+      lastUsedAt: { type: "timestamp", required: false }
+      expiresAt: { type: "timestamp", required: false }
+      createdAt: { type: "timestamp", required: true }
+    relations:
+      - "belongs_to: Organization"
+
+  Invitation:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      email: { type: "string", required: true }
+      organizationId: { type: "uuid", required: true }
+      role: { type: "enum", required: true }
+      token: { type: "string", required: true, unique: true }
+      expiresAt: { type: "timestamp", required: true }
+      acceptedAt: { type: "timestamp", required: false }
+    relations:
+      - "belongs_to: Organization"
+
+  AuditLog:
+    fields:
+      id: { type: "uuid", required: true, unique: true }
+      organizationId: { type: "uuid", required: true }
+      userId: { type: "uuid", required: true }
+      action: { type: "string", required: true }
+      resourceType: { type: "string", required: true }
+      resourceId: { type: "uuid", required: true }
+      metadata: { type: "json", required: false }
+      createdAt: { type: "timestamp", required: true }
+    relations:
+      - "belongs_to: Organization"
+      - "belongs_to: User"

@@ -5,6 +5,13 @@ All notable changes to **ebade** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.4] - 2025-01-10
+
+### Fixed
+- Added `postcss.config.js` generation to enable Tailwind styling in scaffolded projects.
+- Fixed double-nesting issues when initializing projects (removed redundant `projectName/projectName` folder creation).
+- Refined Tailwind config to ensure all component paths are correctly watched.
+
 ## [0.4.3] - 2025-01-10
 
 ### Fixed

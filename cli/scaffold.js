@@ -44,7 +44,7 @@ ${colors.magenta}    ██╔══╝  ${colors.cyan}██╔══██╗$
 ${colors.magenta}    ███████╗${colors.cyan}██████╔╝${colors.magenta}██║  ██║${colors.cyan}██████╔╝${colors.magenta}███████╗
 ${colors.magenta}    ╚══════╝${colors.cyan}╚═════╝ ${colors.magenta}╚═╝  ╚═╝${colors.cyan}╚═════╝ ${colors.magenta}╚══════╝${colors.reset}
     
-    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.3${colors.reset}
+    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.4${colors.reset}
 `;
 
 const log = {
@@ -384,6 +384,16 @@ export default nextConfig;
 `;
 }
 
+function generatePostcssConfig() {
+  return `module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+`;
+}
+
 function generateTsConfig() {
   return JSON.stringify(
     {
@@ -686,7 +696,10 @@ async function scaffold(ebadePath, outputDir) {
   );
 
   // Create output directory structure
-  const projectDir = path.join(outputDir, config.name);
+  // If outputDir already ends with config.name, don't nest again
+  const projectDir = outputDir.endsWith(config.name)
+    ? outputDir
+    : path.join(outputDir, config.name);
   ensureDir(projectDir);
 
   // ========== Generate Structure ==========
@@ -819,6 +832,13 @@ async function scaffold(ebadePath, outputDir) {
     generateTailwindConfig()
   );
   log.file("tailwind.config.js");
+
+  // postcss.config.js
+  fs.writeFileSync(
+    path.join(projectDir, "postcss.config.js"),
+    generatePostcssConfig()
+  );
+  log.file("postcss.config.js");
 
   // vitest.config.ts
   fs.writeFileSync(
