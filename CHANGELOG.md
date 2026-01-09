@@ -5,6 +5,15 @@ All notable changes to **ebade** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.3] - 2025-01-10
+
+### Fixed
+- Critical bug where templates were not found when running via `npx` (fix using `import.meta.url`).
+- Added missing component templates for SaaS Dashboard and Landing Pages (`testimonials`, `faq-accordion`, `cta-banner`, `activity-chart`, `stats-grid`, `recent-events`).
+- Updated `tsconfig.json` generation to use `jsx: preserve` and added path aliases (`@/*`).
+- Added slugification for `package.json` names to ensure valid naming conventions.
+- Synced framework versions across all packages.
+
 ## [0.4.1] - 2025-01-10
 
 ### Added

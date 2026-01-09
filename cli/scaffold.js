@@ -14,6 +14,10 @@ import ora from "ora";
 import prompts from "prompts";
 import chokidar from "chokidar";
 import { execSync } from "child_process";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ============================================
 // ANSI Renk Kodları (Terminal çıktısı için)
@@ -40,7 +44,7 @@ ${colors.magenta}    ██╔══╝  ${colors.cyan}██╔══██╗$
 ${colors.magenta}    ███████╗${colors.cyan}██████╔╝${colors.magenta}██║  ██║${colors.cyan}██████╔╝${colors.magenta}███████╗
 ${colors.magenta}    ╚══════╝${colors.cyan}╚═════╝ ${colors.magenta}╚═╝  ╚═╝${colors.cyan}╚═════╝ ${colors.magenta}╚══════╝${colors.reset}
     
-    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.1${colors.reset}
+    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.3${colors.reset}
 `;
 
 const log = {
@@ -70,8 +74,8 @@ function parseEbade(ebadePath) {
 // ============================================
 function getComponentTemplate(componentName, design) {
   const templatePath = path.join(
-    process.cwd(),
-    "cli/templates",
+    __dirname,
+    "templates",
     `${componentName}.tsx`
   );
 
@@ -252,7 +256,7 @@ function generateDatabaseSchema(data) {
 function generatePackageJson(config) {
   return JSON.stringify(
     {
-      name: config.name,
+      name: config.name.toLowerCase().replace(/[^a-z0-9]/g, "-"),
       version: "0.1.0",
       private: true,
       scripts: {
@@ -263,10 +267,10 @@ function generatePackageJson(config) {
         test: "vitest",
       },
       dependencies: {
-        next: "^14.0.0",
-        react: "^18.2.0",
-        "react-dom": "^18.2.0",
-        "lucide-react": "^0.300.0",
+        next: "^14.2.0",
+        react: "^18.3.0",
+        "react-dom": "^18.3.0",
+        "lucide-react": "^0.400.0",
         clsx: "^2.1.0",
         "tailwind-merge": "^2.2.0",
         "class-variance-authority": "^0.7.0",
@@ -395,10 +399,12 @@ function generateTsConfig() {
         moduleResolution: "node",
         resolveJsonModule: true,
         isolatedModules: true,
-        jsx: "react-jsx",
+        jsx: "preserve",
         incremental: true,
         plugins: [{ name: "next" }],
-        paths: { "@/*": ["./*"] },
+        paths: {
+          "@/*": ["./*"],
+        },
       },
       include: ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
       exclude: ["node_modules"],
