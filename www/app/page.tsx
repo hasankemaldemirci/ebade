@@ -13,6 +13,8 @@ import {
   Code2,
   Layers,
   Terminal,
+  Fingerprint,
+  Target,
 } from "lucide-react";
 import pkg from "../package.json";
 const version = pkg.version;
@@ -211,6 +213,84 @@ export default function HomePage() {
                   </div>
                   <span className="val">Zero</span>
                   <span className="label">Sustainable AI Core</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Agent-Native Stack Section */}
+          <section className="agent-stack-section">
+            <div className="section-container">
+              <header
+                className="section-header"
+                style={{ marginBottom: "4rem" }}
+              >
+                <div className="badge-accent">The New Stack</div>
+                <h2>
+                  The <span>Agent-Native</span> Stack
+                </h2>
+                <p
+                  style={{
+                    margin: "0 auto",
+                    color: "var(--text-dim)",
+                    maxWidth: "600px",
+                  }}
+                >
+                  Defining the three essential layers of high-autonomy software
+                  engineering.
+                </p>
+              </header>
+
+              <div className="stack-container">
+                {/* Identity Layer */}
+                <div className="stack-node">
+                  <div className="stack-node-icon">
+                    <Fingerprint size={28} />
+                  </div>
+                  <div className="stack-node-content">
+                    <h4>Layer 01: Identity</h4>
+                    <h3>agents.md</h3>
+                    <p>
+                      Defines the persona, mission, and boundaries of the agent.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="stack-connector"></div>
+
+                {/* Capability Layer */}
+                <div className="stack-node">
+                  <div className="stack-node-icon">
+                    <Zap size={28} />
+                  </div>
+                  <div className="stack-node-content">
+                    <h4>Layer 02: Capability</h4>
+                    <h3>MCP / Tools</h3>
+                    <p>
+                      The arms and legs. Connects LLMs to real-world
+                      environments.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="stack-connector"></div>
+
+                {/* Intent Layer */}
+                <div className="stack-node intent">
+                  <div className="stack-node-icon">
+                    <Target size={32} />
+                  </div>
+                  <div className="stack-node-content">
+                    <h4>Layer 03: The Core</h4>
+                    <h3>ebade.dev (Intent)</h3>
+                    <p>
+                      The brain. Transforms abstract intent into production code
+                      via a low-entropy protocol.
+                    </p>
+                    <div className="stack-badge">
+                      Deterministic Architecture
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

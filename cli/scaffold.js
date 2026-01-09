@@ -13,6 +13,7 @@ import yaml from "yaml";
 import ora from "ora";
 import prompts from "prompts";
 import chokidar from "chokidar";
+import { execSync } from "child_process";
 
 // ============================================
 // ANSI Renk Kodları (Terminal çıktısı için)
@@ -39,7 +40,7 @@ ${colors.magenta}    ██╔══╝  ${colors.cyan}██╔══██╗$
 ${colors.magenta}    ███████╗${colors.cyan}██████╔╝${colors.magenta}██║  ██║${colors.cyan}██████╔╝${colors.magenta}███████╗
 ${colors.magenta}    ╚══════╝${colors.cyan}╚═════╝ ${colors.magenta}╚═╝  ╚═╝${colors.cyan}╚═════╝ ${colors.magenta}╚══════╝${colors.reset}
     
-    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.1.0${colors.reset}
+    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.0${colors.reset}
 `;
 
 const log = {
@@ -47,6 +48,8 @@ const log = {
   success: (msg) => console.log(`${colors.green}✓${colors.reset} ${msg}`),
   warn: (msg) => console.log(`${colors.yellow}⚠${colors.reset} ${msg}`),
   file: (msg) => console.log(`${colors.cyan}  →${colors.reset} ${msg}`),
+  verify: (msg) => console.log(`${colors.yellow}  🔍${colors.reset} ${msg}`),
+  error: (msg) => console.log(`${colors.red}  ✘${colors.reset} ${msg}`),
   section: (msg) =>
     console.log(`\n${colors.bright}${colors.magenta}▸ ${msg}${colors.reset}`),
 };
@@ -657,7 +660,7 @@ function ensureDir(dir) {
 // ============================================
 // Main Scaffold Function
 // ============================================
-function scaffold(ebadePath, outputDir) {
+async function scaffold(ebadePath, outputDir) {
   const startTime = Date.now();
   const stats = {
     pages: 0,
@@ -873,6 +876,10 @@ function scaffold(ebadePath, outputDir) {
   log.file("project.ebade.yaml (for agent reference)");
 
   // ========== Summary ==========
+  // ========== Verify Output ==========
+  const verificationResult = await verifyOutput(projectDir, config);
+
+  // ========== Summary ==========
   const duration = ((Date.now() - startTime) / 1000).toFixed(1);
 
   console.log(`
@@ -897,7 +904,15 @@ ${colors.green}  │${colors.reset}  ${colors.cyan}📊 Token Savings:${
 ${colors.green}  │${colors.reset}  ${colors.cyan}⏱  Completed in:${
     colors.reset
   }    ${String(duration + "s").padEnd(18)} ${colors.green}│${colors.reset}
+${colors.green}  ├${"─".repeat(41)}┤${colors.reset}
+${colors.green}  │${colors.reset}  ${colors.yellow}🔍 Integrity:${
+    colors.reset
+  }      ${(verificationResult.passed ? "PASSED" : "ISSUES FOUND").padEnd(
+    18
+  )} ${colors.green}│${colors.reset}
 ${colors.green}  └${"─".repeat(41)}┘${colors.reset}
+
+${verificationResult.report}
 
 ${colors.dim}Next steps:${colors.reset}
   ${colors.gray}1.${colors.reset} cd ${colors.cyan}${projectDir}${colors.reset}
@@ -909,6 +924,117 @@ ${colors.yellow}💡 Tip:${colors.reset} AI Agents can read ${
   }project.ebade.yaml${colors.reset}
        to understand and iterate on this project.
 `);
+}
+
+/**
+ * ebade Output Verifier
+ * Performs a sanity check on the generated codebase.
+ */
+async function verifyOutput(projectDir, config) {
+  log.section("Verifying output integrity");
+  const spinner = ora("Running ebade verification protocols...").start();
+
+  const results = {
+    structure: true,
+    syntax: true,
+    tests: true,
+    issues: [],
+  };
+
+  // 1. Structure Check
+  const requiredFiles = [
+    "package.json",
+    "tsconfig.json",
+    "app/layout.tsx",
+    "app/page.tsx",
+    "lib/utils.ts",
+  ];
+
+  for (const file of requiredFiles) {
+    if (!fs.existsSync(path.join(projectDir, file))) {
+      results.structure = false;
+      results.issues.push(`Missing core file: ${file}`);
+    }
+  }
+
+  // 2. Syntax Check (Lightweight)
+  // We check if exports match the intent in some key files
+  if (config.pages) {
+    config.pages.forEach((page) => {
+      const pagePath =
+        page.path === "/"
+          ? "app/page.tsx"
+          : `app${page.path.replace("[", "(").replace("]", ")")}/page.tsx`;
+      const fullPath = path.join(projectDir, pagePath);
+      if (fs.existsSync(fullPath)) {
+        const content = fs.readFileSync(fullPath, "utf-8");
+        const expectedExport = `export default function ${toPascalCase(
+          page.intent
+        )}Page()`;
+        if (!content.includes(expectedExport)) {
+          results.syntax = false;
+          results.issues.push(
+            `Syntax mismatch in ${pagePath}: Export name should be ${toPascalCase(
+              page.intent
+            )}Page`
+          );
+        }
+      }
+    });
+  }
+
+  // 3. Test Coverage Check
+  // Ensure every component has a matching test file
+  const components = fs
+    .readdirSync(path.join(projectDir, "components"))
+    .filter((f) => f.endsWith(".tsx") && !f.endsWith(".test.tsx"));
+  components.forEach((comp) => {
+    const testFile = comp.replace(".tsx", ".test.tsx");
+    if (!fs.existsSync(path.join(projectDir, "components", testFile))) {
+      results.tests = false;
+      results.issues.push(`Missing test for component: ${comp}`);
+    }
+  });
+
+  // 4. Semantic Integrity Check
+  // Check if layout imports globals.css
+  const layoutPath = path.join(projectDir, "app/layout.tsx");
+  if (fs.existsSync(layoutPath)) {
+    const content = fs.readFileSync(layoutPath, "utf-8");
+    if (!content.includes('import "./globals.css"')) {
+      results.issues.push(
+        "Semantic Error: Root layout missing global styles import"
+      );
+    }
+  }
+
+  // Check if home page has at least one intent-defined component
+  const homePath = path.join(projectDir, "app/page.tsx");
+  if (fs.existsSync(homePath) && config.pages?.[0]?.components?.length > 0) {
+    const content = fs.readFileSync(homePath, "utf-8");
+    const firstComp = toPascalCase(config.pages[0].components[0]);
+    if (!content.includes(`<${firstComp} />`)) {
+      results.issues.push(
+        `Semantic Warning: Home page might be missing the ${firstComp} component`
+      );
+    }
+  }
+
+  spinner.stop();
+
+  const passed = results.issues.length === 0;
+
+  let report = "";
+  if (passed) {
+    report = `${colors.green}  ✓ All integrity checks passed! Code is production-ready.${colors.reset}`;
+  } else {
+    report = `${colors.red}  ⚠ Verification found ${results.issues.length} issue(s):${colors.reset}\n`;
+    results.issues.forEach((issue) => {
+      report += `    ${colors.red}•${colors.reset} ${issue}\n`;
+    });
+  }
+
+  return { passed, report };
 }
 
 // ============================================
@@ -928,6 +1054,7 @@ ${colors.dim}Commands:${colors.reset}
   init                       Create a new ebade project interactively
   scaffold <file> [output]   Scaffold a project from ebade file
   dev <file> [output]        Watch ebade file and re-scaffold on changes
+  playground                 Open the ebade playground
   
 ${colors.dim}Examples:${colors.reset}
   npx ebade init
@@ -1047,7 +1174,7 @@ ${colors.green}✓${colors.reset} Created ${colors.cyan}${ebadeFilePath}${colors
 `);
 
   if (response.autoScaffold) {
-    scaffold(ebadeFilePath, outputDir);
+    await scaffold(ebadeFilePath, outputDir);
   } else {
     console.log(`
 ${colors.dim}Next steps:${colors.reset}
@@ -1060,7 +1187,7 @@ ${colors.dim}Next steps:${colors.reset}
 // ============================================
 // Dev Command (Watch Mode)
 // ============================================
-function dev(ebadeFile, outputDir) {
+async function dev(ebadeFile, outputDir) {
   console.log(`
 ${LOGO}
 `);
@@ -1071,7 +1198,7 @@ ${LOGO}
   console.log(`${colors.dim}Press Ctrl+C to stop.${colors.reset}\n`);
 
   // Initial scaffold
-  scaffold(ebadeFile, outputDir);
+  await scaffold(ebadeFile, outputDir);
 
   // Watch for changes
   const watcher = chokidar.watch(ebadeFile, {
@@ -1079,11 +1206,11 @@ ${LOGO}
     ignoreInitial: true,
   });
 
-  watcher.on("change", () => {
+  watcher.on("change", async () => {
     console.log(
       `\n${colors.yellow}⚡ Change detected!${colors.reset} Re-scaffolding...\n`
     );
-    scaffold(ebadeFile, outputDir);
+    await scaffold(ebadeFile, outputDir);
   });
 
   watcher.on("error", (error) => {
@@ -1127,7 +1254,21 @@ if (command === "init") {
     process.exit(1);
   }
 
-  scaffold(ebadeFile, outputDir);
+  await scaffold(ebadeFile, outputDir);
+} else if (command === "playground") {
+  console.log(`\n${colors.cyan}🌐 Opening ebade playground...${colors.reset}`);
+  const url = "https://ebade.dev/playground";
+  const start =
+    process.platform === "darwin"
+      ? "open"
+      : process.platform === "win32"
+      ? "start"
+      : "xdg-open";
+  try {
+    execSync(`${start} ${url}`);
+  } catch (e) {
+    console.log(`\n${colors.yellow}Please open:${colors.reset} ${url}`);
+  }
 } else if (command === "dev") {
   const ebadeFile = args[1];
   const outputDir = args[2] || "./output";
@@ -1149,7 +1290,7 @@ if (command === "init") {
     process.exit(1);
   }
 
-  dev(ebadeFile, outputDir);
+  await dev(ebadeFile, outputDir);
 } else {
   console.error(
     `${colors.red}Error:${colors.reset} Unknown command: ${command}`

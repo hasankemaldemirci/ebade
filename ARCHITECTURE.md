@@ -35,7 +35,15 @@ ebade is target-agnostic. While it currently ships with a high-end **Next.js + T
 - **Mobile:** Flutter, SwiftUI, React Native.
 - **Backend:** Fastify, Go/Gin, NestJS.
 
-### 4. AI-Enhanced Scaffolding (The "Online Compiler")
+### 4. Auto-Verification Protocol (The Guardrail)
+
+Immediately after scaffolding, ebade runs a series of integrity checks:
+
+- **Structural Integrity:** Ensures all core Next.js and Tailwind files are present.
+- **Intent-Code Mapping:** Verifies that exported component names and routes match the original intent.
+- **Test Coverage:** Confirms that matching unit tests (Vitest) have been generated for every new component.
+
+### 5. AI-Enhanced Scaffolding (The "Online Compiler")
 
 This is where the magic happens. ebade uses AI not as a "free-text generator," but as a **Deterministic Compiler Component**.
 

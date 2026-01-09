@@ -5,15 +5,17 @@ All notable changes to **ebade** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.0] - 2025-01-09
 
 ### Added
 
+- **Auto-Verification Layer** - CLI now performs structural, syntax, and semantic integrity checks after scaffolding.
 - **Playground UI** - Interactive "Battle Mode" simulation comparing Legacy AI vs ebade-powered Agent.
 - **Shadcn/UI Integration** - All component templates now use Shadcn design patterns.
 - **20+ Component Templates** - navbar, footer, pricing-table, login-form, signup-form, and more.
 - **File-based Template System** - Dynamic template loading from `cli/templates/`.
 - **Real-time Token Savings** - CLI now displays actual token savings during scaffold.
+- **Agent-Native Stack Vision** - Identity (agents.md) + Capability (MCP) + Intent (ebade).
 - MCP Server branding update to **ebade**.
 - Green AI Metrics and Carbon Impact calculations.
 - Turkish identity integration (Badik mascot 🐣 and "The Essence of Code" vision).

@@ -703,11 +703,136 @@ h1 span {
   font-size: 1.1rem;
 }
 
+/* Agent Stack Hierarchy Visualization */
+.agent-stack-section {
+  padding: 8rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.agent-stack-section::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 50%;
+  filter: blur(150px);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.stack-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  position: relative;
+}
+
+.stack-node {
+  width: 100%;
+  max-width: 500px;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.stack-node:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5),
+    0 0 100px -40px rgba(99, 102, 241, 0.1);
+}
+
+.stack-node.intent {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.3);
+  max-width: 550px;
+  padding: 2rem;
+}
+
+.stack-node-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.stack-node.intent .stack-node-icon {
+  background: var(--primary);
+  color: #fff;
+}
+
+.stack-node-content h4 {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.stack-node-content h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #fff;
+}
+
+.stack-node-content p {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.stack-connector {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(
+    to bottom,
+    rgba(99, 102, 241, 0.4),
+    rgba(99, 102, 241, 0.05),
+    transparent
+  );
+}
+
+.stack-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #fff;
+  margin-top: 0.5rem;
+}
+
 /* Footer */
 .site-footer {
   background: #000;
   color: #fff;
-  padding: 2rem 3rem 2rem;
+  padding: 4rem 3rem 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
   z-index: 10;
@@ -1071,6 +1196,39 @@ h1 span {
     font-size: 1.4rem;
   }
 
+  /* Agent Stack Responsive */
+  .agent-stack-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .stack-node {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .stack-node-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+  }
+
+  .stack-node-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .stack-node-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .stack-node-content p {
+    font-size: 0.85rem;
+  }
+
+  .stack-connector {
+    height: 30px;
+  }
+
   /* Footer */
   .site-footer {
     padding: 4rem 1.5rem 2rem;
@@ -1123,6 +1281,17 @@ h1 span {
 
   .stat .val {
     font-size: 2.5rem;
+  }
+
+  .stack-node {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+
+  .stack-node-content p {
+    max-width: 240px;
+    margin: 0 auto;
   }
 }
 
