@@ -9,6 +9,7 @@
  * - Validate ebade files
  * - Compile ebade to framework-specific code
  * - Generate components from natural language descriptions
+ * - Build entire projects from natural language prompts (NEW in v0.4.6)
  */
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -24,12 +25,13 @@ import { scaffoldProject } from "./tools/scaffold.js";
 import { validateIntent } from "./tools/validate.js";
 import { compileIntent } from "./tools/compile.js";
 import { generateComponent } from "./tools/generate.js";
+import { buildFromPrompt } from "./tools/build.js";
 
 // Create the MCP server
 const server = new Server(
   {
     name: "ebade",
-    version: "0.3.1",
+    version: "0.4.6",
   },
   {
     capabilities: {
@@ -183,6 +185,33 @@ Use this when:
           required: ["description"],
         },
       },
+      {
+        name: "ebade_build",
+        description: `Revolutionary "Prompt-to-Product" tool. 
+Generates a complete, production-ready project from a single natural language description.
+
+Use this when the user says:
+- "Bana mor temalı bir kripto borsası yap"
+- "Create a red themed SaaS for AI model store"
+- "Make a sleek portfolio for a creative director"
+
+This tool handles architecture, component selection, color palette, and scaffolding in one shot.`,
+        inputSchema: {
+          type: "object",
+          properties: {
+            prompt: {
+              type: "string",
+              description: "The natural language instruction for the project",
+            },
+            outputDir: {
+              type: "string",
+              description:
+                "Base directory path where the project will be created (absolute)",
+            },
+          },
+          required: ["prompt", "outputDir"],
+        },
+      },
     ],
   };
 });
@@ -228,6 +257,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           description: args?.description as string,
           style: args?.style as any,
         });
+
+      case "ebade_build":
+        return {
+          content: [
+            {
+              type: "text",
+              text: await buildFromPrompt(args as any),
+            },
+          ],
+        };
 
       default:
         throw new Error(`Unknown tool: ${name}`);
@@ -278,7 +317,7 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
   const { uri } = request.params;
 
   const resources: Record<string, string> = {
-    "ebade://syntax": `# ebade Syntax Reference\\n\\n@page, @ebade, @requires, @outcomes, @data, @validate, @style, @compose, @on, @expects\\n\\nCode = f(ebade)`,
+    "ebade://syntax": `# ebade Syntax Reference\n\n@page, @ebade, @requires, @outcomes, @data, @validate, @style, @compose, @on, @expects\n\nCode = f(ebade)`,
     "ebade://examples/ecommerce": `# E-commerce ebade\nname: my-store\ntype: e-commerce\nfeatures:\n  - product-catalog\n  - shopping-cart\n  - checkout`,
     "ebade://examples/saas": `# SaaS ebade\nname: my-saas\ntype: saas-dashboard\nfeatures:\n  - user-auth\n  - billing\n  - analytics`,
   };

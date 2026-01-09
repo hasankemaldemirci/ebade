@@ -1,7 +1,7 @@
 {
   "name": "ebade-mcp-server",
-  "version": "0.4.5",
-  "description": "MCP Server for ebade v0.4.4 - The Agent-First Framework",
+  "version": "0.4.6",
+  "description": "MCP Server for ebade v0.4.6 - The Agent-First Framework",
   "type": "module",
   "main": "dist/index.js",
   "bin": {

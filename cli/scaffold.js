@@ -44,7 +44,7 @@ ${colors.magenta}    ██╔══╝  ${colors.cyan}██╔══██╗$
 ${colors.magenta}    ███████╗${colors.cyan}██████╔╝${colors.magenta}██║  ██║${colors.cyan}██████╔╝${colors.magenta}███████╗
 ${colors.magenta}    ╚══════╝${colors.cyan}╚═════╝ ${colors.magenta}╚═╝  ╚═╝${colors.cyan}╚═════╝ ${colors.magenta}╚══════╝${colors.reset}
     
-    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.5${colors.reset}
+    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.6${colors.reset}
 `;
 
 const log = {
@@ -57,6 +57,166 @@ const log = {
   section: (msg) =>
     console.log(`\n${colors.bright}${colors.magenta}▸ ${msg}${colors.reset}`),
 };
+
+// ============================================
+// ebade Architect (The Brain)
+// ============================================
+export class EbadeArchitect {
+  static async plan(prompt) {
+    const p = prompt.toLowerCase();
+
+    // Core App Type Detection
+    let type = "saas-dashboard";
+    if (p.includes("e-commerce") || p.includes("shop") || p.includes("store"))
+      type = "e-commerce";
+    if (p.includes("blog") || p.includes("article") || p.includes("news"))
+      type = "blog";
+    if (p.includes("portfolio") || p.includes("personal") || p.includes("cv"))
+      type = "portfolio";
+
+    // Component Intelligence
+    const components = ["navbar", "footer"];
+    const features = [];
+
+    const has = (keyword) => new RegExp(`\\b${keyword}`, "i").test(p);
+
+    if (has("chart") || has("analytics") || has("graph") || has("metric")) {
+      components.push("activity-chart", "stats-grid");
+      features.push("Advanced Analytics");
+    }
+    if (has("saas") || has("dashboard") || has("admin")) {
+      components.push("sidebar-navigation", "metrics-cards");
+      features.push("Admin Dashboard");
+    }
+    if (has("login") || has("auth") || has("sign") || has("user")) {
+      components.push("login-form", "signup-form");
+      features.push("Authentication");
+    }
+    if (has("price") || has("plan") || has("subscribe") || has("billing")) {
+      components.push("pricing-table", "cta-banner");
+      features.push("Subscription Tiers");
+    }
+    if (has("testim") || has("review") || has("social proof"))
+      components.push("testimonials-grid");
+    if (has("contact") || has("form") || has("help") || has("support"))
+      components.push("contact-form");
+    if (has("faq") || has("question")) components.push("faq-accordion");
+
+    // Dynamic Color Palette (Order matters - specific colors should win over vibes)
+    let primary = "#6366f1"; // Indigo default
+    if (has("gold") || has("luxury") || has("premium") || has("exclusive"))
+      primary = "#fbbf24";
+    if (has("green") || has("eco") || has("emerald") || has("nature"))
+      primary = "#10b981";
+    if (
+      has("blue") ||
+      has("ocean") ||
+      has("sky") ||
+      has("trust") ||
+      has("corp")
+    )
+      primary = "#3b82f6";
+    if (has("violet") || has("purple") || has("creative") || has("design"))
+      primary = "#8b5cf6";
+    if (has("orange") || has("fire") || has("warm") || has("brand"))
+      primary = "#f59e0b";
+    if (has("red") || has("danger") || has("hot") || has("love"))
+      primary = "#ef4444";
+
+    // Smart Pages based on Type
+    const pages = [
+      {
+        path: "/",
+        intent: "landing-page",
+        components: components.filter((c) =>
+          [
+            "navbar",
+            "hero-section",
+            "pricing-table",
+            "testimonials-grid",
+            "cta-banner",
+            "footer",
+          ].includes(c)
+        ),
+      },
+    ];
+
+    if (type === "saas-dashboard") {
+      pages.push({
+        path: "/dashboard",
+        intent: "main-dashboard",
+        components: components.filter((c) =>
+          [
+            "sidebar-navigation",
+            "stats-grid",
+            "activity-chart",
+            "metrics-cards",
+          ].includes(c)
+        ),
+      });
+    } else if (type === "e-commerce") {
+      pages.push(
+        {
+          path: "/products",
+          intent: "product-list",
+          components: ["product-grid"],
+        },
+        { path: "/cart", intent: "shopping-cart", components: ["cart-list"] }
+      );
+    } else if (type === "blog") {
+      pages.push(
+        { path: "/posts", intent: "blog-index", components: ["post-list"] },
+        {
+          path: "/posts/[slug]",
+          intent: "blog-post",
+          components: ["post-body"],
+        }
+      );
+    }
+
+    // Build Internal Intent
+    const config = {
+      name:
+        p
+          .split(" ")
+          .filter(
+            (w) =>
+              ![
+                "can",
+                "you",
+                "make",
+                "create",
+                "a",
+                "an",
+                "the",
+                "with",
+                "please",
+                "super",
+                "ultra",
+                "is",
+                "for",
+                "me",
+                "my",
+                "and",
+              ].includes(w.toLowerCase())
+          )
+          .slice(0, 2)
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join("") || "EbadeApp",
+      type: type,
+      description: prompt,
+      features: features.length > 0 ? features : ["Turnkey Scaffold"],
+      design: {
+        colors: { primary },
+        style: "glass-modern",
+      },
+      pages: pages,
+      api: [{ path: "/api/data", methods: ["GET"], intent: "fetch-data" }],
+    };
+
+    return config;
+  }
+}
 
 // ============================================
 // ebade Parser
@@ -536,6 +696,61 @@ export function cn(...inputs: ClassValue[]) {
 `;
 }
 
+function generateGitignore() {
+  return `# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+`;
+}
+
+function generateEnvExample(config) {
+  return `# ebade Generated Environment Variables
+# Project: ${config.name}
+
+# Database (Supabase / Postgres)
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
+
+# Authentication (NextAuth / Clerk)
+NEXTAUTH_SECRET="your-secret-here"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=""
+
+# API Keys
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=""
+STRIPE_SECRET_KEY=""
+`;
+}
+
 // ============================================
 // Design System CSS Generator
 // ============================================
@@ -621,21 +836,22 @@ Built with ebade - The Agent-First Framework for the next era of development. �
 // ============================================
 // Utility Functions
 // ============================================
-function toPascalCase(str) {
+export function toPascalCase(str) {
   return str
-    .split("-")
+    .split(/[-_]/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join("");
 }
 
-function toSnakeCase(str) {
+export function toSnakeCase(str) {
   return str
     .replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`)
+    .replace(/-/g, "_")
     .toLowerCase()
     .replace(/^_/, "");
 }
 
-function hexToHsl(hex) {
+export function hexToHsl(hex) {
   let r = 0,
     g = 0,
     b = 0;
@@ -882,6 +1098,17 @@ async function scaffold(ebadePath, outputDir) {
   );
   log.file("vitest.config.ts");
 
+  // .gitignore
+  fs.writeFileSync(path.join(projectDir, ".gitignore"), generateGitignore());
+  log.file(".gitignore");
+
+  // .env.example
+  fs.writeFileSync(
+    path.join(projectDir, ".env.example"),
+    generateEnvExample(config)
+  );
+  log.file(".env.example");
+
   // app/layout.tsx
   fs.writeFileSync(
     path.join(projectDir, "app/layout.tsx"),
@@ -1114,12 +1341,14 @@ ${colors.dim}Usage:${colors.reset}
 
 ${colors.dim}Commands:${colors.reset}
   init                       Create a new ebade project interactively
+  build <prompt>             Generate and scaffold a project from a natural language prompt
   scaffold <file> [output]   Scaffold a project from ebade file
   dev <file> [output]        Watch ebade file and re-scaffold on changes
   playground                 Open the ebade playground
   
 ${colors.dim}Examples:${colors.reset}
   npx ebade init
+  npx ebade build "A violet themed crypto dashboard"
   npx ebade scaffold examples/saas-dashboard.ebade.yaml ./output
   npx ebade dev my-project.ebade.yaml ./my-app
 
@@ -1283,80 +1512,134 @@ ${LOGO}
 // ============================================
 // Command Router
 // ============================================
-if (
-  args.length === 0 ||
-  command === "help" ||
-  command === "--help" ||
-  command === "-h"
-) {
-  showHelp();
-  process.exit(0);
-}
+const isMain =
+  process.argv[1] &&
+  (process.argv[1].endsWith("scaffold.js") ||
+    process.argv[1].endsWith("ebade"));
 
-if (command === "init") {
-  await init();
-} else if (command === "scaffold") {
-  const ebadeFile = args[1];
-  const outputDir = args[2] || "./output";
+if (isMain) {
+  if (
+    args.length === 0 ||
+    command === "help" ||
+    command === "--help" ||
+    command === "-h"
+  ) {
+    showHelp();
+    process.exit(0);
+  }
 
-  if (!ebadeFile) {
-    console.error(
-      `${colors.red}Error:${colors.reset} Please provide an ebade file path.`
+  if (command === "init") {
+    await init();
+  } else if (command === "scaffold") {
+    const ebadeFile = args[1];
+    const outputDir = args[2] || "./output";
+
+    if (!ebadeFile) {
+      console.error(
+        `${colors.red}Error:${colors.reset} Please provide an ebade file path.`
+      );
+      console.log(
+        `\n${colors.dim}Usage:${colors.reset} npx ebade scaffold <file.ebade.yaml> [output-dir]\n`
+      );
+      process.exit(1);
+    }
+
+    if (!fs.existsSync(ebadeFile)) {
+      console.error(
+        `${colors.red}Error:${colors.reset} ebade file not found: ${ebadeFile}`
+      );
+      process.exit(1);
+    }
+
+    await scaffold(ebadeFile, outputDir);
+  } else if (command === "build") {
+    const prompt = args.slice(1).join(" ");
+
+    if (!prompt) {
+      console.error(
+        `${colors.red}Error:${colors.reset} Please provide a prompt. e.g. npx ebade build "A blue themed SaaS"`
+      );
+      process.exit(1);
+    }
+
+    const spinner = ora(
+      `${colors.cyan}EbadeArchitect is designing your project...${colors.reset}`
+    ).start();
+    const config = await EbadeArchitect.plan(prompt);
+    spinner.succeed(
+      `Design complete: ${colors.bright}${config.name}${colors.reset}`
     );
+
+    const outputDir = "./" + (config.name || "ebade-app");
+
+    // Create temporary YAML and scaffold
+    const tempDir = path.join(process.cwd(), ".ebade_temp");
+    ensureDir(tempDir);
+    const tempFile = path.join(tempDir, "project.ebade.yaml");
+    fs.writeFileSync(tempFile, yaml.stringify(config));
+
+    await scaffold(tempFile, outputDir);
+
+    // Final Brief
+    console.log(`
+${colors.magenta}${colors.bright}🎨 Creative Brief from EbadeArchitect:${
+      colors.reset
+    }
+  ${colors.cyan}Project:${colors.reset} ${config.name}
+  ${colors.cyan}Theme:${colors.reset}   ${
+      config.design.colors.primary
+    } (Detected from prompt)
+  ${colors.cyan}Pages:${colors.reset}   ${config.pages
+      .map((p) => p.path)
+      .join(", ")}
+  ${colors.cyan}Features:${colors.reset} ${config.features.join(", ")}
+`);
+
+    // Cleanup
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  } else if (command === "playground") {
     console.log(
-      `\n${colors.dim}Usage:${colors.reset} npx ebade scaffold <file.ebade.yaml> [output-dir]\n`
+      `\n${colors.cyan}🌐 Opening ebade playground...${colors.reset}`
     );
-    process.exit(1);
-  }
+    const url = "https://ebade.dev/playground";
+    const start =
+      process.platform === "darwin"
+        ? "open"
+        : process.platform === "win32"
+        ? "start"
+        : "xdg-open";
+    try {
+      execSync(`${start} ${url}`);
+    } catch (e) {
+      console.log(`\n${colors.yellow}Please open:${colors.reset} ${url}`);
+    }
+  } else if (command === "dev") {
+    const ebadeFile = args[1];
+    const outputDir = args[2] || "./output";
 
-  if (!fs.existsSync(ebadeFile)) {
+    if (!ebadeFile) {
+      console.error(
+        `${colors.red}Error:${colors.reset} Please provide an ebade file path.`
+      );
+      console.log(
+        `\n${colors.dim}Usage:${colors.reset} npx ebade dev <file.ebade.yaml> [output-dir]\n`
+      );
+      process.exit(1);
+    }
+
+    if (!fs.existsSync(ebadeFile)) {
+      console.error(
+        `${colors.red}Error:${colors.reset} ebade file not found: ${ebadeFile}`
+      );
+      process.exit(1);
+    }
+
+    await dev(ebadeFile, outputDir);
+  } else {
     console.error(
-      `${colors.red}Error:${colors.reset} ebade file not found: ${ebadeFile}`
+      `${colors.red}Error:${colors.reset} Unknown command: ${command}`
     );
+    showHelp();
     process.exit(1);
   }
-
-  await scaffold(ebadeFile, outputDir);
-} else if (command === "playground") {
-  console.log(`\n${colors.cyan}🌐 Opening ebade playground...${colors.reset}`);
-  const url = "https://ebade.dev/playground";
-  const start =
-    process.platform === "darwin"
-      ? "open"
-      : process.platform === "win32"
-      ? "start"
-      : "xdg-open";
-  try {
-    execSync(`${start} ${url}`);
-  } catch (e) {
-    console.log(`\n${colors.yellow}Please open:${colors.reset} ${url}`);
-  }
-} else if (command === "dev") {
-  const ebadeFile = args[1];
-  const outputDir = args[2] || "./output";
-
-  if (!ebadeFile) {
-    console.error(
-      `${colors.red}Error:${colors.reset} Please provide an ebade file path.`
-    );
-    console.log(
-      `\n${colors.dim}Usage:${colors.reset} npx ebade dev <file.ebade.yaml> [output-dir]\n`
-    );
-    process.exit(1);
-  }
-
-  if (!fs.existsSync(ebadeFile)) {
-    console.error(
-      `${colors.red}Error:${colors.reset} ebade file not found: ${ebadeFile}`
-    );
-    process.exit(1);
-  }
-
-  await dev(ebadeFile, outputDir);
-} else {
-  console.error(
-    `${colors.red}Error:${colors.reset} Unknown command: ${command}`
-  );
-  showHelp();
-  process.exit(1);
 }
