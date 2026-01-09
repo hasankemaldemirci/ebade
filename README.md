@@ -111,8 +111,7 @@ ebade operates on the principle of **The Online Compiler**. It treats AI as a de
 ## 🤝 Join the Revolution
 
 1. **Star the repo** to show your support ⭐
-2. **Follow the movement** on [𝕏 (@ebade)](https://x.com/ebade)
-3. **Become a Sponsor** to help us build a Green AI future 💖
+2. **Become a Sponsor** to help us build a Green AI future 💖
 
 ---
 
