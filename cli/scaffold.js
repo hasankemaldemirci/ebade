@@ -1045,13 +1045,14 @@ async function verifyOutput(projectDir, config) {
   }
 
   // 3. Test Coverage Check
-  // Ensure every component has a matching test file
+  // Ensure every component has a matching test file in tests/components/
   const components = fs
     .readdirSync(path.join(projectDir, "components"))
     .filter((f) => f.endsWith(".tsx") && !f.endsWith(".test.tsx"));
   components.forEach((comp) => {
     const testFile = comp.replace(".tsx", ".test.tsx");
-    if (!fs.existsSync(path.join(projectDir, "components", testFile))) {
+    const testPath = path.join(projectDir, "tests/components", testFile);
+    if (!fs.existsSync(testPath)) {
       results.tests = false;
       results.issues.push(`Missing test for component: ${comp}`);
     }
