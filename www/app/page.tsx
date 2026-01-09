@@ -33,36 +33,42 @@ export default function HomePage() {
         <main>
           {/* Hero Section */}
           <section className="hero-full">
-            <div className="hero-content">
-              <div className="badge-modern">
-                <Cpu className="icon-small" size={14} />
-                Protocol {version} // Alpha
+            <div className="hero-grid">
+              <div className="hero-content">
+                <div className="badge-modern">
+                  <Cpu className="icon-small" size={14} />
+                  Protocol {version} // Alpha
+                </div>
+                <h1 className="glitch-text" data-version="1.0.1">
+                  Code = f(<span>Intent</span>)
+                </h1>
+                <p className="hero-description">
+                  <span className="ebade-brand">ebade</span> is an evolution in
+                  abstract engineering. We don&apos;t build components; we model
+                  intent. Designed for the era where <strong>Agents</strong> are
+                  the primary developers.
+                </p>
+                <div className="hero-actions">
+                  <a href="#technology" className="btn-glow">
+                    Explore Protocol
+                  </a>
+                  <a
+                    href="https://www.npmjs.com/package/ebade"
+                    className="btn-minimal"
+                  >
+                    npm install ebade
+                  </a>
+                </div>
               </div>
-              <h1 className="glitch-text" data-version="1.0.1">
-                Code = f(<span>Intent</span>)
-              </h1>
-              <p className="hero-description">
-                <span className="ebade-brand">ebade</span> is an evolution in
-                abstract engineering. We don&apos;t build components; we model
-                intent. Designed for the era where <strong>Agents</strong> are
-                the primary developers.
-              </p>
-              <div className="hero-actions">
-                <a href="#technology" className="btn-glow">
-                  Explore Protocol
-                </a>
-                <a
-                  href="https://www.npmjs.com/package/ebade"
-                  className="btn-minimal"
-                >
-                  npm install ebade
-                </a>
-              </div>
-            </div>
 
-            <div className="scroll-indicator">
-              <div className="line"></div>
-              <span>INTENT_STREAM</span>
+              <div className="hero-visual">
+                <div className="visual-glow"></div>
+                <div className="video-container">
+                  <video className="hero-video" autoPlay loop muted playsInline>
+                    <source src="/assets/demo.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
             </div>
           </section>
 
