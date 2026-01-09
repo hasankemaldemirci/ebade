@@ -60,7 +60,7 @@ Add `ebade` to your AI agent (Claude, Cursor, Windsurf) via the Model Context Pr
   "mcpServers": {
     "ebade": {
       "command": "npx",
-      "args": ["-y", "@ebade/mcp-server"]
+      "args": ["-y", "ebade-mcp-server"]
     }
   }
 }

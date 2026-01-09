@@ -1,6 +1,6 @@
 {
   "name": "ebade",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "ebade - Agent-First Framework. The first framework designed for AI agents, readable by humans.",
   "type": "module",
   "main": "cli/scaffold.js",

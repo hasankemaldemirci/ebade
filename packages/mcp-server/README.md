@@ -1,19 +1,17 @@
-# ebade MCP Server 🤖
+# ebade MCP Server 🐣
 
-> Enable AI agents to build with ebade - The Essence of Code
-
-This MCP (Model Context Protocol) server allows AI agents like Claude, GPT, and others to use ebade for building web applications.
+Model Context Protocol (MCP) server for the **ebade** Agent-First Framework.
 
 ## Installation
 
 ```bash
-npm install -g @ebade/mcp-server
+npx -y ebade-mcp-server
 ```
 
 Or locally:
 
 ```bash
-npm install @ebade/mcp-server
+npm install ebade-mcp-server
 ```
 
 ## Configuration

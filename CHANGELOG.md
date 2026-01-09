@@ -5,7 +5,7 @@ All notable changes to **ebade** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0] - 2025-01-09
+## [0.4.1] - 2025-01-10
 
 ### Added
 
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - 🎉 Initial alpha release of **ebade**
-- MCP Server package (`@ebade/mcp-server`) with 4 tools:
+- MCP Server package (`ebade-mcp-server`) with 4 tools:
   - `ebade_scaffold` - Create full projects from ebade definitions
   - `ebade_validate` - Validate ebade files against schema
   - `ebade_compile` - Compile single ebade to code

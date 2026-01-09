@@ -40,7 +40,7 @@ ${colors.magenta}    ██╔══╝  ${colors.cyan}██╔══██╗$
 ${colors.magenta}    ███████╗${colors.cyan}██████╔╝${colors.magenta}██║  ██║${colors.cyan}██████╔╝${colors.magenta}███████╗
 ${colors.magenta}    ╚══════╝${colors.cyan}╚═════╝ ${colors.magenta}╚═╝  ╚═╝${colors.cyan}╚═════╝ ${colors.magenta}╚══════╝${colors.reset}
     
-    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.0${colors.reset}
+    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.1${colors.reset}
 `;
 
 const log = {
