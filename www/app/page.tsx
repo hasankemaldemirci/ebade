@@ -67,7 +67,7 @@ export default function HomePage() {
                 <div className="visual-glow"></div>
                 <div className="video-container">
                   <video className="hero-video" autoPlay loop muted playsInline>
-                    <source src="/assets/demo.mp4" type="video/mp4" />
+                    <source src="/assets/build-demo.mp4" type="video/mp4" />
                   </video>
                 </div>
               </div>
