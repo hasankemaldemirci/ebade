@@ -148,44 +148,33 @@ ebade operates on the principle of **The Online Compiler**. It treats AI as a de
 
 ## 📦 Project Structure
 
+- **`cli/`**: The core scaffolding engine & EbadeArchitect.
+- **`packages/mcp-server/`**: The bridge for AI agents via MCP.
 - **`www/`**: The [ebade.dev](https://ebade.dev) landing page & playground.
-- **`packages/mcp-server/`**: The bridge for AI agents.
-- **`cli/`**: The core scaffolding engine.
-- **`examples/`**: Real-world intent templates.
-
----
-
-## 🤝 Join the Revolution
-
-1. **Star the repo** to show your support ⭐
-2. **Become a Sponsor** to help us build a Green AI future 💖
-
----
-
-MIT © ebade Contributors — Made with ❤️ in Türkiye 🇹🇷
+- **`examples/`**: Real-world intent templates for various app types.
 
 ---
 
 ## 🤝 Contributing
 
-**ebade** is open source and welcomes contributions!
+**ebade** is open source and welcomes contributions! Whether it's a new adapter, a component template, or a bug fix, we'd love to have you.
 
 1. **Star this repo** ⭐
 2. **Try the MCP server** with your AI agent
 3. **Open issues** with ideas and feedback
 4. **Submit PRs** for new features
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
 
 ---
 
 ## 💎 Support the Movement
 
-**ebade** is an ambitious project aiming to redefine how we build software in the age of AI. Your support helps us move faster, maintain high-quality documentation, and build a more sustainable "Green AI" future.
+**ebade** is an ambitious project aiming to redefine software engineering for the AI age. Your support helps us build a more sustainable "Green AI" future.
 
 - **[Become a GitHub Sponsor](https://github.com/sponsors/hasankemaldemirci)** 💖
 - **Star the repo** to show your support ⭐
-- **Share the project** with other AI enthusiasts 🚀
+- **Share the project** with other enthusiasts 🚀
 
 ---
 
