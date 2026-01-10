@@ -9,6 +9,30 @@
 [![Green AI](https://img.shields.io/badge/🌱_Green_AI-70%25_Less_Tokens-brightgreen)](./docs/GREEN-AI.md)
 [![Architecture](https://img.shields.io/badge/Architecture-First_Principles-black)](./ARCHITECTURE.md)
 
+---
+
+## 🌗 Hybrid Workflow: The Best of Both Worlds
+
+ebade splits the development process into two distinct, high-efficiency phases:
+
+### 1. 🛡️ Offline Architect (Deterministic)
+
+The **ebade CLI** runs locally and requires **0 tokens**. It uses pattern matching and predefined architectural rules to scaffold your project's skeleton, design system, and file structure.
+
+- **Speed:** Instant results.
+- **Reliability:** 100% deterministic (no hallucinations).
+- **Cost:** Free.
+
+### 2. 🧠 Online Agent (Generative)
+
+Once the scaffold is ready, your **AI Agent** (Claude, Cursor, etc.) takes over to fill in the complex business logic using the `project.ebade.yaml` as its source of truth.
+
+- **Focus:** AI only works on the "hard parts."
+- **Efficiency:** ~70% token savings by not generating boilerplate.
+- **Alignment:** The agent follows the rules ebade already set in stone.
+
+---
+
 > **"Code is a legacy byproduct. Intent is the source of truth."**
 
 **ebade** is not just another framework. It is a **compilation protocol** designed for an era where AI Agents are the primary developers. It shifts the paradigm from "Human-Centric Coding" to "Agentic Intent Modeling."
@@ -49,9 +73,39 @@ ebade uses a high-density decorator syntax designed to fit within an Agent's con
 
 ---
 
+---
+
+## 🧠 The Architect: Prompt-to-Product
+
+In **v0.4.6**, we introduced **EbadeArchitect**. Now you can scaffold entire projects using just natural language.
+
+```bash
+# One-shot project creation
+npx ebade build "A luxury concierge service with pricing, testimonials and a gold theme"
+```
+
+- **Intent Intelligence**: Automatically detects app type (SaaS, E-commerce, Blog).
+- **Dynamic Design**: Generates a premium HSL color palette from your prompt.
+- **Smart Scaffolding**: Detects needed components (`auth`, `charts`, `forms`) and dynamically creates routes.
+
+---
+
 ## 🚀 Quick Start
 
-### 1. For Agents (MCP)
+### 1. Build from Prompt (One-Shot)
+
+```bash
+npx ebade build "Create a dark themed eco-monitor with real-time stats"
+```
+
+### 2. Scaffold from Intent (Professional)
+
+```bash
+# Generate project from an existing .ebade.yaml
+npx ebade scaffold examples/saas-dashboard.ebade.yaml ./my-app
+```
+
+### 3. For AI Agents (MCP)
 
 Add `ebade` to your AI agent (Claude, Cursor, Windsurf) via the Model Context Protocol:
 
@@ -64,13 +118,6 @@ Add `ebade` to your AI agent (Claude, Cursor, Windsurf) via the Model Context Pr
     }
   }
 }
-```
-
-### 2. For Humans (CLI)
-
-```bash
-# Scaffold a full project from an intent file
-npx ebade scaffold examples/saas-dashboard.ebade.yaml ./my-app
 ```
 
 ---

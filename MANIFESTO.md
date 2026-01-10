@@ -128,15 +128,32 @@ Agent: *Next.js docs'ı hatırla*
        *500 satır kod yaz*
 ```
 
-### ebade ile
+### ebade ile (Hybrid Workflow)
+```text
+Phase I: Offline Architect (Deterministic)
+Agent: *node cli/scaffold.js build "A green dashboard"*
+       -> 0 Tokens spent
+       -> Mimar yerel olarak iskeleyi kurar
+
+Phase II: Online Engineer (Generative)
+Agent: *Arayüze özel iş mantığını (Business Logic) yaz*
+       -> Düşük token harcaması
+       -> Sadece yaratıcı işe odaklanma
 ```
-User: "Checkout sayfası yap"
-Agent: *intent tanımı yaz*
-       @page('/checkout')
-       @intent('complete-purchase')
-       @requires(['cart', 'user', 'payment'])
-       *bitti*
-```
+
+---
+
+## Hibrit Model: Mimar ve Mühendis
+
+ebade, yazılım geliştirme sürecini ikiye böler:
+
+### 1. 🛡️ Offline Mimar (Deterministik)
+
+Yerel CLI, hiç token harcamadan projenin iskeletini, tasarım sistemini ve dosya düzenini kurar. Bu aşamada "halüsinasyon" yoktur, sadece saf mühendislik kuralları vardır.
+
+### 2. 🧠 Online Mühendis (Generatif)
+
+İskelet hazır olduktan sonra AI Ajanı (Cursor/Claude) koltuğa oturur. `project.ebade.yaml` dosyasını "Source of Truth" olarak kullanarak, projenin "ruhunu" (spesifik iş mantığı, API entegrasyonları) kodlar.
 
 ---
 

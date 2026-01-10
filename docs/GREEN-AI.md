@@ -41,11 +41,11 @@ Based on our benchmarks, switching to **ebade** for AI agent workflows saves:
 
 ## 🧠 The Efficiency Philosophy
 
-Traditional frameworks are human-centric. They require the AI to write huge amounts of "how" code (boilerplate, imports, setup). **ebade** is agent-centric. It only needs the "what" (intent).
+Traditional frameworks are human-centric. They require the AI to write huge amounts of "how" code (boilerplate, imports, setup). **ebade** uses a hybrid approach to eliminate this waste.
 
 ```text
-Human-Centric (Next.js): AI writes IMPLEMENTATION → Bloated Context → High Carbon
-Agent-Centric  (ebade):   AI writes ESSENCE (ebade) → Lean Context → Low Carbon
+1. Offline Architect (Local):  0 Tokens  → Handles all boilerplate & structure.
+2. Online Engineer (Agent):    Low Tokens → Handles only specific business logic.
 ```
 
 **Same result. Fraction of the energy.**

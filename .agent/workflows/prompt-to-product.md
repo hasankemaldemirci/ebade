@@ -2,39 +2,35 @@
 description: ebade Prompt-to-Product Workflow
 ---
 
-# 🐣 ebade Prompt-to-Product Workflow
+# 🌗 Hybrid Workflow: Architect & Engineer
 
-This workflow describes how an AI Agent should use the ebade framework to transform a user's natural language intent into a production-ready codebase.
+This workflow divides your task into two phases: **Offline Architecture** (Deterministic) and **Online Engineering** (Generative).
 
-## 1. Initial Project Scaffolding
+## 1. Phase I: The Offline Architect (Deterministic)
 When a user asks to "build", "create", or "start" a new web application:
 
 // turbo
-1. Use the `ebade build` command with the user's prompt.
+1. **Execute the Architecture**: Run the `ebade build` command.
    ```bash
    node cli/scaffold.js build "[User's Prompt]"
    ```
-   *This tool will automatically choose the project type, color palette, and initial components.*
+   *ebade will handle the heavy lifting: selecting the project type, generating a design system, and creating the file structure with **0-token cost** and **100% determinism**.*
 
-2. Navigate into the generated project directory.
+2. **Move In**: `cd` into the generated project directory.
 
-## 2. Understanding the Architecture
-ebade generates a `project.ebade.yaml` file in the project root. This is your **Source of Truth**.
-1. Read `project.ebade.yaml` to understand the pages, components, and data models.
-2. Respect the design system tokens in `app/globals.css`.
+## 2. Phase II: The Online Engineer (Generative)
+Now that the foundation is set, you act as the generative engineer to add "The Soul" to the codebase.
 
-## 3. Iterative Development
-Once the scaffold is ready, move from "Architect" to "Engineer":
+1. **Initialize Dependencies**: Run `npm install` to prepare the environment.
+2. **Read the Intent**: Open `project.ebade.yaml`. This is your **Source of Truth**. Your goal is to implement the specific logic requested by the user, while respecting the boundaries set in the YAML.
+3. **Refine Components**: Locate the UI components in `components/`. They are visually premium but contain "Business Logic" placeholders. Replace these with actual logic (API calls, state, conditional rendering).
+4. **API Integration**: Fill the `app/api/` skeletons with real backend code (DB queries, Auth logic).
 
-1. **Refine Components**: Locate generated components in `components/`. They are high-quality visual placeholders. Add the specific business logic, API calls, or complex state management requested by the user.
-2. **Implement API Logic**: Fill the `app/api/` route handlers with real backend logic (database queries, external service integrations).
-3. **Data Schemas**: Use the generated SQL in `database/schema.sql` to set up the actual database.
-
-## 4. Expanding the Project
-To add new features:
-1. Update `project.ebade.yaml` with the new intent.
-2. Run `node cli/scaffold.js scaffold project.ebade.yaml .` to generate the new files while preserving your logic.
-3. Apply the specific implementation details to the new files.
+## 3. Iterative Feedback Loop
+To expand or modify:
+1. Update `project.ebade.yaml` with the new intent (e.g., adding a new page or feature).
+2. Run `node cli/scaffold.js scaffold project.ebade.yaml .` to generate new files without breaking your existing work.
+3. Apply generative logic to the new structures.
 
 ---
-*Built for the Agent-First Era. ebade empowers you to focus on logic, while we handle the architecture.*
+*ebade: Empowering Agents to focus on Logic, while we handle the Architecture.*

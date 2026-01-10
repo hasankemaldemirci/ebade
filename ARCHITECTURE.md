@@ -43,13 +43,25 @@ Immediately after scaffolding, ebade runs a series of integrity checks:
 - **Intent-Code Mapping:** Verifies that exported component names and routes match the original intent.
 - **Test Coverage:** Confirms that matching unit tests (Vitest) have been generated for every new component.
 
-### 5. AI-Enhanced Scaffolding (The "Online Compiler")
+## 🌗 The Hybrid Workflow Model
 
-This is where the magic happens. ebade uses AI not as a "free-text generator," but as a **Deterministic Compiler Component**.
+ebade operates as a hybrid engine, splitting the lifecycle into two specific environments:
 
-- **Templates:** ebade provides a library of high-quality, pre-tested component templates.
-- **Mapping:** The AI maps the specific fields and logic from the `@intent` into these templates.
-- **Validation:** Every generated file is validated against the intent AST to ensure zero hallucinations.
+### 1. The Offline Architect (Deterministic)
+
+The local CLI acts as the core architect. It performs high-speed, 0-token analysis of the user's intent to establish the foundational structure of the codebase.
+
+- **Rules Engine**: Uses pattern matching and adjacency maps to select components and theme colors.
+- **Scaffold Engine**: Generates 100% of the boilerplate (folders, config files, type definitions).
+- **Zero-Token Hallucination Protection**: Since this runs locally with fixed logic, the structural integrity is guaranteed.
+
+### 2. The Online Engineer (Generative)
+
+Once the "House" (scaffold) is built, the AI Agent (the engineer) moves in to decorate and install the appliances (business logic).
+
+- **Intent Mapping**: The agent maps the specific sub-intents from the `@intent` decorators into the generated templates.
+- **Hallucination Guardrails**: By using the `project.ebade.yaml` as a strict AST-based specification, the agent is restricted from going "off-rails."
+- **Token Efficiency**: The agent only spends compute cycles on the actual business logic, not on imports or layout setup.
 
 ---
 
