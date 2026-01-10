@@ -43,7 +43,7 @@ Once the scaffold is ready, your **AI Agent** (Claude, Cursor, etc.) takes over 
 
 Watch how **ebade** transforms 20 lines of YAML into a production-ready, full-stack Next.js application.
 
-![ebade demo](./assets/demo.gif)
+![ebade demo](./assets/build-demo.gif)
 
 ### ⚔️ The Battle of Entropy
 
