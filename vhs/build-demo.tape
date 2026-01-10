@@ -1,8 +1,8 @@
 # ebade v0.4.6 Build Demo
-# Run with: vhs build-demo.tape
+# Run with: vhs vhs/build-demo.tape
 
-Output assets/build-demo.gif
-Output assets/build-demo.mp4
+Output ../assets/build-demo.gif
+Output ../assets/build-demo.mp4
 
 Set FontSize 20
 Set Width 1200

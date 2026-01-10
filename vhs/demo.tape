@@ -1,10 +1,10 @@
 # ebade Demo Video Script
-# Run with: vhs demo.tape
+# Run with: vhs vhs/demo.tape
 # Outputs: demo.gif + demo.mp4
 
 # Outputs - both formats
-Output assets/demo.gif
-Output assets/demo.mp4
+Output ../assets/demo.gif
+Output ../assets/demo.mp4
 
 # Configuration
 Set FontSize 20
