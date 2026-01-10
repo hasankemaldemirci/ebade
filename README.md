@@ -77,7 +77,7 @@ ebade uses a high-density decorator syntax designed to fit within an Agent's con
 
 ## 🧠 The Architect: Prompt-to-Product
 
-In **v0.4.6**, we introduced **EbadeArchitect**. Now you can scaffold entire projects using just natural language.
+In **v0.4.7**, we introduced **ebade Forge** (Multi-Target Support). Now you can scaffold entire projects using just natural language for Next.js or Vanilla HTML.
 
 ```bash
 # One-shot project creation

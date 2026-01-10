@@ -7,7 +7,7 @@ import {
 import assert from "assert";
 
 async function runTests() {
-  console.log("🧪 Running Framework Unit Tests (v0.4.6)...\n");
+  console.log("🧪 Running Framework Unit Tests (v0.4.7)...\n");
 
   // 1. Utility Functions
   console.log("Testing Utility Functions...");

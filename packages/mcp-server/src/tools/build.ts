@@ -37,7 +37,7 @@ export async function buildFromPrompt(args: BuildArgs): Promise<string> {
       env: { ...process.env, NODE_ENV: "production" },
     });
 
-    return `✅ ebade v0.4.6 Build Complete!
+    return `✅ ebade v0.4.7 Build Complete!
     
 Prompt: "${prompt}"
 Output: ${outputDir}

@@ -1,4 +1,4 @@
-# ebade v0.4.6 Build Demo
+# ebade v0.4.7 Build Demo
 # Run with: vhs vhs/build-demo.tape
 
 Output ../assets/build-demo.gif

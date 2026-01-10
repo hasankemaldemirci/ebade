@@ -48,7 +48,7 @@ ${colors.magenta}    ██╔══╝  ${colors.cyan}██╔══██╗$
 ${colors.magenta}    ███████╗${colors.cyan}██████╔╝${colors.magenta}██║  ██║${colors.cyan}██████╔╝${colors.magenta}███████╗
 ${colors.magenta}    ╚══════╝${colors.cyan}╚═════╝ ${colors.magenta}╚═╝  ╚═╝${colors.cyan}╚═════╝ ${colors.magenta}╚══════╝${colors.reset}
     
-    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.6${colors.reset}
+    ${colors.dim}✨ Agent-First Framework ${colors.yellow}v0.4.7${colors.reset}
 `;
 
 const log = {
@@ -399,6 +399,6 @@ if (command === "init") {
   await scaffold(file, out, target);
 } else {
   console.log(
-    "ebade v0.4.6 - Next Gen Scaffolder\nUsage: npx ebade <build|scaffold> <prompt|file> [--target nextjs|html]"
+    "ebade v0.4.7 - Next Gen Scaffolder\nUsage: npx ebade <build|scaffold> <prompt|file> [--target nextjs|html]"
   );
 }

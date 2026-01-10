@@ -5,6 +5,16 @@ All notable changes to **ebade** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.7] - 2025-01-10
+
+### Added
+
+- **Multi-Target Support**: The ebade CLI is now target-agnostic. Decoupled Next.js logic into adapters.
+- **Vanilla HTML Adapter**: Added support for standard HTML/CSS project generation via `--target html`.
+- **Automated Formatting**: Integrated Prettier into the scaffolding pipeline. Every generated file is now automatically formatted to production standards.
+- **Modular Adapter Architecture**: Introduced `TargetAdapter` base class to easily add new platforms (Flutter, Go, etc.).
+- **Shared CLI Utilities**: Unified common logic into `cli/utils.js` for better maintainability.
+
 ## [0.4.6] - 2025-01-10
 
 ### Added

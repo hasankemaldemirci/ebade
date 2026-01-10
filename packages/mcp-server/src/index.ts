@@ -9,7 +9,7 @@
  * - Validate ebade files
  * - Compile ebade to framework-specific code
  * - Generate components from natural language descriptions
- * - Build entire projects from natural language prompts (NEW in v0.4.6)
+ * - Build entire projects from natural language prompts (NEW in v0.4.7)
  */
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -31,7 +31,7 @@ import { buildFromPrompt } from "./tools/build.js";
 const server = new Server(
   {
     name: "ebade",
-    version: "0.4.6",
+    version: "0.4.7",
   },
   {
     capabilities: {
