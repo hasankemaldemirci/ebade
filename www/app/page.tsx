@@ -208,6 +208,18 @@ export default function HomePage() {
                 </p>
               </header>
               <div className="stats-box">
+                <div className="stat pulse-stat">
+                  <div className="stat-icon">
+                    <BarChart3 size={32} />
+                  </div>
+                  <span className="val">
+                    {weeklyDownloads
+                      ? weeklyDownloads.toLocaleString()
+                      : "830+"}
+                  </span>
+                  <span className="label">Weekly Downloads</span>
+                </div>
+                <div className="stat-divider"></div>
                 <div className="stat">
                   <div className="stat-icon">
                     <Zap size={32} />
@@ -234,96 +246,6 @@ export default function HomePage() {
                   <span className="val">Zero</span>
                   <span className="label">Sustainable AI Core</span>
                 </div>
-                <div className="stat-divider"></div>
-                <div className="stat pulse-stat">
-                  <div className="stat-icon">
-                    <BarChart3 size={32} />
-                  </div>
-                  <span className="val">
-                    {weeklyDownloads
-                      ? weeklyDownloads.toLocaleString()
-                      : "800+"}
-                  </span>
-                  <span className="label">Weekly Downloads</span>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Agent-Native Stack Section */}
-          <section className="agent-stack-section">
-            <div className="section-container">
-              <header
-                className="section-header"
-                style={{ marginBottom: "4rem" }}
-              >
-                <div className="badge-accent">The New Stack</div>
-                <h2>
-                  The <span>Agent-Native</span> Stack
-                </h2>
-                <p
-                  style={{
-                    margin: "0 auto",
-                    color: "var(--text-dim)",
-                    maxWidth: "600px",
-                  }}
-                >
-                  Defining the three essential layers of high-autonomy software
-                  engineering.
-                </p>
-              </header>
-
-              <div className="stack-container">
-                {/* Identity Layer */}
-                <div className="stack-node">
-                  <div className="stack-node-icon">
-                    <Fingerprint size={28} />
-                  </div>
-                  <div className="stack-node-content">
-                    <h4>Layer 01: Identity</h4>
-                    <h3>agents.md</h3>
-                    <p>
-                      Defines the persona, mission, and boundaries of the agent.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="stack-connector"></div>
-
-                {/* Capability Layer */}
-                <div className="stack-node">
-                  <div className="stack-node-icon">
-                    <Zap size={28} />
-                  </div>
-                  <div className="stack-node-content">
-                    <h4>Layer 02: Capability</h4>
-                    <h3>MCP / Tools</h3>
-                    <p>
-                      The arms and legs. Connects LLMs to real-world
-                      environments.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="stack-connector"></div>
-
-                {/* Intent Layer */}
-                <div className="stack-node intent">
-                  <div className="stack-node-icon">
-                    <Target size={32} />
-                  </div>
-                  <div className="stack-node-content">
-                    <h4>Layer 03: The Core</h4>
-                    <h3>ebade.dev (Intent)</h3>
-                    <p>
-                      The brain. Transforms abstract intent into production code
-                      via a low-entropy protocol.
-                    </p>
-                    <div className="stack-badge">
-                      Deterministic Architecture
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </section>
@@ -334,11 +256,10 @@ export default function HomePage() {
               <header className="section-header">
                 <div className="badge-accent">Standard</div>
                 <h2 style={{ color: "var(--text)" }}>
-                  The ebade <span>Ecosystem</span>
+                  The ebade <span>Forge</span>
                 </h2>
                 <p style={{ margin: "0 auto", color: "var(--text-dim)" }}>
-                  Engineered for high-autonomy agents and complex product
-                  lifecycles.
+                  Engineered for high-autonomy agents and the multi-target era.
                 </p>
               </header>
               <div className="grid-3">
@@ -347,24 +268,24 @@ export default function HomePage() {
                   <h3>Agent-Native</h3>
                   <p>
                     Designed as a first-class citizen for LLMs. Structured
-                    intent that models understand instantly.
+                    intent that models understand and implement instantly.
                   </p>
                 </div>
                 <div className="feature-item">
                   <Layers size={40} />
-                  <h3>Meta-Abstraction</h3>
+                  <h3>Universal Forge</h3>
                   <p>
-                    Platform-agnostic intent layer. Currently optimized for
-                    Next.js. The same intent will power mobile, backend, and
-                    beyond.
+                    Target-agnostic compilation. Scaffold production-ready
+                    Next.js applications or pure Vanilla HTML/CSS sites
+                    instantly.
                   </p>
                 </div>
                 <div className="feature-item">
                   <Terminal size={40} />
                   <h3>Binary Scaffold</h3>
                   <p>
-                    Generate full, production-ready project structures from a
-                    single schema definition.
+                    Zero-token framework execution. Generate 100% of your
+                    project structure locally before the AI even starts.
                   </p>
                 </div>
               </div>
