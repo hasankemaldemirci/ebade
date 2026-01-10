@@ -3,6 +3,7 @@
 ![ebade - The First Agent-First Framework](https://ebade.dev/og-readme.png)
 
 [![npm version](https://img.shields.io/npm/v/ebade.svg)](https://www.npmjs.com/package/ebade)
+[![npm downloads](https://img.shields.io/npm/dw/ebade.svg)](https://www.npmjs.com/package/ebade)
 [![Website](https://img.shields.io/badge/Website-ebade.dev-4F46E5)](https://ebade.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![MCP Server](https://img.shields.io/badge/MCP-Ready-green.svg)](./packages/mcp-server)

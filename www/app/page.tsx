@@ -15,6 +15,7 @@ import {
   Terminal,
   Fingerprint,
   Target,
+  BarChart3,
 } from "lucide-react";
 import pkg from "../package.json";
 const version = pkg.version;
@@ -24,7 +25,26 @@ const ThreeCanvas = dynamic(() => import("@/components/ThreeCanvas"), {
   ssr: false,
 });
 
+function useNPMDownloads(packageName: string) {
+  const [downloads, setDownloads] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch(`https://api.npmjs.org/downloads/point/last-week/${packageName}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.downloads) {
+          setDownloads(data.downloads);
+        }
+      })
+      .catch(() => {});
+  }, [packageName]);
+
+  return downloads;
+}
+
 export default function HomePage() {
+  const weeklyDownloads = useNPMDownloads("ebade");
+
   return (
     <>
       <div className="page-wrapper">
@@ -213,6 +233,18 @@ export default function HomePage() {
                   </div>
                   <span className="val">Zero</span>
                   <span className="label">Sustainable AI Core</span>
+                </div>
+                <div className="stat-divider"></div>
+                <div className="stat pulse-stat">
+                  <div className="stat-icon">
+                    <BarChart3 size={32} />
+                  </div>
+                  <span className="val">
+                    {weeklyDownloads
+                      ? weeklyDownloads.toLocaleString()
+                      : "800+"}
+                  </span>
+                  <span className="label">Weekly Downloads</span>
                 </div>
               </div>
             </div>
