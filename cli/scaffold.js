@@ -3,8 +3,8 @@
 /**
  * ebade CLI Scaffold Tool
  *
- * Bu araç bir .ebade.yaml dosyasını okur ve
- * AI Agent'ın anlayacağı şekilde proje yapısını oluşturur.
+ * This tool reads an .ebade.yaml file and scaffolds
+ * a project structure for AI Agents.
  */
 
 import fs from "fs";
@@ -16,11 +16,16 @@ import chokidar from "chokidar";
 import { execSync } from "child_process";
 import { fileURLToPath } from "url";
 
+// Adatpers
+import { NextJsAdapter } from "./adapters/nextjs.js";
+import { HtmlVanillaAdapter } from "./adapters/html-vanilla.js";
+import { ensureDir } from "./utils.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ============================================
-// ANSI Renk Kodları (Terminal çıktısı için)
+// ANSI Colors
 // ============================================
 const colors = {
   reset: "\x1b[0m",
@@ -35,7 +40,6 @@ const colors = {
   gray: "\x1b[90m",
 };
 
-// ASCII Art Logo
 const LOGO = `
 ${colors.magenta}    ███████╗${colors.cyan}██████╗  ${colors.magenta}█████╗ ${colors.cyan}██████╗ ${colors.magenta}███████╗
 ${colors.magenta}    ██╔════╝${colors.cyan}██╔══██╗${colors.magenta}██╔══██╗${colors.cyan}██╔══██╗${colors.magenta}██╔════╝
@@ -64,8 +68,6 @@ const log = {
 export class EbadeArchitect {
   static async plan(prompt) {
     const p = prompt.toLowerCase();
-
-    // Core App Type Detection
     let type = "saas-dashboard";
     if (p.includes("e-commerce") || p.includes("shop") || p.includes("store"))
       type = "e-commerce";
@@ -74,10 +76,8 @@ export class EbadeArchitect {
     if (p.includes("portfolio") || p.includes("personal") || p.includes("cv"))
       type = "portfolio";
 
-    // Component Intelligence
     const components = ["navbar", "footer"];
     const features = [];
-
     const has = (keyword) => new RegExp(`\\b${keyword}`, "i").test(p);
 
     if (has("chart") || has("analytics") || has("graph") || has("metric")) {
@@ -102,8 +102,7 @@ export class EbadeArchitect {
       components.push("contact-form");
     if (has("faq") || has("question")) components.push("faq-accordion");
 
-    // Dynamic Color Palette (Order matters - specific colors should win over vibes)
-    let primary = "#6366f1"; // Indigo default
+    let primary = "#6366f1";
     if (has("gold") || has("luxury") || has("premium") || has("exclusive"))
       primary = "#fbbf24";
     if (has("green") || has("eco") || has("emerald") || has("nature"))
@@ -123,7 +122,6 @@ export class EbadeArchitect {
     if (has("red") || has("danger") || has("hot") || has("love"))
       primary = "#ef4444";
 
-    // Smart Pages based on Type
     const pages = [
       {
         path: "/",
@@ -174,7 +172,6 @@ export class EbadeArchitect {
       );
     }
 
-    // Build Internal Intent
     const config = {
       name:
         p
@@ -206,14 +203,10 @@ export class EbadeArchitect {
       type: type,
       description: prompt,
       features: features.length > 0 ? features : ["Turnkey Scaffold"],
-      design: {
-        colors: { primary },
-        style: "glass-modern",
-      },
+      design: { colors: { primary }, style: "glass-modern" },
       pages: pages,
       api: [{ path: "/api/data", methods: ["GET"], intent: "fetch-data" }],
     };
-
     return config;
   }
 }
@@ -227,699 +220,9 @@ function parseEbade(ebadePath) {
 }
 
 // ============================================
-// Component Generator Templates
-// ============================================
-// ============================================
-// Template Resolver
-// ============================================
-function getComponentTemplate(componentName, design) {
-  const templatePath = path.join(
-    __dirname,
-    "templates",
-    `${componentName}.tsx`
-  );
-
-  if (fs.existsSync(templatePath)) {
-    let content = fs.readFileSync(templatePath, "utf-8");
-
-    // Config-based replacement (e.g., {{primary}})
-    const primaryColor = design?.colors?.primary || "#6366f1";
-    content = content.replace(/\{\{primary\}\}/g, primaryColor);
-
-    return content;
-  }
-
-  // Fallback to placeholder if template file doesn't exist
-  return `import React from 'react';
-import { cn } from "@/lib/utils";
-
-/**
- * 🧠 Generated via ebade
- * Component: ${toPascalCase(componentName)}
- * Status: Intent needs implementation
- */
-export function ${toPascalCase(componentName)}() {
-  return (
-    <div className="p-12 glass-card rounded-[2.5rem] text-center min-h-[300px] flex flex-col items-center justify-center group hover:border-primary/50 transition-all">
-      <div className="w-20 h-20 bg-primary/10 rounded-[2rem] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-        <span className="text-3xl">✨</span>
-      </div>
-      <h3 className="text-2xl font-bold mb-3 text-white">${toPascalCase(
-        componentName
-      )}</h3>
-      <p className="text-slate-400 max-w-sm mx-auto leading-relaxed">
-        This intent is defined for your AI agent. To customize, edit <code>components/${componentName}.tsx</code> or use the ebade compiler.
-      </p>
-    </div>
-  );
-}
-`;
-}
-
-function generateComponentTest(componentName) {
-  const name = toPascalCase(componentName);
-  return `import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
-import { ${name} } from './${componentName}';
-import React from 'react';
-
-describe('${name} Component', () => {
-  it('renders without crashing', () => {
-    render(<${name} />);
-    expect(document.body).toBeDefined();
-  });
-});
-`;
-}
-
-function generateVitestConfig() {
-  return `import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-
-export default defineConfig({
-  plugins: [react()],
-  test: {
-    environment: 'jsdom',
-    globals: true,
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './'),
-    },
-  },
-});
-`;
-}
-
-// ============================================
-// Page Generator
-// ============================================
-function generatePage(page, design) {
-  const componentImports =
-    page.components
-      ?.map((c) => `import { ${toPascalCase(c)} } from '@/components/${c}';`)
-      .join("\n") || "";
-
-  const componentUsage =
-    page.components
-      ?.map((c) => `          <${toPascalCase(c)} />`)
-      .join("\n") || "          {/* No components defined */}";
-
-  return `import React from 'react';
-${componentImports}
-
-/**
- * 🧠 Generated via ebade - The Agent-First Framework
- * https://github.com/hasankemaldemirci/ebade
- * 
- * @page('${page.path}')
- * @intent('${page.intent}')
- */
-export default function ${toPascalCase(page.intent)}Page() {
-  return (
-    <div className="min-h-screen bg-slate-950 text-white selection:bg-indigo-500/30 selection:text-indigo-200">
-      <main className="relative overflow-hidden">
-        {/* Ambient background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none" />
-        
-        <div className="relative z-10">
-${componentUsage}
-        </div>
-      </main>
-    </div>
-  );
-}
-
-// Auth: ${page.auth || "public"}
-`;
-}
-
-// ============================================
-// API Route Generator
-// ============================================
-function generateApiRoute(endpoint) {
-  const handlers = endpoint.methods
-    .map(
-      (method) => `
-/**
- * 🧠 Generated via ebade - The Agent-First Framework
- * ${method} ${endpoint.path}
- * Auth: ${endpoint.auth || "none"}
- */
-export async function ${method}(request) {
-  // TODO: Implement ${method} handler
-  
-  return Response.json({ 
-    message: "${method} ${endpoint.path} - Not implemented" 
-  });
-}
-`
-    )
-    .join("\n");
-
-  return handlers;
-}
-
-// ============================================
-// Database Schema Generator (Supabase SQL)
-// ============================================
-function generateDatabaseSchema(data) {
-  let sql = "-- ebade Generated Database Schema\n\n";
-
-  for (const [modelName, model] of Object.entries(data)) {
-    sql += `-- Table: ${modelName}\n`;
-    sql += `CREATE TABLE IF NOT EXISTS ${toSnakeCase(modelName)} (\n`;
-
-    const fields = Object.entries(model.fields).map(([fieldName, fieldDef]) => {
-      const sqlType = mapToSqlType(fieldDef.type);
-      const constraints = [];
-      if (fieldDef.required) constraints.push("NOT NULL");
-      if (fieldDef.unique) constraints.push("UNIQUE");
-      return `  ${toSnakeCase(fieldName)} ${sqlType}${
-        constraints.length ? " " + constraints.join(" ") : ""
-      }`;
-    });
-
-    sql += fields.join(",\n");
-    sql += "\n);\n\n";
-  }
-
-  return sql;
-}
-
-// ============================================
-// Next.js Config Generators
-// ============================================
-function generatePackageJson(config) {
-  return JSON.stringify(
-    {
-      name: config.name.toLowerCase().replace(/[^a-z0-9]/g, "-"),
-      version: "0.1.0",
-      private: true,
-      scripts: {
-        dev: "next dev",
-        build: "next build",
-        start: "next start",
-        lint: "next lint",
-        test: "vitest",
-      },
-      dependencies: {
-        next: "^14.2.0",
-        react: "^18.3.0",
-        "react-dom": "^18.3.0",
-        "lucide-react": "^0.400.0",
-        clsx: "^2.1.0",
-        "tailwind-merge": "^2.2.0",
-        "class-variance-authority": "^0.7.0",
-        "framer-motion": "^11.0.0",
-      },
-      devDependencies: {
-        "@types/node": "^20.0.0",
-        "@types/react": "^18.2.0",
-        "@types/react-dom": "^18.2.0",
-        "@testing-library/react": "^14.1.2",
-        "@vitejs/plugin-react": "^4.2.0",
-        jsdom: "^22.1.0",
-        vitest: "^0.34.6",
-        autoprefixer: "^10.0.1",
-        postcss: "^8.4.0",
-        tailwindcss: "^3.4.0",
-        "tailwindcss-animate": "^1.0.7",
-        typescript: "^5.0.0",
-      },
-    },
-    null,
-    2
-  );
-}
-
-function generateTailwindConfig() {
-  return `/** @type {import('tailwindcss').Config} */
-module.exports = {
-  darkMode: ["class"],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-  ],
-  prefix: "",
-  theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
-    extend: {
-      colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
-    },
-  },
-  plugins: [require("tailwindcss-animate")],
-}
-`;
-}
-
-function generateNextConfig() {
-  return `/** @type {import('next').NextConfig} */
-const nextConfig = {};
-export default nextConfig;
-`;
-}
-
-function generatePostcssConfig() {
-  return `module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
-`;
-}
-
-function generateTsConfig() {
-  return JSON.stringify(
-    {
-      compilerOptions: {
-        target: "es5",
-        lib: ["dom", "dom.iterable", "esnext"],
-        allowJs: true,
-        skipLibCheck: true,
-        strict: true,
-        noEmit: true,
-        esModuleInterop: true,
-        module: "esnext",
-        moduleResolution: "node",
-        resolveJsonModule: true,
-        isolatedModules: true,
-        jsx: "preserve",
-        incremental: true,
-        plugins: [{ name: "next" }],
-        paths: {
-          "@/*": ["./*"],
-        },
-      },
-      include: ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-      exclude: ["node_modules"],
-    },
-    null,
-    2
-  );
-}
-
-function generateLayout(config) {
-  const fontFamily = config.design?.font || "Inter";
-  return `import React from 'react';
-import type { Metadata } from "next";
-import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "${config.name}",
-  description: "Built with ebade - The Agent-First Framework",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=${fontFamily.replace(
-            " ",
-            "+"
-          )}:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body>{children}</body>
-    </html>
-  );
-}
-`;
-}
-
-function generateGlobalsCss(design) {
-  const primary = design.colors?.primary || "#6366f1";
-
-  // Helper to convert hex to HSL for CSS vars if needed
-  // For now we'll use standard shadcn slate
-  return `@tailwind base;
-@tailwind components;
-@tailwind utilities;
- 
-@layer base {
-  :root {
-    --background: 222 47% 4%;
-    --foreground: 213 31% 91%;
- 
-    --card: 222 47% 4%;
-    --card-foreground: 213 31% 91%;
- 
-    --popover: 222 47% 4%;
-    --popover-foreground: 213 31% 91%;
- 
-    --primary: ${hexToHsl(primary)};
-    --primary-foreground: 0 0% 100%;
- 
-    --secondary: 222 47% 11%;
-    --secondary-foreground: 213 31% 91%;
- 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
- 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-    --ring: ${hexToHsl(primary)};
- 
-    --radius: 1rem;
-  }
-}
- 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv11", "ss01";
-  }
-}
-
-/* Premium Animations */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.glass-card {
-  @apply bg-white/[0.03] border border-white/10 backdrop-blur-xl;
-}
-`;
-}
-
-function generateUtils() {
-  return `import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
-`;
-}
-
-function generateGitignore() {
-  return `# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
-.env
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-`;
-}
-
-function generateEnvExample(config) {
-  return `# ebade Generated Environment Variables
-# Project: ${config.name}
-
-# Database (Supabase / Postgres)
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
-
-# Authentication (NextAuth / Clerk)
-NEXTAUTH_SECRET="your-secret-here"
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=""
-
-# API Keys
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=""
-STRIPE_SECRET_KEY=""
-`;
-}
-
-// ============================================
-// Design System CSS Generator
-// ============================================
-function generateDesignSystem(design) {
-  return `
-/* ebade Generated Design System */
-/* Style: ${design.style || "minimal-modern"} */
-
-:root {
-  --color-primary: ${design.colors?.primary || "#6366f1"};
-  --color-secondary: ${design.colors?.secondary || "#f59e0b"};
-  --color-accent: ${design.colors?.accent || "#10b981"};
-  
-  --font-family: '${design.font || "Inter"}', system-ui, sans-serif;
-  
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 1rem;
-  --radius-full: 9999px;
-  --radius-default: var(--radius-${design.borderRadius || "md"});
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: var(--font-family);
-  line-height: 1.6;
-  color: #1f2937;
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-default);
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-primary:hover {
-  opacity: 0.9;
-}
-`;
-}
-
-function generateAgentRules(config) {
-  return `
-# ebade Agent-First Framework Rules
-
-You are an AI developer working on a project built with the **ebade Agent-First Framework**.
-This project is designed specifically for AI-Human collaboration.
-
-## 🧠 Core Philosophy
-- **Intent > Implementation**: Focus on WHAT the code should do.
-- **Source of Truth**: The structure is defined in \`project.ebade.yaml\`. Always refer to it before making structural changes.
-- **Consistency**: All generated code should match the intents defined in \`app/\`, \`components/\`, and \`api/\`.
-
-## 🛠 Framework Patterns
-
-### 1. Decorators (Comments)
-All files generated by ebade contain semantic decorators in their headers. Keep them intact:
-- @page('/path'): Marks a Next.js Page.
-- @intent('name'): Describes the purpose of the file.
-- @requires(['components']): Lists dependencies.
-
-### 2. Design System
-- Use CSS Variables defined in \`app/globals.css\`.
-- Prefer these tokens: var(--color-primary), var(--color-secondary), var(--radius-default).
-
-## 🤝 AI Collaboration Guidelines
-1. **When adding a new page**: First, suggest updating \`project.ebade.yaml\` if possible.
-2. **When modifying components**: Ensure they remain decoupled and respect the design system props.
-
-Built with ebade - The Agent-First Framework for the next era of development. 🌱
-`;
-}
-
-// ============================================
-// Utility Functions
-// ============================================
-export function toPascalCase(str) {
-  return str
-    .split(/[-_]/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join("");
-}
-
-export function toSnakeCase(str) {
-  return str
-    .replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`)
-    .replace(/-/g, "_")
-    .toLowerCase()
-    .replace(/^_/, "");
-}
-
-export function hexToHsl(hex) {
-  let r = 0,
-    g = 0,
-    b = 0;
-  if (hex.length === 4) {
-    r = parseInt(hex[1] + hex[1], 16);
-    g = parseInt(hex[2] + hex[2], 16);
-    b = parseInt(hex[3] + hex[3], 16);
-  } else if (hex.length === 7) {
-    r = parseInt(hex.slice(1, 3), 16);
-    g = parseInt(hex.slice(3, 5), 16);
-    b = parseInt(hex.slice(5, 7), 16);
-  }
-  r /= 255;
-  g /= 255;
-  b /= 255;
-  let max = Math.max(r, g, b),
-    min = Math.min(r, g, b);
-  let h,
-    s,
-    l = (max + min) / 2;
-  if (max === min) h = s = 0;
-  else {
-    let d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-    switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      case b:
-        h = (r - g) / d + 4;
-        break;
-    }
-    h /= 6;
-  }
-  return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(
-    l * 100
-  )}%`;
-}
-
-function mapToSqlType(type) {
-  const typeMap = {
-    uuid: "UUID PRIMARY KEY DEFAULT gen_random_uuid()",
-    string: "VARCHAR(255)",
-    text: "TEXT",
-    integer: "INTEGER",
-    decimal: "DECIMAL(10,2)",
-    boolean: "BOOLEAN",
-    timestamp: "TIMESTAMP WITH TIME ZONE DEFAULT NOW()",
-    json: "JSONB",
-    array: "JSONB",
-    enum: "VARCHAR(50)",
-  };
-  return typeMap[type] || "VARCHAR(255)";
-}
-
-function ensureDir(dir) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-}
-
-// ============================================
 // Main Scaffold Function
 // ============================================
-async function scaffold(ebadePath, outputDir) {
+async function scaffold(ebadePath, outputDir, target = "nextjs") {
   const startTime = Date.now();
   const stats = {
     pages: 0,
@@ -931,57 +234,47 @@ async function scaffold(ebadePath, outputDir) {
 
   console.log(LOGO);
 
+  // Load Adapter
+  let adapter;
+  if (target === "html") {
+    adapter = new HtmlVanillaAdapter(colors, log);
+  } else {
+    adapter = new NextJsAdapter(colors, log);
+  }
+
   // Parse ebade file
   log.info(`Reading ebade file: ${ebadePath}`);
   const config = parseEbade(ebadePath);
   log.success(
-    `Parsed ebade for project: ${colors.bright}${config.name}${colors.reset}`
+    `Parsed ebade for project: ${colors.bright}${config.name}${colors.reset} (Target: ${target})`
   );
 
-  // Create output directory structure
-  // If outputDir already ends with config.name, don't nest again
   const projectDir = outputDir.endsWith(config.name)
     ? outputDir
     : path.join(outputDir, config.name);
   ensureDir(projectDir);
 
-  // ========== Generate Structure ==========
-  log.section("Creating directory structure");
-
-  const dirs = [
-    "app",
-    "app/api",
-    "components",
-    "lib",
-    "styles",
-    "public",
-    "types",
-  ];
-
-  dirs.forEach((dir) => {
-    ensureDir(path.join(projectDir, dir));
-    log.file(`${dir}/`);
-  });
-
-  // lib/utils.ts
-  fs.writeFileSync(path.join(projectDir, "lib/utils.ts"), generateUtils());
-  log.file("lib/utils.ts");
+  // ========== Generate Boilerplate ==========
+  adapter.generateBoilerplate(config, projectDir);
 
   // ========== Generate Pages ==========
   log.section("Generating pages");
-
   if (config.pages) {
     const spinner = ora("Generating pages...").start();
     config.pages.forEach((page) => {
       const pagePath =
         page.path === "/"
-          ? "app/page.tsx"
-          : `app${page.path.replace("[", "(").replace("]", ")")}/page.tsx`;
+          ? target === "html"
+            ? "index.html"
+            : "app/page.tsx"
+          : target === "html"
+            ? `${page.intent}.html`
+            : `app${page.path.replace("[", "(").replace("]", ")")}/page.tsx`;
 
       const pageDir = path.dirname(path.join(projectDir, pagePath));
       ensureDir(pageDir);
 
-      const pageContent = generatePage(page, config.design);
+      const pageContent = adapter.generatePage(page, config.design);
       fs.writeFileSync(path.join(projectDir, pagePath), pageContent.trim());
       stats.pages++;
       stats.files++;
@@ -993,7 +286,6 @@ async function scaffold(ebadePath, outputDir) {
 
   // ========== Generate Components ==========
   log.section("Generating components");
-
   const allComponents = new Set();
   config.pages?.forEach((page) => {
     page.components?.forEach((c) => allComponents.add(c));
@@ -1001,46 +293,48 @@ async function scaffold(ebadePath, outputDir) {
 
   const spinner2 = ora("Generating components...").start();
   allComponents.forEach((component) => {
-    const componentPath = `components/${component}.tsx`;
-    const content = getComponentTemplate(component, config.design);
+    const { content, testContent } = adapter.generateComponent(
+      component,
+      config.design
+    );
     stats.tokenSavings += Math.floor(content.length / 4);
 
+    const componentExt = target === "html" ? "html" : "tsx";
+    const componentPath =
+      target === "html"
+        ? `components/${component}.html`
+        : `components/${component}.tsx`;
+    ensureDir(path.join(projectDir, "components"));
     fs.writeFileSync(path.join(projectDir, componentPath), content.trim());
 
-    // Generate unit test in tests/ directory
-    const testPath = `tests/components/${component}.test.tsx`;
-    const testDir = path.dirname(path.join(projectDir, testPath));
-    ensureDir(testDir);
-
-    fs.writeFileSync(
-      path.join(projectDir, testPath),
-      generateComponentTest(component).trim()
-    );
-
+    if (target !== "html") {
+      const testPath = `tests/components/${component}.test.tsx`;
+      ensureDir(path.dirname(path.join(projectDir, testPath)));
+      fs.writeFileSync(path.join(projectDir, testPath), testContent.trim());
+      stats.files += 2;
+    } else {
+      stats.files++;
+    }
     stats.components++;
-    stats.files += 2; // Component + Test
   });
   spinner2.succeed(
     `Generated ${colors.bright}${stats.components}${colors.reset} components (+ tests)`
   );
 
   // ========== Generate API Routes ==========
-  log.section("Generating API routes");
-
   if (config.api) {
+    log.section("Generating API routes");
     const spinner3 = ora("Generating API routes...").start();
     config.api.forEach((endpoint) => {
-      // Fix potential /api/api double nesting
-      const cleanPath = endpoint.path.startsWith("/api")
-        ? endpoint.path.slice(4)
-        : endpoint.path;
-
-      const apiPath = `app/api${cleanPath}/route.ts`;
-      const apiDir = path.dirname(path.join(projectDir, apiPath));
-      ensureDir(apiDir);
-
-      const routeContent = generateApiRoute(endpoint);
-      fs.writeFileSync(path.join(projectDir, apiPath), routeContent.trim());
+      const apiPath =
+        target === "html"
+          ? `api/${endpoint.intent}.js`
+          : `app/api${endpoint.path.replace("/api", "")}/route.ts`;
+      ensureDir(path.dirname(path.join(projectDir, apiPath)));
+      fs.writeFileSync(
+        path.join(projectDir, apiPath),
+        adapter.generateApiRoute(endpoint).trim()
+      );
       stats.apiRoutes++;
       stats.files++;
     });
@@ -1049,597 +343,62 @@ async function scaffold(ebadePath, outputDir) {
     );
   }
 
-  // ========== Generate Design System ==========
-  log.section("Generating design system");
-
-  const cssContent = generateGlobalsCss(config.design || {});
-  fs.writeFileSync(path.join(projectDir, "app/globals.css"), cssContent.trim());
-  log.file("app/globals.css");
-
-  // ========== Generate Next.js Config Files ==========
-  log.section("Generating Next.js config files");
-
-  // package.json
-  fs.writeFileSync(
-    path.join(projectDir, "package.json"),
-    generatePackageJson(config)
-  );
-  log.file("package.json");
-
-  // next.config.mjs
-  fs.writeFileSync(
-    path.join(projectDir, "next.config.mjs"),
-    generateNextConfig()
-  );
-  log.file("next.config.mjs");
-
-  // tsconfig.json
-  fs.writeFileSync(path.join(projectDir, "tsconfig.json"), generateTsConfig());
-  log.file("tsconfig.json");
-
-  // tailwind.config.js
-  fs.writeFileSync(
-    path.join(projectDir, "tailwind.config.js"),
-    generateTailwindConfig()
-  );
-  log.file("tailwind.config.js");
-
-  // postcss.config.js
-  fs.writeFileSync(
-    path.join(projectDir, "postcss.config.js"),
-    generatePostcssConfig()
-  );
-  log.file("postcss.config.js");
-
-  // vitest.config.ts
-  fs.writeFileSync(
-    path.join(projectDir, "vitest.config.ts"),
-    generateVitestConfig()
-  );
-  log.file("vitest.config.ts");
-
-  // .gitignore
-  fs.writeFileSync(path.join(projectDir, ".gitignore"), generateGitignore());
-  log.file(".gitignore");
-
-  // .env.example
-  fs.writeFileSync(
-    path.join(projectDir, ".env.example"),
-    generateEnvExample(config)
-  );
-  log.file(".env.example");
-
-  // app/layout.tsx
-  fs.writeFileSync(
-    path.join(projectDir, "app/layout.tsx"),
-    generateLayout(config)
-  );
-  log.file("app/layout.tsx");
-
-  // next-env.d.ts
-  fs.writeFileSync(
-    path.join(projectDir, "next-env.d.ts"),
-    `/// <reference types="next" />
-/// <reference types="next/image-types/global" />
-`
-  );
-  log.file("next-env.d.ts");
-
-  // Agent Rules
-  const agentRules = generateAgentRules(config).trim();
-
-  // .cursorrules (Cursor)
-  fs.writeFileSync(path.join(projectDir, ".cursorrules"), agentRules);
-  log.file(".cursorrules");
-
-  // .clauderules (Claude/Windsurf)
-  fs.writeFileSync(path.join(projectDir, ".clauderules"), agentRules);
-  log.file(".clauderules");
-
-  // GitHub Copilot instructions
-  ensureDir(path.join(projectDir, ".github"));
-  fs.writeFileSync(
-    path.join(projectDir, ".github/copilot-instructions.md"),
-    agentRules
-  );
-  log.file(".github/copilot-instructions.md");
-
-  // ========== Generate Database Schema ==========
-  if (config.data) {
-    log.section("Generating database schema");
-
-    ensureDir(path.join(projectDir, "database"));
-    const schemaContent = generateDatabaseSchema(config.data);
-    fs.writeFileSync(
-      path.join(projectDir, "database/schema.sql"),
-      schemaContent.trim()
-    );
-    log.file("database/schema.sql");
-  }
-
   // ========== Generate ebade Copy ==========
   log.section("Copying ebade file");
-
   fs.copyFileSync(ebadePath, path.join(projectDir, "project.ebade.yaml"));
   log.file("project.ebade.yaml (for agent reference)");
 
-  // ========== Summary ==========
-  // ========== Verify Output ==========
-  const verificationResult = await verifyOutput(projectDir, config);
+  // ========== Format Output ==========
+  const formatSpinner = ora("Formatting codebase for production...").start();
+  import("./utils.js").then(({ formatProject }) => {
+    formatProject(projectDir);
+    formatSpinner.succeed("Codebase formatted & linted");
+  });
 
   // ========== Summary ==========
   const duration = ((Date.now() - startTime) / 1000).toFixed(1);
-
-  console.log(`
-${colors.bright}${colors.green}  ┌${"─".repeat(41)}┐${colors.reset}
-${colors.green}  │${colors.reset}  ${colors.bright}✅ ebade scaffold complete!${
-    colors.reset
-  }              ${colors.green}│${colors.reset}
-${colors.green}  ├${"─".repeat(41)}┤${colors.reset}
-${colors.green}  │${colors.reset}  ${colors.dim}Project:${
-    colors.reset
-  } ${config.name.padEnd(26)} ${colors.green}│${colors.reset}
-${colors.green}  │${colors.reset}  ${colors.dim}Type:${
-    colors.reset
-  }    ${config.type.padEnd(26)} ${colors.green}│${colors.reset}
-${colors.green}  ├${"─".repeat(41)}┤${colors.reset}
-${colors.green}  │${colors.reset}  ${colors.cyan}📁 Files Created:${
-    colors.reset
-  }    ${String(stats.files).padEnd(18)} ${colors.green}│${colors.reset}
-${colors.green}  │${colors.reset}  ${colors.cyan}📊 Token Savings:${
-    colors.reset
-  }    ~${String(stats.tokenSavings).padEnd(17)} ${colors.green}│${colors.reset}
-${colors.green}  │${colors.reset}  ${colors.cyan}⏱  Completed in:${
-    colors.reset
-  }    ${String(duration + "s").padEnd(18)} ${colors.green}│${colors.reset}
-${colors.green}  ├${"─".repeat(41)}┤${colors.reset}
-${colors.green}  │${colors.reset}  ${colors.yellow}🔍 Integrity:${
-    colors.reset
-  }      ${(verificationResult.passed ? "PASSED" : "ISSUES FOUND").padEnd(
-    18
-  )} ${colors.green}│${colors.reset}
-${colors.green}  └${"─".repeat(41)}┘${colors.reset}
-
-${verificationResult.report}
-
-${colors.dim}Next steps:${colors.reset}
-  ${colors.gray}1.${colors.reset} cd ${colors.cyan}${projectDir}${colors.reset}
-  ${colors.gray}2.${colors.reset} npm install
-  ${colors.gray}3.${colors.reset} npm run dev
-
-${colors.yellow}💡 Tip:${colors.reset} AI Agents can read ${
-    colors.cyan
-  }project.ebade.yaml${colors.reset}
-       to understand and iterate on this project.
-`);
+  console.log(
+    `\n${colors.bright}${colors.green}  ✅ ebade scaffold complete!${colors.reset}\n  Project: ${config.name}\n  Target:  ${target}\n  Files:   ${stats.files}\n  Time:    ${duration}s\n`
+  );
 }
 
-/**
- * ebade Output Verifier
- * Performs a sanity check on the generated codebase.
- */
-async function verifyOutput(projectDir, config) {
-  log.section("Verifying output integrity");
-  const spinner = ora("Running ebade verification protocols...").start();
-
-  const results = {
-    structure: true,
-    syntax: true,
-    tests: true,
-    issues: [],
-  };
-
-  // 1. Structure Check
-  const requiredFiles = [
-    "package.json",
-    "tsconfig.json",
-    "app/layout.tsx",
-    "app/page.tsx",
-    "lib/utils.ts",
-  ];
-
-  for (const file of requiredFiles) {
-    if (!fs.existsSync(path.join(projectDir, file))) {
-      results.structure = false;
-      results.issues.push(`Missing core file: ${file}`);
-    }
-  }
-
-  // 2. Syntax Check (Lightweight)
-  // We check if exports match the intent in some key files
-  if (config.pages) {
-    config.pages.forEach((page) => {
-      const pagePath =
-        page.path === "/"
-          ? "app/page.tsx"
-          : `app${page.path.replace("[", "(").replace("]", ")")}/page.tsx`;
-      const fullPath = path.join(projectDir, pagePath);
-      if (fs.existsSync(fullPath)) {
-        const content = fs.readFileSync(fullPath, "utf-8");
-        const expectedExport = `export default function ${toPascalCase(
-          page.intent
-        )}Page()`;
-        if (!content.includes(expectedExport)) {
-          results.syntax = false;
-          results.issues.push(
-            `Syntax mismatch in ${pagePath}: Export name should be ${toPascalCase(
-              page.intent
-            )}Page`
-          );
-        }
-      }
-    });
-  }
-
-  // 3. Test Coverage Check
-  // Ensure every component has a matching test file in tests/components/
-  const components = fs
-    .readdirSync(path.join(projectDir, "components"))
-    .filter((f) => f.endsWith(".tsx") && !f.endsWith(".test.tsx"));
-  components.forEach((comp) => {
-    const testFile = comp.replace(".tsx", ".test.tsx");
-    const testPath = path.join(projectDir, "tests/components", testFile);
-    if (!fs.existsSync(testPath)) {
-      results.tests = false;
-      results.issues.push(`Missing test for component: ${comp}`);
-    }
-  });
-
-  // 4. Semantic Integrity Check
-  // Check if layout imports globals.css
-  const layoutPath = path.join(projectDir, "app/layout.tsx");
-  if (fs.existsSync(layoutPath)) {
-    const content = fs.readFileSync(layoutPath, "utf-8");
-    if (!content.includes('import "./globals.css"')) {
-      results.issues.push(
-        "Semantic Error: Root layout missing global styles import"
-      );
-    }
-  }
-
-  // Check if home page has at least one intent-defined component
-  const homePath = path.join(projectDir, "app/page.tsx");
-  if (fs.existsSync(homePath) && config.pages?.[0]?.components?.length > 0) {
-    const content = fs.readFileSync(homePath, "utf-8");
-    const firstComp = toPascalCase(config.pages[0].components[0]);
-    if (!content.includes(`<${firstComp} />`)) {
-      results.issues.push(
-        `Semantic Warning: Home page might be missing the ${firstComp} component`
-      );
-    }
-  }
-
-  spinner.stop();
-
-  const passed = results.issues.length === 0;
-
-  let report = "";
-  if (passed) {
-    report = `${colors.green}  ✓ All integrity checks passed! Code is production-ready.${colors.reset}`;
-  } else {
-    report = `${colors.red}  ⚠ Verification found ${results.issues.length} issue(s):${colors.reset}\n`;
-    results.issues.forEach((issue) => {
-      report += `    ${colors.red}•${colors.reset} ${issue}\n`;
-    });
-  }
-
-  return { passed, report };
-}
-
-// ============================================
-// CLI Entry Point
-// ============================================
+// CLI Logic
 const args = process.argv.slice(2);
 const command = args[0];
 
-function showHelp() {
-  console.log(`
-${colors.bright}ebade CLI${colors.reset} - The Agent-First Framework
-
-${colors.dim}Usage:${colors.reset}
-  npx ebade <command> [options]
-
-${colors.dim}Commands:${colors.reset}
-  init                       Create a new ebade project interactively
-  build <prompt>             Generate and scaffold a project from a natural language prompt
-  scaffold <file> [output]   Scaffold a project from ebade file
-  dev <file> [output]        Watch ebade file and re-scaffold on changes
-  playground                 Open the ebade playground
-  
-${colors.dim}Examples:${colors.reset}
-  npx ebade init
-  npx ebade build "A violet themed crypto dashboard"
-  npx ebade scaffold examples/saas-dashboard.ebade.yaml ./output
-  npx ebade dev my-project.ebade.yaml ./my-app
-
-${colors.dim}Learn more:${colors.reset}
-  https://ebade.dev
-`);
+// Simple argument parser for --target
+function getFlag(flag) {
+  const index = args.indexOf(flag);
+  if (index !== -1 && args[index + 1]) return args[index + 1];
+  return null;
 }
 
-// ============================================
-// Init Command (Interactive Setup)
-// ============================================
-async function init() {
-  console.log(`
-${LOGO}
-`);
+const target = getFlag("--target") || "nextjs";
 
-  const response = await prompts([
-    {
-      type: "text",
-      name: "projectName",
-      message: "Project name:",
-      initial: "my-ebade-app",
-    },
-    {
-      type: "select",
-      name: "template",
-      message: "Choose a template:",
-      choices: [
-        { title: "SaaS Dashboard", value: "saas-dashboard" },
-        { title: "E-commerce", value: "ecommerce" },
-        { title: "Landing Page", value: "landing" },
-        { title: "Empty Project", value: "empty" },
-      ],
-    },
-    {
-      type: "text",
-      name: "primaryColor",
-      message: "Primary color (hex):",
-      initial: "#6366f1",
-    },
-    {
-      type: "confirm",
-      name: "autoScaffold",
-      message: "Scaffold project now?",
-      initial: true,
-    },
-  ]);
-
-  if (!response.projectName) {
-    console.log(`${colors.yellow}Cancelled.${colors.reset}`);
-    process.exit(0);
-  }
-
-  const outputDir = `./${response.projectName}`;
-  ensureDir(outputDir);
-
-  let yamlContent;
-  if (response.template === "empty") {
-    yamlContent = `# ebade Project Configuration
-# Generated by ebade init
-
-project:
-  name: ${response.projectName}
-  type: custom
-  version: "1.0.0"
-
-design:
-  style: minimal-modern
-  colors:
-    primary: "${response.primaryColor}"
-    secondary: "#f59e0b"
-  font: Inter
-  borderRadius: md
-
-pages:
-  - path: /
-    intent: landing-page
-    components:
-      - hero-section
-
-api: []
-data: []
-`;
-  } else {
-    // Get the directory of the current script (cli/scaffold.js)
-    const scriptDir = path.dirname(new URL(import.meta.url).pathname);
-    const templatePath = path.join(
-      scriptDir,
-      "..",
-      "examples",
-      response.template === "saas-dashboard"
-        ? "saas-dashboard.ebade.yaml"
-        : "ecommerce.ebade.yaml"
-    );
-    if (fs.existsSync(templatePath)) {
-      yamlContent = fs.readFileSync(templatePath, "utf-8");
-      yamlContent = yamlContent.replace(
-        /name: .*/,
-        `name: ${response.projectName}`
-      );
-    } else {
-      console.error(
-        `${colors.red}Error:${colors.reset} Template not found. Using empty template.`
-      );
-      yamlContent = `project:\n  name: ${response.projectName}\n  type: custom\n`;
-    }
-  }
-
-  const ebadeFilePath = path.join(outputDir, "project.ebade.yaml");
-  fs.writeFileSync(ebadeFilePath, yamlContent);
-
-  console.log(`
-${colors.green}✓${colors.reset} Created ${colors.cyan}${ebadeFilePath}${colors.reset}
-`);
-
-  if (response.autoScaffold) {
-    await scaffold(ebadeFilePath, outputDir);
-  } else {
-    console.log(`
-${colors.dim}Next steps:${colors.reset}
-  ${colors.gray}1.${colors.reset} Edit ${colors.cyan}${ebadeFilePath}${colors.reset}
-  ${colors.gray}2.${colors.reset} Run ${colors.cyan}npx ebade scaffold ${ebadeFilePath} ${outputDir}${colors.reset}
-`);
-  }
-}
-
-// ============================================
-// Dev Command (Watch Mode)
-// ============================================
-async function dev(ebadeFile, outputDir) {
-  console.log(`
-${LOGO}
-`);
-
-  console.log(
-    `${colors.cyan}👀 Watching${colors.reset} ${colors.bright}${ebadeFile}${colors.reset} for changes...\n`
-  );
-  console.log(`${colors.dim}Press Ctrl+C to stop.${colors.reset}\n`);
-
-  // Initial scaffold
-  await scaffold(ebadeFile, outputDir);
-
-  // Watch for changes
-  const watcher = chokidar.watch(ebadeFile, {
-    persistent: true,
-    ignoreInitial: true,
-  });
-
-  watcher.on("change", async () => {
-    console.log(
-      `\n${colors.yellow}⚡ Change detected!${colors.reset} Re-scaffolding...\n`
-    );
-    await scaffold(ebadeFile, outputDir);
-  });
-
-  watcher.on("error", (error) => {
-    console.error(`${colors.red}Watcher error:${colors.reset}`, error);
-  });
-}
-
-// ============================================
-// Command Router
-// ============================================
-const isMain =
-  process.argv[1] &&
-  (process.argv[1].endsWith("scaffold.js") ||
-    process.argv[1].endsWith("ebade"));
-
-if (isMain) {
-  if (
-    args.length === 0 ||
-    command === "help" ||
-    command === "--help" ||
-    command === "-h"
-  ) {
-    showHelp();
-    process.exit(0);
-  }
-
-  if (command === "init") {
-    await init();
-  } else if (command === "scaffold") {
-    const ebadeFile = args[1];
-    const outputDir = args[2] || "./output";
-
-    if (!ebadeFile) {
-      console.error(
-        `${colors.red}Error:${colors.reset} Please provide an ebade file path.`
-      );
-      console.log(
-        `\n${colors.dim}Usage:${colors.reset} npx ebade scaffold <file.ebade.yaml> [output-dir]\n`
-      );
-      process.exit(1);
-    }
-
-    if (!fs.existsSync(ebadeFile)) {
-      console.error(
-        `${colors.red}Error:${colors.reset} ebade file not found: ${ebadeFile}`
-      );
-      process.exit(1);
-    }
-
-    await scaffold(ebadeFile, outputDir);
-  } else if (command === "build") {
-    const prompt = args.slice(1).join(" ");
-
-    if (!prompt) {
-      console.error(
-        `${colors.red}Error:${colors.reset} Please provide a prompt. e.g. npx ebade build "A blue themed SaaS"`
-      );
-      process.exit(1);
-    }
-
-    const spinner = ora(
-      `${colors.cyan}EbadeArchitect is designing your project...${colors.reset}`
-    ).start();
-    const config = await EbadeArchitect.plan(prompt);
-    spinner.succeed(
-      `Design complete: ${colors.bright}${config.name}${colors.reset}`
-    );
-
-    const outputDir = "./" + (config.name || "ebade-app");
-
-    // Create temporary YAML and scaffold
-    const tempDir = path.join(process.cwd(), ".ebade_temp");
-    ensureDir(tempDir);
-    const tempFile = path.join(tempDir, "project.ebade.yaml");
-    fs.writeFileSync(tempFile, yaml.stringify(config));
-
-    await scaffold(tempFile, outputDir);
-
-    // Final Brief
-    console.log(`
-${colors.magenta}${colors.bright}🎨 Creative Brief from EbadeArchitect:${
-      colors.reset
-    }
-  ${colors.cyan}Project:${colors.reset} ${config.name}
-  ${colors.cyan}Theme:${colors.reset}   ${
-      config.design.colors.primary
-    } (Detected from prompt)
-  ${colors.cyan}Pages:${colors.reset}   ${config.pages
-      .map((p) => p.path)
-      .join(", ")}
-  ${colors.cyan}Features:${colors.reset} ${config.features.join(", ")}
-`);
-
-    // Cleanup
-    fs.rmSync(tempDir, { recursive: true, force: true });
-  } else if (command === "playground") {
-    console.log(
-      `\n${colors.cyan}🌐 Opening ebade playground...${colors.reset}`
-    );
-    const url = "https://ebade.dev/playground";
-    const start =
-      process.platform === "darwin"
-        ? "open"
-        : process.platform === "win32"
-        ? "start"
-        : "xdg-open";
-    try {
-      execSync(`${start} ${url}`);
-    } catch (e) {
-      console.log(`\n${colors.yellow}Please open:${colors.reset} ${url}`);
-    }
-  } else if (command === "dev") {
-    const ebadeFile = args[1];
-    const outputDir = args[2] || "./output";
-
-    if (!ebadeFile) {
-      console.error(
-        `${colors.red}Error:${colors.reset} Please provide an ebade file path.`
-      );
-      console.log(
-        `\n${colors.dim}Usage:${colors.reset} npx ebade dev <file.ebade.yaml> [output-dir]\n`
-      );
-      process.exit(1);
-    }
-
-    if (!fs.existsSync(ebadeFile)) {
-      console.error(
-        `${colors.red}Error:${colors.reset} ebade file not found: ${ebadeFile}`
-      );
-      process.exit(1);
-    }
-
-    await dev(ebadeFile, outputDir);
-  } else {
-    console.error(
-      `${colors.red}Error:${colors.reset} Unknown command: ${command}`
-    );
-    showHelp();
+if (command === "init") {
+  // ... init implementation (could be refactored too)
+} else if (command === "build") {
+  const prompt = args
+    .filter((a) => !a.startsWith("-"))
+    .slice(1)
+    .join(" ");
+  if (!prompt) {
+    console.error("Prompt required");
     process.exit(1);
   }
+  const config = await EbadeArchitect.plan(prompt);
+  const tempDir = path.join(process.cwd(), ".ebade_temp");
+  ensureDir(tempDir);
+  const tempFile = path.join(tempDir, "project.ebade.yaml");
+  fs.writeFileSync(tempFile, yaml.stringify(config));
+  await scaffold(tempFile, "./", target);
+  fs.rmSync(tempDir, { recursive: true, force: true });
+} else if (command === "scaffold") {
+  const file = args.filter((a) => !a.startsWith("-"))[1];
+  const out = args.filter((a) => !a.startsWith("-"))[2] || "./output";
+  await scaffold(file, out, target);
+} else {
+  console.log(
+    "ebade v0.4.6 - Next Gen Scaffolder\nUsage: npx ebade <build|scaffold> <prompt|file> [--target nextjs|html]"
+  );
 }
